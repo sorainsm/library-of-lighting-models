@@ -1,0 +1,63 @@
+\documentclass{article}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\title{CAS 741: Problem Statement\\Library of Lighting Models}
+
+\author{Soraine, Sasha (sorainsm)}
+
+\date{\today}
+
+\input{./Comments}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+September 17, 2019 & Sasha Soraine & Initial draft.\\
+
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Geometrical optics (the study of light as rays) is a well understood physical 
+domain that explains how light interacts with objects (through reflection and 
+refraction). This phenomena is important to understand as it is the 
+mechanism that allows us (humans) to visually interact with the world around 
+us. 
+
+Understanding how to capture geometrical optics principles to 
+emulate realistic lighting in an efficient manner has become a concern for many 
+who deal with computer graphics in the domains of interactive digital media 
+(video games), visual media (movies), and simulations. To efficiently model 
+these problems requires abstracting these principles.  Geometrical optics is 
+already an abstraction used to understand how light travels; capturing this 
+problem for efficient use in computer graphics requires further abstraction 
+without losing the essence of the problem.
+
+In this project, I aim to understand the phenomena of light interaction with a 
+three-dimensional object through the principles of reflection and refraction. 
+To study this, I propose looking at existing lighting models for computer 
+graphics to understand the current types of abstractions made for this problem. 
+I look to separate the common elements which will relate directly to the 
+physical domain, from implementation specific decisions. By capturing the 
+commonalities and differences between these implementations in documentation I 
+look to lay the groundwork for developing a family of lighting models to be 
+implemented as a library.
+
+%Put your problem statement here.  Comments to you can be added, like this:
+%
+%\wss{comment}
+%
+%You can also leave comments for yourself, like this:
+%
+%\an{comment}
+
+\end{document}
