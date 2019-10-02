@@ -166,11 +166,30 @@ systems.  The symbols are listed in alphabetical order.
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$\angle\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence 
+between incident ray and surface normal.
 \\
-$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
-which heat is transferred in
-\\ 
+$\angle\theta_{r}$ & \si[per-mode=symbol] {\radian} & Angle of reflection 
+between reflected ray and surface normal.
+\\
+$\theta_{1}$ & \si[per-mode=symbol] {\radian} & Angle of incidence 
+between incident ray and surface normal in material 1.
+\\
+$\theta_{2}$ & \si[per-mode=symbol] {\radian} & Angle of refraction 
+between refracted ray and surface normal in material 2.
+\\
+$n_{1}$ & --- & Refractive index of first material.
+\\
+$n_{2}$ & --- & Refractive index of second material.
+\\
+$n_{i}$ & --- & Refractive index of i-th material.
+\\
+$\hat{I}$ & --- & Vector form of incident ray.
+\\
+$\hat{R}$ & --- & Vector form of reflected ray.
+\\
+$\hat{N}$ & --- & Vector form of surface normal.
+\\
 \bottomrule
 \end{longtable*}
 \plt{Use your problems actual symbols.  The si package is a good idea to use for
@@ -432,17 +451,21 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
   \rowcolor[gray]{0.9}
   Number& T\refstepcounter{theorynum}\thetheorynum \label{TM_Reflection}\\
   \hline
-  Label&\bf Law of Specular Reflection\\
+  Label&\bf Law of Reflection\\
   \hline
-  Equation&  \\
+  Equation&   $\angle\theta_{i} = \angle\theta_{r}$ or $\hat{I}\bullet\hat{N} = 
+  \hat{R}\bullet\hat{N}$\\
   \hline
   Description & 
-                The above equations gives the linear algebra form for the Law 
-                of Reflection. Given an incident direction $\vec{d_{s}}$ \\
+                When a ray of light reflects off a surface, the angle of 
+                incident is equal to the angle of reflection. This can also be 
+                written as the dot product of the incident ray and the normal 
+                is equal to the dot product of the reflected ray and the 
+                normal.\\
                                 
   \hline
   Source &
-           \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}\\
+           \url{}\\
   % The above web link should be replaced with a proper citation to a publication
   \hline
   Ref.\ By & \dref{ROCT}\\
@@ -452,10 +475,118 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
 
 ~\newline
 
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum \label{TM_Refraction}\\
+		\hline
+		Label&\bf Law of Refraction/Snell's Law\\
+		\hline
+		Equation&   $n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2}$\\
+		\hline
+		Description & 
+		Given an incident ray of light hitting a transparent surface, the 
+		refracted angle is determined by the ratio of the material's refractive 
+		indices and the angle of incident. \\
+		
+		\hline
+		Source &
+		\url{}\\
+		% The above web link should be replaced with a proper citation to a 
+		%publication
+		\hline
+		Ref.\ By & \dref{ROCT}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+
 %\plt{In a CA, the TMs often do not need to be refined.  However, this is not a
 %  rule.  In some cases, it may make sense to introduce an IM, or possibly even 
 %a
 %  GD in between the TM and the IM.}
+
+\subsubsection{General Definitions}\label{sec_gendef}
+
+%\plt{General Definitions (GDs) are a refinement of one or more TMs, and/or of
+%	other GDs.  The GDs are less abstract than the TMs.  Generally the reduction
+%	in abstraction is possible through invoking (using/referencing) Assumptions.
+%	For instance, the TM could be Newton's Law of Cooling stated abstracting.  
+%	The GD could take the general law and apply it to get a 1D equation.}
+
+This section collects the laws and equations that will be used in building the
+instance models.
+
+%\plt{Some projects may not have any content for this section, but the section
+%	heading should be kept.}  \plt{Modify the examples below for your problem, 
+%	and
+%	add additional definitions as appropriate.}
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& GD\refstepcounter{defnum}\thedefnum \label{specReflect}\\
+		\hline
+		Label &\bf Specular Reflection \\
+		\hline
+		% Units&$MLt^{-3}T^0$\\
+		% \hline
+		SI Units& - \\
+		\hline
+		Equation& $ \angle\theta_{i} = \angle\theta_{r}$ \\
+		\hline
+		Description &
+		Law of Reflection applied to smooth or glossy surfaces.
+		\includegraphics[scale=1]{./images/specular-reflection}
+		\\
+		\hline
+		Source & Citation here \\
+		\hline
+		Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& GD\refstepcounter{defnum}\thedefnum \label{diffReflect}\\
+		\hline
+		Label &\bf Diffuse Reflection \\
+		\hline
+		% Units&$MLt^{-3}T^0$\\
+		% \hline
+		SI Units& - \\
+		\hline
+		Equation& $ \angle\theta_{i} = \angle\theta_{r}$  \\
+		\hline
+		Description &
+		Law of Reflection applied to rough surfaces.
+		\includegraphics[scale=1]{./images/diffuse-reflection}
+		\\
+		\hline
+		Source & Citation here \\
+		\hline
+		Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
 
 \section{Variabilities}
 
@@ -474,7 +605,7 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
 \begin{itemize}
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{material_property}:] All 
-object materials are non-refractive.
+object materials are non-transparent - therefore no refraction occurs.
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{light_source_type}:] 
 Light sources will all be point lights.
 %  \plt{Short description of each assumption.  Each assumption
@@ -569,9 +700,12 @@ qualities that the software is expected to exhibit.
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{If
-    there is a ranking of variabilities, or combinations of variabilities, that
-    are more likely, this information can be included here.}
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_light-types}:] Different light 
+sources (directional, spotlight, ambient) to be included as members of the 
+family.
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_refraction}:] Refractive 
+materials incorporated into family.
+
 
 \end{itemize}
 
