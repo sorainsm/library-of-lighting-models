@@ -1,0 +1,10 @@
+- move global vs. illumination to scope binding time
+-- scope to local illumination (stick to what is familiar)
+- this project is combo SRS and CA
+-- add instance models (figure out how to put assumptions earlier and repeat abstractions with more detail later)
+- make more decisions to scope
+- single goal statement GS1
+- Specular is TM - diffuse is GD
+- make more decisions about variabilities (objects, more about light sources, observer, scene)
+-- be specific about how these things are stored
+-- consider things like coordinates (show that it could be many things and then make assumption and scope)
