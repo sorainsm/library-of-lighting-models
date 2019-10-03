@@ -138,12 +138,7 @@ description of the unit and the SI name.
     \toprule		
     \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
     \midrule 
-    \si{\metre} & length & metre\\
-    \si{\kilogram} & mass	& kilogram\\
-    \si{\second} & time & second\\
-    \si{\celsius} & temperature & centigrade\\
-    \si{\joule} & energy & Joule\\
-    \si{\watt} & power & Watt (W = \si{\joule\per\second})\\
+    \si{\radian} & angle & radian\\
     \bottomrule
   \end{tabular}
   %	\caption{Provide a caption}
@@ -157,9 +152,9 @@ description of the unit and the SI name.
 \subsection{Table of Symbols}
 
 The table that follows summarizes the symbols used in this document along with
-their units.  The choice of symbols was made to be consistent with the heat
-transfer literature and with existing documentation for solar water heating
-systems.  The symbols are listed in alphabetical order.
+their units.  The choice of symbols was made to be consistent with the physics 
+and calculus 
+notation. The symbols are listed in alphabetical order.
 
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
@@ -192,11 +187,12 @@ $\hat{N}$ & --- & Vector form of surface normal.
 \\
 \bottomrule
 \end{longtable*}
-\plt{Use your problems actual symbols.  The si package is a good idea to use for
-  units.}
-\plt{For the case of a generic numerical library, units will likely not be
-  included.  For instance, a linear ODE solver will not know the units of its
-  coefficients.}
+%\plt{Use your problems actual symbols.  The si package is a good idea to use 
+%for
+%  units.}
+%\plt{For the case of a generic numerical library, units will likely not be
+%  included.  For instance, a linear ODE solver will not know the units of its
+%  coefficients.}
 
 \subsection{Abbreviations and Acronyms}
 
@@ -214,6 +210,8 @@ $\hat{N}$ & --- & Vector form of surface normal.
   PS & Physical System Description\\
   R & Requirement\\
   SRS & Software Requirements Specification\\
+  CA & Commonality Analysis \\
+  LM & Lighting Model\\
   \famname{} & \plt{put your famram name here}\\
   T & Theoretical Model\\
   \bottomrule
@@ -475,7 +473,6 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
 
 ~\newline
 
-
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
@@ -624,7 +621,7 @@ Light sources will all be point lights.
 	\item Abstract Variabilities:
 	\begin{itemize}
 		\item Position of the light sources.
-		\item
+		\item Position of the object(s)
 	\end{itemize}
 	\item Data Structure Variabilities:
 	\begin{itemize}
@@ -632,7 +629,8 @@ Light sources will all be point lights.
 	\end{itemize}
 	\item Algorithmic Variabilities:
 	\begin{itemize}
-		\item
+		\item Reflection model (how the reflections are calculated/realised)
+		\item Shading model (Interpolation technique)
 	\end{itemize}
 \end{itemize}
 %\plt{The calculation variabilities should be as abstract as possible.  If there
@@ -700,9 +698,6 @@ qualities that the software is expected to exhibit.
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_light-types}:] Different light 
-sources (directional, spotlight, ambient) to be included as members of the 
-family.
 \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_refraction}:] Refractive 
 materials incorporated into family.
 
