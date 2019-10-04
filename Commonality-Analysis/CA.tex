@@ -269,7 +269,7 @@ and the requirements common to those members. It serves as a starting point to
 the design and implementation of a library of lighting models, and will be 
 referenced in the creation of a verification and validation plan.
 
-\subsection{Scope of the Family}
+\subsection{Scope of the Family} \label{sec_problem_definition}
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{./images/problem-domain-analysis}
@@ -611,7 +611,7 @@ These assumptions are divided based on their binding time.
 		Position of light source will be defined by a vector $[x, y, z]$ 
 		representing the Cartesian Coordinates of its centre.
 		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{object_type}:]
-		Type of light source will be selected from the following list:
+		Type of object will be selected from the following list:
 		\begin{enumerate}
 			\item Sphere,
 			\item Cube,
@@ -620,6 +620,13 @@ These assumptions are divided based on their binding time.
 		\end{enumerate}
 		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{object_colour}:]
 		Object material colour is defined by a 3-tuple $(r,g,b)$.				
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{shader_type}:]
+		Type of shading model will be selected from the following list:
+		\begin{enumerate}
+			\item Flat,
+			\item Gouraud, or
+			\item Phong
+		\end{enumerate}		
 	\end{itemize}	
 \end{itemize}
 
@@ -644,22 +651,10 @@ passed in via file.
 %  have simplifying constraints, and other inputs will not.}
 
 \subsection{Calculation} \label{sec_Calculation}
-
+% To add here - shader calculations are a variability, interpolation is a 
+%variability
 \begin{itemize}
-	\item Abstract Variabilities:
-	\begin{itemize}
-		\item Position of the light sources.
-		\item Position of the object(s)
-	\end{itemize}
-	\item Data Structure Variabilities:
-	\begin{itemize}
-		\item
-	\end{itemize}
-	\item Algorithmic Variabilities:
-	\begin{itemize}
-		\item Reflection model (how the reflections are calculated/realised)
-		\item Shading model (Interpolation technique)
-	\end{itemize}
+	\item
 \end{itemize}
 %\plt{The calculation variabilities should be as abstract as possible.  If there
 %  are variabilities that are related to imposed design decisions, the system
@@ -672,6 +667,185 @@ passed in via file.
 %
 %\plt{Algorithmic variations would go here as well, but as for data structures,
 %  they should be separated from the more abstract variabilities.}
+
+\subsubsection{Instance Models} \label{sec_instance}    
+
+%\plt{The motivation for this section is to reduce the problem defined in
+%	``Physical System Description'' (Section~\ref{sec_phySystDescrip}) to one
+%	expressed in mathematical terms. The IMs are built by refining the TMs 
+%	and/or 	GDs.  This section should remain abstract.  The SRS should specify 
+%%% the	requirements without considering the implementation.}
+
+This section transforms the problem defined in 
+Section~\ref{sec_problem_definition} into one which is expressed in 
+mathematical terms. It uses concrete symbols defined in 
+Section~\ref{sec_datadef} to replace the abstract symbols in the models 
+identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
+
+%The goals \plt{reference your goals} are solved by \plt{reference your instance
+%	models}.  \plt{other details, with cross-references where appropriate.}
+%\plt{Modify the examples below for your problem, and add additional models as
+%	appropriate.}
+
+~\newline
+
+%Instance Model 1
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+		\hline
+		Label& \bf Lambertian (Diffuse) Reflection Model\\
+		\hline
+		Input& \\
+		& \\
+		\hline
+		Output& \\
+		& \\
+		\hline
+		Description&$T_W$ is the water temperature (\si{\celsius}).\\
+		&$T_P$ is the PCM temperature (\si{\celsius}).\\
+		&$T_C$ is the coil temperature (\si{\celsius}).\\
+		&$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+		&$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+		& The above equation applies as long as the water is in liquid form,
+		$0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the 
+		melting
+		and boiling points of water, respectively (\aref{A_OpRange}, 
+		\aref{A_Pressure}).
+		\\
+		\hline
+		Sources& Citation here \\
+		\hline
+		Ref.\ By & \iref{epcm}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+		\hline
+		Label& \bf Half Lambert (Diffuse) Reflection Model\\
+		\hline
+		Input& \\
+		& \\
+		\hline
+		Output& \\
+		& \\
+		\hline
+		Description&$T_W$ is the water temperature (\si{\celsius}).\\
+		&$T_P$ is the PCM temperature (\si{\celsius}).\\
+		&$T_C$ is the coil temperature (\si{\celsius}).\\
+		&$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+		&$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+		& The above equation applies as long as the water is in liquid form,
+		$0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the 
+		melting
+		and boiling points of water, respectively (\aref{A_OpRange}, 
+		\aref{A_Pressure}).
+		\\
+		\hline
+		Sources& Citation here \\
+		\hline
+		Ref.\ By & \iref{epcm}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+		\hline
+		Label& \bf Phong Reflection Model\\
+		\hline
+		Input& \\
+		& \\
+		\hline
+		Output& \\
+		& \\
+		\hline
+		Description&$T_W$ is the water temperature (\si{\celsius}).\\
+		&$T_P$ is the PCM temperature (\si{\celsius}).\\
+		&$T_C$ is the coil temperature (\si{\celsius}).\\
+		&$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+		&$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+		& The above equation applies as long as the water is in liquid form,
+		$0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the 
+		melting
+		and boiling points of water, respectively (\aref{A_OpRange}, 
+		\aref{A_Pressure}).
+		\\
+		\hline
+		Sources& Citation here \\
+		\hline
+		Ref.\ By & \iref{epcm}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+		\hline
+		Label& \bf Blinn-Phong Reflection Model\\
+		\hline
+		Input& \\
+		& \\
+		\hline
+		Output& \\
+		& \\
+		\hline
+		Description&$T_W$ is the water temperature (\si{\celsius}).\\
+		&$T_P$ is the PCM temperature (\si{\celsius}).\\
+		&$T_C$ is the coil temperature (\si{\celsius}).\\
+		&$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+		&$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+		& The above equation applies as long as the water is in liquid form,
+		$0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the 
+		melting
+		and boiling points of water, respectively (\aref{A_OpRange}, 
+		\aref{A_Pressure}).
+		\\
+		\hline
+		Sources& Citation here \\
+		\hline
+		Ref.\ By & \iref{epcm}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+%
+%\subsubsection*{Derivation of ...}
+%
+%\plt{The derivation shows how the IM is derived from the TMs/GDs.  In cases
+%	where the derivation cannot be described under the Description field, it 
+%	will
+%	be necessary to include this subsection.}
 
 \subsection{Output} \label{sec_Output}    
 
