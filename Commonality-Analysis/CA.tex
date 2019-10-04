@@ -59,6 +59,19 @@
 \newcounter{assumpnum} %Assumption Number
 \newcommand{\atheassumpnum}{P\theassumpnum}
 \newcommand{\aref}[1]{A\ref{#1}}
+
+\newcounter{assumpnumS} %Scope Assumption Number
+\newcommand{\atheassumpnumS}{P\theassumpnumS}
+\newcommand{\aSref}[1]{AS\ref{#1}}
+\newcounter{assumpnumB} %Build Assumption Number
+\newcommand{\atheassumpnumB}{P\theassumpnumB}
+\newcommand{\aBref}[1]{AB\ref{#1}}
+\newcounter{assumpnumR} %Run-Time Assumption Number
+\newcommand{\atheassumpnumR}{P\theassumpnumR}
+\newcommand{\aRref}[1]{AR\ref{#1}}
+
+
+
 \newcounter{goalnum} %Goal Number
 \newcommand{\gthegoalnum}{P\thegoalnum}
 \newcommand{\gsref}[1]{GS\ref{#1}}
@@ -202,6 +215,9 @@ $\hat{N}$ & --- & Vector form of surface normal.
   \textbf{symbol} & \textbf{description}\\
   \midrule 
   A & Assumption\\
+  AS & Scope Time Assumption \\
+  AB & Build Time Assumption \\
+  AR & Run Time Assumption \\
   DD & Data Definition\\
   GD & General Definition\\
   GS & Goal Statement\\
@@ -254,8 +270,20 @@ the design and implementation of a library of lighting models, and will be
 referenced in the creation of a verification and validation plan.
 
 \subsection{Scope of the Family}
-The scope of the family includes the geometrical optics simulation of light 
-interacting with material objects.
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{./images/problem-domain-analysis}
+	\caption{Problem Domain for Lighting Models of Computer Graphics.}
+	\label{fig:prob-domain-analysis}
+\end{figure}
+
+The problem domain for lighting models in computer graphics is broad (Fig. 
+\ref{fig:prob-domain-analysis}). To simplify this problem we invoke assumptions 
+\aSref{geometrical_appx}, \aSref{illumination}, \aSref{illum_constraint}. This 
+allows us to focus on the parts of the problem connected by the orange line.
+
+The scope of the family includes geometrical optics simulation of light 
+reflection for 3D material objects in a local illumination context.
 
 \subsection{Characteristics of Intended Reader}
 The intended readers of this document should have understanding of Grade 12 
@@ -277,9 +305,9 @@ Figure \ref{fig:system-context} shows the high level system context. The circle
 represents the system user. The box is the library of lighting models system. 
 Arrows are used to show the flow of data between the system and its environment.
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale=1]{./images/system-context}
+	\includegraphics[scale=0.8]{./images/system-context}
 	\caption{High level system context for \famname}
 	\label{fig:system-context}
 \end{figure}
@@ -418,12 +446,6 @@ material properties, and an observer the goal statements are:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{reflection}:]  Predict the 
-angle of reflection of light ray(s) off the object(s).
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{observer_ray}:] Predict the 
-vector(s) of reflected light ray(s) between the object and observer.
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{global_illumination}:] 
-Predict the vector(s) of reflected light ray(s) between objects.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{display}:] 
 Render a fully lit and shaded scene of the objects based on the observer 
 location.
@@ -459,7 +481,9 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
                 incident is equal to the angle of reflection. This can also be 
                 written as the dot product of the incident ray and the normal 
                 is equal to the dot product of the reflected ray and the 
-                normal.\\
+                normal.
+		\includegraphics[scale=1]{./images/specular-reflection}  
+		\\              
                                 
   \hline
   Source &
@@ -472,37 +496,6 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
 \end{minipage}\\
 
 ~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& T\refstepcounter{theorynum}\thetheorynum \label{TM_Refraction}\\
-		\hline
-		Label&\bf Law of Refraction/Snell's Law\\
-		\hline
-		Equation&   $n_{1}\sin\theta_{1} = n_{2}\sin\theta_{2}$\\
-		\hline
-		Description & 
-		Given an incident ray of light hitting a transparent surface, the 
-		refracted angle is determined by the ratio of the material's refractive 
-		indices and the angle of incident. \\
-		
-		\hline
-		Source &
-		\url{}\\
-		% The above web link should be replaced with a proper citation to a 
-		%publication
-		\hline
-		Ref.\ By & \dref{ROCT}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
-
-~\newline
-
 
 %\plt{In a CA, the TMs often do not need to be refined.  However, this is not a
 %  rule.  In some cases, it may make sense to introduce an IM, or possibly even 
@@ -524,36 +517,6 @@ instance models.
 %	heading should be kept.}  \plt{Modify the examples below for your problem, 
 %	and
 %	add additional definitions as appropriate.}
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-	\renewcommand*{\arraystretch}{1.5}
-	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-		\hline
-		\rowcolor[gray]{0.9}
-		Number& GD\refstepcounter{defnum}\thedefnum \label{specReflect}\\
-		\hline
-		Label &\bf Specular Reflection \\
-		\hline
-		% Units&$MLt^{-3}T^0$\\
-		% \hline
-		SI Units& - \\
-		\hline
-		Equation& $ \angle\theta_{i} = \angle\theta_{r}$ \\
-		\hline
-		Description &
-		Law of Reflection applied to smooth or glossy surfaces.
-		\includegraphics[scale=1]{./images/specular-reflection}
-		\\
-		\hline
-		Source & Citation here \\
-		\hline
-		Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
-		\hline
-	\end{tabular}
-\end{minipage}\\
 
 ~\newline
 
@@ -586,25 +549,90 @@ instance models.
 \end{minipage}\\
 
 \section{Variabilities}
+The follow section outlines variabilities between family members. Section 
+\ref{sec_Assumptions} covers the assumptions made to simplify/realise the 
+problem. Section \ref{sec_Calculation} captures variabilities in the 
+implementation.
 
-\plt{The variabilities are summarized in the following subsections.  They may
-  each be summarized separately, like in \citet{SmithMcCutchanAndCarette2017}, or
-  in a table, as in \citet{Smith2006}.}
+%\plt{The variabilities are summarized in the following subsections.  They may
+%  each be summarized separately, like in \citet{SmithMcCutchanAndCarette2017}, 
+%  or in a table, as in \citet{Smith2006}.}
+%
+%\plt{For each variability, a description should be given, along with the
+%  parameters of variation and the binding time.  The parameters of variation
+%  give the type that defines possible values.  The binding time is when the
+%  variability is set.  The possible values are specification time (scope time),
+%  build time and run time.}
 
-\plt{For each variability, a description should be given, along with the
-  parameters of variation and the binding time.  The parameters of variation
-  give the type that defines possible values.  The binding time is when the
-  variability is set.  The possible values are specification time (scope time),
-  build time and run time.}
+Before tackling those sections, we summarize here variabilities in the problem.
 
-\subsection{Assumptions}
+\subsection{Assumptions} \label{sec_Assumptions}
+This section outlines the various assumptions made in defining this problem. 
+These assumptions are divided based on their binding time.
 
 \begin{itemize}
+	\item \textbf{Scope Time Bindings}:
+	\begin{itemize}
+		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{geometrical_appx}:]
+		Light will be defined by Geometrical Optics principles (ray-based).
+		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{illumination}:] 
+		Lighting will be handled at the local illumination level.
+		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{illum_constraint}:]
+		Objects will not reflect light at each other.
+	\end{itemize}
+	\item \textbf{Build Time Bindings}:
+	\begin{itemize}
+		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{coordinates}:]
+		Positions of light source(s), object(s), and the observer will be 
+		defined on a 3D Cartesian Coordinate System.
+		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{object_representation}:]
+		Objects will be represented by a geometric mesh of triangles.		
+		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{object_refraction}:]
+		All objects are opaque; light will not experience refraction with any 
+		object.			
+	\end{itemize}
+	\item \textbf{Run-Time Bindings}:
+	\begin{itemize}
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{light_position}:]
+		Position of light source will be defined by a vector $[x, y, z]$ 
+		representing the Cartesian Coordinates of its centre.
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{light_type}:]
+		Type of light source will be selected from the following list:
+		\begin{enumerate}
+			\item Point light,
+			\item Spotlight,
+			\item Directional light, or
+			\item Ambient light.
+		\end{enumerate}
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{light_colour}:]
+		Colour of light from light source will be defined by a 3-tuple 
+		$(r,g,b)$.
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{object_position}:]
+		Position of light source will be defined by a vector $[x, y, z]$ 
+		representing the Cartesian Coordinates of its centre.
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{object_type}:]
+		Type of light source will be selected from the following list:
+		\begin{enumerate}
+			\item Sphere,
+			\item Cube,
+			\item Torus, or
+			\item Teapot.
+		\end{enumerate}
+		\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{object_colour}:]
+		Object material colour is defined by a 3-tuple $(r,g,b)$.				
+	\end{itemize}	
+\end{itemize}
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{material_property}:] All 
-object materials are non-transparent - therefore no refraction occurs.
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{light_source_type}:] 
-Light sources will all be point lights.
+Other assumptions about the system include:
+\begin{itemize}
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{coordinate_system}:] The 
+virtual environment will be described by a 3D Caretsian Coordinate System using 
+right-hand rules.
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{light_source_input}:] 
+Light source(s) information (position, type, colour) will be passed in via file.
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{object_input}:] 
+Object(s) information (position, mesh, colour, material properties) will be 
+passed in via file.
 %  \plt{Short description of each assumption.  Each assumption
 %    should have a meaningful label.  Use cross-references to identify the
 %    appropriate traceability to T, GD, DD etc., using commands like dref, 
