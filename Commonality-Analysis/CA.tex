@@ -156,6 +156,16 @@ notation. The symbols are listed in alphabetical order.
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
+$\mathbb{R}$ & --- & Real numbers.
+\\
+$\mathbb{Z}$ & --- & Integers.
+\\
+$\psi$ & \si[per-mode=symbol] {\radian} & Angle between the normal and halfway 
+vector.
+\\
+$\theta$ & \si[per-mode=symbol] {\radian} & Angle between the viewer and the 
+reflected ray.
+\\
 $\angle\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence 
 between incident ray and surface normal.
 \\
@@ -174,9 +184,37 @@ $n_{2}$ & --- & Refractive index of second material.
 \\
 $n_{i}$ & --- & Refractive index of i-th material.
 \\
+$p$ & --- & Point in space or on a surface.
+\\
+$p_{0}$ & --- & Point of origin.
+\\
+$v$ & --- & Position of viewer represented as a 3D point in space.
+\\
+$P$ & --- & $n$-dimensional Vector.
+\\
+$P_{x}$ & --- & $x$ dimension of Vector $P$.
+\\
+$P_{y}$ & --- & $y$ dimension of Vector $P$.
+\\
+$P_{z}$ & --- & $z$ dimension of Vector $P$.
+\\
+$P_{i}$ & --- & $i$th dimension of Vector $P$.
+\\
+$Q$ & --- & $n$-dimensional Vector.
+\\
+$Q_{x}$ & --- & $x$ dimension of Vector $Q$.
+\\
+$Q_{y}$ & --- & $y$ dimension of Vector $Q$.
+\\
+$Q_{z}$ & --- & $z$ dimension of Vector $Q$.
+\\
+$Q_{i}$ & --- & $i$th dimension of Vector $Q$.
+\\
 $\vec{L_{i}}$ & --- & Vector form of incident ray.
 \\
 $\vec{L_{r}}$ & --- & Vector form of reflected ray.
+\\
+$\vec{v}$ & --- & Vector from point to the viewer.
 \\
 $\vec{n}$ & --- & Vector form of surface normal.
 \\
@@ -184,8 +222,53 @@ $\vec{N}$ & --- & Unit vector of surface normal, $\vec{n}$.
 \\
 $\vec{U_{L_{i}}}$ & --- & Unit vector of incident ray, $L_{i}$. 
 \\
-$I$ & -- & Intensity (Luminance) of Light Source. \\
-
+$\vec{h}$ & --- & Unit vector halfway between the incident ray, $L_{i}$, and 
+the viewer vector, $\vec{v}$.
+\\
+$I$ & -- & Intensity (Luminance) of Light Source. 
+\\
+$I_{L_{i}}$ & -- & Intensity (Luminance) of Light Source $L_{i}$. 
+\\
+$I_{a}$ & -- & Ambient Luminance. 
+\\
+$I_{ar}$ & -- & Red Colour Ambient Luminance. 
+\\
+$I_{ag}$ & -- & Green Colour Ambient Luminance. 
+\\
+$I_{ab}$ & -- & Blue Colour Ambient Luminance. 
+\\
+$k_{a}$ & -- & Coefficient of Ambient Reflection. 
+\\
+$I_{d}$ & -- & Diffuse Luminance. 
+\\
+$I_{dr}$ & -- & Red Colour Diffuse Luminance. 
+\\
+$I_{dg}$ & -- & Green Colour Diffuse Luminance. 
+\\
+$I_{db}$ & -- & Blue Colour Diffuse Luminance. 
+\\
+$k_{d}$ & -- & Coefficient of Diffuse Reflection. 
+\\
+$I_{s}$ & -- & Specular Luminance. 
+\\
+$I_{sr}$ & -- & Red Colour Specular Luminance. 
+\\
+$I_{sg}$ & -- & Green Colour Specular Luminance. 
+\\
+$I_{sb}$ & -- & Blue Colour Specular Luminance. 
+\\
+$k_{s}$ & -- & Coefficient of Specular Reflection. 
+\\
+$\alpha$ & -- & Shininess Coefficient. 
+\\
+$I_{T}$ & -- & Total Luminance. 
+\\
+$i$ & -- & Intensity of light. 
+\\
+$i(p)$ & -- & Intensity of light at a point $p$. 
+\\
+$i(p, p_{0})$ & -- & Intensity of light from point $p$ at a point $p$. 
+\\
 \bottomrule
 \end{longtable*}
 %\plt{Use your problems actual symbols.  The si package is a good idea to use 
@@ -535,7 +618,7 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_ambient}\\
 		\hline
-		Label& \bf Luminance for a Light Source\\
+		Label& \bf Ambient Luminance for a Light Source\\
 		\hline
 		Symbol &$I_{a}$\\
 		\hline
@@ -571,7 +654,7 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_diffuse}\\
 		\hline
-		Label& \bf Luminance for a Light Source\\
+		Label& \bf Diffuse Luminance for a Light Source\\
 		\hline
 		Symbol &$I_{d}$\\
 		\hline
@@ -610,7 +693,7 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_specular}\\
 		\hline
-		Label& \bf Luminance for a Light Source\\
+		Label& \bf Specular Luminance for a Light Source\\
 		\hline
 		Symbol &$I_{s}$\\
 		\hline
@@ -651,7 +734,7 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_Total}\\
 		\hline
-		Label& \bf Luminance for a Light Source\\
+		Label& \bf Total Luminance for a Light Source\\
 		\hline
 		Symbol &$I_{T}$\\
 		\hline
@@ -661,8 +744,8 @@ Symbol &$P\bullet Q$\\
 		\hline
 		Equation&$I_{T} = I_{a} + I_{d} + I_{s}$ \\
 		\hline
-		Description & $p_{0}$ is the position of the light source in Cartesian 
-		Coordinates.
+		Description & Total luminance is the combination of ambient, diffuse, 
+		and specular luminance.
 		\\
 		\hline
 		Sources& \cite{shreiner2012}\\
@@ -694,11 +777,8 @@ Symbol &$P\bullet Q$\\
 		\hline
 		Equation&$i(p, p_{0}) = \frac{1}{|p-p_{0}|^2} I(p_{0})$\\
 		\hline
-		Description & $P$ and $Q$ are two $3$-dimensional vectors. The cross 
-		product ($P\times Q$) is the unit vector normal to both $P$ and $Q$. 
-		The calculation of the cross product's direction follows the 
-		\textit{right hand rule} paradigm. This is used in \tref{TM_Reflection} 
-		and \dref{GD_diffReflect}.
+		Description & Calculates the intensity of light at point $p$ from a a 
+		light source at position $p_{0}$ in Cartesian Coordinates.
 		\\
 		\hline
 		Sources& \cite{Lengyel2003}\\
