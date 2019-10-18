@@ -17,8 +17,9 @@
 
 \begin{document}
 
-\title{Project Title: System Verification and Validation Plan for \progname{}} 
-\author{Author Name}
+\title{Library of Lighting Models: System Verification and Validation Plan for 
+Family of Lighting Models} 
+\author{Sasha Soraine}
 \date{\today}
 	
 \maketitle
@@ -30,8 +31,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+October 17, 2019 & 1.0 & Original Draft.\\
 \bottomrule
 \end{tabularx}
 
@@ -63,15 +63,26 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+This document outlines a system validation and verification plan for the 
+implementation of a sub-family of lighting models, based on the Commonality 
+Analysis for a Family of Lighting Models. First it will cover general 
+information about the system, including the particular design qualities the 
+system should emphasize and any relevant documentation. Next it will outline 
+the verification plans for the commonality analysis/requirements, system 
+design, and implementation. It will then outline the software validation plan. 
+Finally it will outline a series of representative test cases that are meant to 
+test the functional and non-functional requirements, along with a traceability 
+matrix mapping the test cases to particular requirements.
 
 \section{General Information}
 
 \subsection{Summary}
-
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+This software implements a sub-family of lighting models. The larger family and 
+problem analysis is found in \ref{??}. This software aims to take in user 
+specifications about the graphical scene (lights, objects, shading models, and 
+an observer) and render a fully lit and shaded scene. To do this is runs 
+calculations using basic optics principles to approximate light behaviour in 3D 
+computer graphics.
 
 \subsection{Objectives}
 
@@ -83,32 +94,91 @@ This document ... \wss{provide an introductory blurb and roadmap of the
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS}
+\begin{table}[h]
+	\begin{tabular}{|p{3.5cm}|p{3cm}|p{5cm}|l|}
+		\hline
+	\textbf{Document Name} & \textbf{Document Type} & \textbf{Document Purpose} 
+	& \textbf{Citation} \\
+		\hline
+		Commonality Analysis of a Family of Lighting Models& Commonality 
+		Analysis & Problem domain description, and scoping to a reasonable 
+		implementation size through assumptions and requirements. & \\ 
+		\hline
+	\end{tabular}
+\end{table}
+%\wss{Reference relevant documentation.  This will definitely include your SRS}
 
 \section{Plan}
+This section outlines the verification and validation plans, including any 
+techniques or data sets being used in the testing process. It also outlines the 
+members of the verification and validations team.
 	
 \subsection{Verification and Validation Team}
+This section lists the members of the verification and validation team. These 
+are individuals who contribute to the verification and validation of the system 
+and software design. Individuals listed here have specific roles denoting the 
+amount of involvement they will be having in the verification and validation 
+process. Primary roles are actively working on it; secondary roles view the 
+system when major submissions are made; tertiary roles are asked to contribute 
+if able, but are under no obligation to participate.
 
-\wss{Probably just you.  :-)}
+The verification and validation team includes:
+
+\begin{table}[h]
+	\begin{tabular}{|l|l|p{9cm}|}
+		\hline
+		\textbf{Name} & \textbf{Role} & \textbf{Goal} \\
+		\hline
+		Sasha Soraine & Primary & Ensure the verification and validation 
+		process runs smoothly.\\
+		Peter Michalski & Secondary & Ensure the logical consistency of system 
+		design and requirements in accordance with feedback role as expert 
+		reviewer. \\
+		Dr. Spencer Smith & Secondary & Ensure reasonable coverage of design 
+		considerations and requirements as part of marking these documents. \\
+		CAS 741 Students & Tertiary & Ensure general consistency in design and 
+		requirements coverage in accordance with feedback role as secondary 
+		reviewers.\\
+		\hline
+	\end{tabular}
+\end{table}
 
 \subsection{SRS Verification Plan}
 
-\wss{List any approaches you intend to use for SRS verification.  This may just
-  be ad hoc feedback from reviewers, like your classmates, or you may have
-  something more rigorous/systematic in mind..}
+We aim to verify the requirements listed in the Commonality Analysis in the 
+following ways:
+
+\begin{itemize}
+	\item Have expert level users (familiar with graphics programming) do a 
+	close read of the commonality analysis to compare it against existing 
+	software tools.
+	\item Review and revise requirements based on feedback from Domain Expert 
+	and Secondary Reviewer of SRS.
+	\item Ask Dr. Smith to review the scope to consider whether the 
+	implementation scoping and thus listed requirements is inappropriate.
+\end{itemize}
 
 \subsection{Design Verification Plan}
 
 \wss{Plans for design verification}
 
 \subsection{Implementation Verification Plan}
+We will be using the following methods to test the implementation:
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
+\begin{itemize}
+	\item White box testing,
+	\item
+\end{itemize}
 
-\wss{In this section you would also give any details of any plans for static verification of
-  the implementation.  Potential techniques include code walkthroughs, code
-  inspection, static analyzers, etc.}
+
+%\wss{You should at least point to the tests listed in this document and the 
+%unit
+%  testing plan.}
+%
+%\wss{In this section you would also give any details of any plans for static 
+%verification of
+%  the implementation.  Potential techniques include code walkthroughs, code
+%  inspection, static analyzers, etc.}
 
 \subsection{Software Validation Plan}
 
