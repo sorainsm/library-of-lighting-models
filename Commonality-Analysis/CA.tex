@@ -1354,24 +1354,27 @@ qualities that the software is expected to exhibit.
 
 \noindent \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1}:]Input data for 
-light source(s) and object(s) are correctly read from file.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs2}:]Input data meets 
-constraints laid out in Table \ref{tbl:Input_Variations}.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate1}:] Calculate the 
-surface normals for object(s) based on shading model selected.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate2}:] Calculate the 
-reflection vectors off of object(s) based on light position(s) and observer.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate3}:] Calculate the 
-light intensity based on light position(s) and object material properties.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate4}:] Calculate the 
-shaded colours for the faces of the object(s).
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate5}:] Draw and render 
-object(s) in scene.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] Generate a program 
-that renders the specified scene.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:] Verify 
-generated code renders the scene as specified through the inputs.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1}:] The library shall  
+correctly read from file the input data for light source(s) and object(s).
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs2}:]The library shall 
+verify that all input data meets constraints laid out in Table 
+\ref{tbl:Input_Variations}.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate1}:] The library 
+shall correctly calculate the surface normals for object(s) based on shading 
+model selected. 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate2}:] The library 
+shall calculate the incidence and reflection vectors off of object(s) 
+surface(s) based on light position(s), object(s) properties, shading model and 
+observer position.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate3}:] The library 
+shall calculate the light intensity based on light position(s), object(s) 
+material properties, and shading model.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate4}:] The library 
+shall calculate the total luminance of object(s) faces based on light source 
+type, light source position, object(s) material properties and position(s) and 
+observer position.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The library 
+will output a lit and shaded scene.
 
 \end{itemize}
 
