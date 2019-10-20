@@ -154,122 +154,131 @@ notation. The symbols are listed in alphabetical order.
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
-\textbf{symbol} & \textbf{unit} & \textbf{description}\\
-\midrule 
-$\mathbb{R}$ & --- & Real numbers.
-\\
-$\mathbb{Z}$ & --- & Integers.
-\\
-$\psi$ & \si[per-mode=symbol] {\radian} & Angle between the normal and halfway 
-vector.
-\\
-$\theta$ & \si[per-mode=symbol] {\radian} & Angle between the viewer and the 
-reflected ray.
-\\
-$\angle\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence 
-between incident ray and surface normal.
-\\
-$\angle\theta_{r}$ & \si[per-mode=symbol] {\radian} & Angle of reflection 
-between reflected ray and surface normal.
-\\
-$\theta_{1}$ & \si[per-mode=symbol] {\radian} & Angle of incidence 
-between incident ray and surface normal in material 1.
-\\
-$\theta_{2}$ & \si[per-mode=symbol] {\radian} & Angle of refraction 
-between refracted ray and surface normal in material 2.
-\\
-$n_{1}$ & --- & Refractive index of first material.
-\\
-$n_{2}$ & --- & Refractive index of second material.
-\\
-$n_{i}$ & --- & Refractive index of i-th material.
-\\
-$p$ & --- & Point in space or on a surface.
-\\
-$p_{0}$ & --- & Point of origin.
-\\
-$v$ & --- & Position of viewer represented as a 3D point in space.
-\\
-$P$ & --- & $n$-dimensional Vector.
-\\
-$P_{x}$ & --- & $x$ dimension of Vector $P$.
-\\
-$P_{y}$ & --- & $y$ dimension of Vector $P$.
-\\
-$P_{z}$ & --- & $z$ dimension of Vector $P$.
-\\
-$P_{i}$ & --- & $i$th dimension of Vector $P$.
-\\
-$Q$ & --- & $n$-dimensional Vector.
-\\
-$Q_{x}$ & --- & $x$ dimension of Vector $Q$.
-\\
-$Q_{y}$ & --- & $y$ dimension of Vector $Q$.
-\\
-$Q_{z}$ & --- & $z$ dimension of Vector $Q$.
-\\
-$Q_{i}$ & --- & $i$th dimension of Vector $Q$.
-\\
-$\vec{L_{i}}$ & --- & Vector form of incident ray.
-\\
-$\vec{L_{r}}$ & --- & Vector form of reflected ray.
-\\
-$\vec{v}$ & --- & Vector from point to the viewer.
-\\
-$\vec{n}$ & --- & Vector form of surface normal.
-\\
-$\vec{N}$ & --- & Unit vector of surface normal, $\vec{n}$.
-\\
-$\vec{U_{L_{i}}}$ & --- & Unit vector of incident ray, $L_{i}$. 
-\\
-$\vec{h}$ & --- & Unit vector halfway between the incident ray, $L_{i}$, and 
-the viewer vector, $\vec{v}$.
-\\
-$I$ & -- & Intensity (Luminance) of Light Source. 
-\\
-$I_{L_{i}}$ & -- & Intensity (Luminance) of Light Source $L_{i}$. 
-\\
-$I_{a}$ & -- & Ambient Luminance. 
-\\
-$I_{ar}$ & -- & Red Colour Ambient Luminance. 
-\\
-$I_{ag}$ & -- & Green Colour Ambient Luminance. 
-\\
-$I_{ab}$ & -- & Blue Colour Ambient Luminance. 
-\\
-$k_{a}$ & -- & Coefficient of Ambient Reflection. 
-\\
-$I_{d}$ & -- & Diffuse Luminance. 
-\\
-$I_{dr}$ & -- & Red Colour Diffuse Luminance. 
-\\
-$I_{dg}$ & -- & Green Colour Diffuse Luminance. 
-\\
-$I_{db}$ & -- & Blue Colour Diffuse Luminance. 
-\\
-$k_{d}$ & -- & Coefficient of Diffuse Reflection. 
-\\
-$I_{s}$ & -- & Specular Luminance. 
-\\
-$I_{sr}$ & -- & Red Colour Specular Luminance. 
-\\
-$I_{sg}$ & -- & Green Colour Specular Luminance. 
-\\
-$I_{sb}$ & -- & Blue Colour Specular Luminance. 
-\\
-$k_{s}$ & -- & Coefficient of Specular Reflection. 
-\\
-$\alpha$ & -- & Shininess Coefficient. 
-\\
-$I_{T}$ & -- & Total Luminance. 
-\\
-$i$ & -- & Intensity of light. 
-\\
-$i(p)$ & -- & Intensity of light at a point $p$. 
-\\
-$i(p, p_{0})$ & -- & Intensity of light from point $p$ at a point $p$. 
-\\
-\bottomrule
+  \textbf{symbol} & \textbf{unit} & \textbf{description}\\
+  \midrule 
+$\mathbb{R}$ & --- & Real numbers.  \wss{I suggest you be more
+    precise and define this as the set of all real numbers.  The same comment
+    applies for the set of all integers.}
+  \\
+  $\mathbb{Z}$ & --- & Integers.
+  \\
+  $\psi$ & \si[per-mode=symbol] {\radian} & Angle between the normal and halfway
+  vector.
+  \\
+  $\theta$ & \si[per-mode=symbol] {\radian} & Angle between the viewer and the
+  reflected ray.
+  \\
+  $\angle\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence
+  between incident ray and surface normal. \wss{Why use the angle symbol for
+    just these two angles?  Are they different in some way?  If not, I suggest
+    you get rid of the symbol.  It seems inconsistent.}
+  \\
+  $\angle\theta_{r}$ & \si[per-mode=symbol] {\radian} & Angle of reflection
+  between reflected ray and surface normal.
+  \\
+  $\theta_{1}$ & \si[per-mode=symbol] {\radian} & Angle of incidence between
+  incident ray and surface normal in material 1.
+  \\
+  $\theta_{2}$ & \si[per-mode=symbol] {\radian} & Angle of refraction between
+  refracted ray and surface normal in material 2.
+  \\
+  $n_{1}$ & --- & Refractive index of first material.
+  \\
+  $n_{2}$ & --- & Refractive index of second material.
+  \\
+  $n_{i}$ & --- & Refractive index of i-th material.
+  \\
+  $p$ & --- & Point in space or on a surface.
+  \\
+  $p_{0}$ & --- & Point of origin.
+  \\
+  $v$ & --- & Position of viewer represented as a 3D point in space.
+  \\
+  $P$ & --- & $n$-dimensional Vector.
+  \\
+  $P_{x}$ & --- & $x$ dimension of Vector $P$.
+  \\
+  $P_{y}$ & --- & $y$ dimension of Vector $P$.
+  \\
+  $P_{z}$ & --- & $z$ dimension of Vector $P$.
+  \\
+  $P_{i}$ & --- & $i$th dimension of Vector $P$.
+  \\
+  $Q$ & --- & $n$-dimensional Vector.
+  \\
+  $Q_{x}$ & --- & $x$ dimension of Vector $Q$.
+  \\
+  $Q_{y}$ & --- & $y$ dimension of Vector $Q$.
+  \\
+  $Q_{z}$ & --- & $z$ dimension of Vector $Q$.
+  \\
+  $Q_{i}$ & --- & $i$th dimension of Vector $Q$.
+  \\
+  $\vec{L_{i}}$ & --- & Vector form of incident ray.
+  \\
+  $\vec{L_{r}}$ & --- & Vector form of reflected ray.
+  \\
+  $\vec{v}$ & --- & Vector from point to the viewer.
+  \\
+  $\vec{n}$ & --- & Vector form of surface normal.
+  \\
+  $\vec{N}$ & --- & Unit vector of surface normal, $\vec{n}$.
+  \\
+  $\vec{U_{L_{i}}}$ & --- & Unit vector of incident ray, $L_{i}$.
+  \\
+  $\vec{h}$ & --- & Unit vector halfway between the incident ray, $L_{i}$, and
+  the viewer vector, $\vec{v}$.
+  \\
+  $I$ & -- & Intensity (Luminance) of Light Source. \wss{Doesn't luminance have
+    units?  candela per meter squared? \url{https://en.wikipedia.org/wiki/Luminance}}
+  \\
+  $I_{L_{i}}$ & -- & Intensity (Luminance) of Light Source $L_{i}$.
+  \\
+  $I_{a}$ & -- & Ambient Luminance.
+  \\
+  $I_{ar}$ & -- & Red Colour Ambient Luminance.
+  \\
+  $I_{ag}$ & -- & Green Colour Ambient Luminance.
+  \\
+  $I_{ab}$ & -- & Blue Colour Ambient Luminance.
+  \\
+  $k_{a}$ & -- & Coefficient of Ambient Reflection.
+  \\
+  $I_{d}$ & -- & Diffuse Luminance.
+  \\
+  $I_{dr}$ & -- & Red Colour Diffuse Luminance.
+  \\
+  $I_{dg}$ & -- & Green Colour Diffuse Luminance.
+  \\
+  $I_{db}$ & -- & Blue Colour Diffuse Luminance.
+  \\
+  $k_{d}$ & -- & Coefficient of Diffuse Reflection.
+  \\
+  $I_{s}$ & -- & Specular Luminance.
+  \\
+  $I_{sr}$ & -- & Red Colour Specular Luminance.
+  \\
+  $I_{sg}$ & -- & Green Colour Specular Luminance.
+  \\
+  $I_{sb}$ & -- & Blue Colour Specular Luminance.
+  \\
+  $k_{s}$ & -- & Coefficient of Specular Reflection.
+  \\
+  $\alpha$ & -- & Shininess Coefficient.
+  \\
+  $I_{T}$ & -- & Total Luminance.
+  \\
+  $i$ & -- & Intensity of light. \wss{What is the difference between luminance
+    and intensity?  I've looked over your document and this still confuses me.
+    If they are the same thing, you should just use one term.  If they are
+    different, you need to clarify the difference.  I did a quick google search
+    and it looks like the units of intensity are lux?}
+  \\
+  $i(p)$ & -- & Intensity of light at a point $p$.
+  \\
+  $i(p, p_{0})$ & -- & Intensity of light from point $p$ at a point $p$.
+  \\
+  \bottomrule
 \end{longtable*}
 %\plt{Use your problems actual symbols.  The si package is a good idea to use 
 %for
@@ -359,10 +368,15 @@ allows us to focus on the parts of the problem connected by the orange line.
 The scope of the family includes geometrical optics simulation of light 
 reflection for 3D material objects in a local illumination context.
 
+\wss{Can you please explain this scope figure?  It looks like you have put some
+great thinking into coming up with it, and it serves an important purpose, but
+the words in the figure are not enough to explain the distinction between the
+different branches.}
+
 \subsection{Characteristics of Intended Reader}
 The intended readers of this document should have understanding of Grade 12 
 Physics (particularly Optics) and a undergraduate Level 2 understanding of 
-Linear Algebra and Matrix operations. 
+Linear Algebra and Matrix operations.  
 
 \subsection{Organization of Document}
 This document is organized in accordance with the CA template for scientific 
@@ -591,7 +605,11 @@ Symbol &$P\bullet Q$\\
 		SI Units & --\\
 		\hline
 		Equation&$P\times Q = \langle P_{y}Q_{z}-P_{z}Q_{y}, 
-		P_{z}Q_{x}-P_{x}Q_{z}, P_{x}Q_{y}-P_{y}Q_{x} \rangle$\\
+		P_{z}Q_{x}-P_{x}Q_{z}, P_{x}Q_{y}-P_{y}Q_{x} \rangle$ \wss{Do
+                          you consistently use angle brackets to define vectors?
+           I think it would be a good idea to include a section in the Reference
+                          Material section that explains your notational conventions.}
+          \\
 		\hline
 		Description & $P$ and $Q$ are two $3$-dimensional vectors. The cross 
 		product ($P\times Q$) is the unit vector normal to both $P$ and $Q$. 
@@ -624,7 +642,8 @@ Symbol &$P\bullet Q$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & --\\
+		SI Units & -- \wss{I wrote this elsewhere, but shouldn't
+                           luminance have units?}\\
 		\hline
 		Equation&$I_{a} = \begin{Bmatrix}
 		I_{ar} \\ I_{ag} \\ I_{ab} \\
@@ -632,7 +651,8 @@ Symbol &$P\bullet Q$\\
 		\hline
 		Description & $I_{L{i}}$ is the intensity of the light source - it is 
 		uniform for ambient light and shouldn't rely on position. \\
-		& $k_{a}$ is the coefficient of ambient reflection.\\
+		& $k_{a}$ is the coefficient of ambient reflection.  \wss{Please
+          define all of the symbols in all of your DDs, GDs, etc.}\\
 		\hline
 		Sources& \cite{shreiner2012}\\
 		\hline
@@ -860,6 +880,15 @@ Symbol &$P\bullet Q$\\
 
 ~\newline
 
+\wss{You talk about surfaces, and polygons, but I don't see how you actually
+  represent an object.  Searching through again, I see that objects have a set
+  of possible shapes, but I don't see the connection between the shapes and
+  polygons.  The shapes are mathematical defined, especially something like a
+  sphere or a cube.  I think you need to say somewhere that you approximate the
+  shape with a mesh of polygons.  You might want to look at the commonality
+  analysis of mesh generators that I wrote with a student years ago.  It should
+  be in our cas741 repo under CAS 04-10-SS.pdf.}
+
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
@@ -905,6 +934,11 @@ location.
 %\plt{One
 %    sentence description of the goal.  There may be more than one.  Each Goal
 %    should have a meaningful label.}
+
+\wss{I like this goal statement.  However, I feel like the rest of the document
+  doesn't completely refine it.  I feel like there should be an instance model
+  that takes the refined version of these inputs and outputs a refined version
+  of the output.}
 
 \end{itemize}
 
@@ -1052,6 +1086,23 @@ support the \ref{gs-display}
 	system.
 \end{itemize}
 
+\wss{The scope time bindings make sense, but I am not sure how to interpret the
+  building time bindings.  Since they are build time, I'm assuming that whether
+  they apply or not is a build time decision.  Is this correct?  If so, it feels
+like if the assumptions do not apply another assumption will have to take its
+place, but I don't know what that assumption is.  For instance, if the object is
+not represented by a mesh of triangles, what is it represented by?}
+
+\wss{I see the connection between the objects and their representation by
+  polygons is given here.  I mentioned this in an earlier comment, but I had
+  missed this mention.  However, I think you still need more information.  What
+  does it mean to represent an object by a mesh?  In the mesh generator CA that
+  I mentioned in an earlier comment a mesh is defined as covering up of a
+  domain, with several rules.  You might want to look at that definition.}
+
+\wss{Is the dimension of the problem a variability, or are lighting problems in
+  3D?}
+
 \subsection{Calculation} \label{sec_Calculation}
 This section outlines variabilities in design details, capturing variabilities 
 in: input, calculations, algorithms, and data structures.
@@ -1064,12 +1115,20 @@ Input variabilities:
 		\textbf{Variability} & \textbf{Parameter of Variation} & 
 		\textbf{Constraints} &  \textbf{Related} \\
 		\hline
-		Model room size $\langle h,w,d \rangle$ & Set of $\mathbb{R}$ & -- & 
+		Model room size $\langle h,w,d \rangle$ & Set of $\mathbb{R}$
+                                                          \wss{The types don't
+                                                          match.  You have a
+                                                          vector? tuple? of 3
+                                                          real numbers for the
+                                                          size of the room, but
+                                                          the parameters of
+                                                          variation is a set of
+                                                          real numbers.} & -- & 
 		\aBref{as-coordinates}\\
 		\hline
 		Allowed values for position of light source $\langle x,y,z \rangle$ & 
 		Set of 
-		$\mathbb{R}$ & Must be in room boundaries. Light source cannot be 
+		$\mathbb{R}$ \wss{The same comment as above applies.} & Must be in room boundaries. Light source cannot be 
 		inside of an object. Light source cannot be on top of another light 
 		source or on top of the observer. & \aBref{as-coordinates}\\
 		\hline
@@ -1087,7 +1146,9 @@ Input variabilities:
 		\hline
 		Allowed values for colour of object $\langle r,g,b \rangle$ & Set of 
 		$\mathbb{Z}$ 
-		& 0 - 256 & --\\
+		& 0 - 256 \wss{Why not just define a type for the integers
+                  between 0 and 256?  A similar comment applies elsewhere in
+                  this table.} & --\\
 		\hline
 		Reflection coefficient of material	& $k_{a} \in \mathbb{R}$ & $0 \le 
 		k_{a} \le 1$ & -- \\
@@ -1190,7 +1251,11 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 	\end{tabular}
 \end{minipage}\\
 
-~\newline
+\wss{As Peter pointed out on GitHub, the instance models are incomplete.  Think
+  about refining the inputs and outputs.  Including type information with the
+  inputs could help.  In particular, object is still vague at this point, and
+  you need it to be precise before you can do a calculation.  How the outputs
+  are calculated is also needed.}  ~\newline
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -1378,6 +1443,9 @@ will output code for a lit and shaded scene.
 
 \end{itemize}
 
+\wss{I suggest changing the phrasing of the requirements to say the library
+  offers these services.}
+
 \subsection{Nonfunctional Requirements}
 
 \noindent \begin{itemize}	
@@ -1395,6 +1463,8 @@ will output code for a lit and shaded scene.
 	render a default scene (one cube, one point light in the centre of the 
 	room, phong shading, and phong reflection model) faster than in OpenGL.
 \end{itemize}
+
+\wss{There is an issue on GitHub about the NFRs here mostly being FRs.}
 
 \section{Likely Changes}    
 
@@ -1476,6 +1546,8 @@ normals are computed (e.g. partial derivatives) may be added to the family.
 In this project we will be implementing all of the family members touched by 
 the orange line in Figure \ref{fig:prob-domain-analysis}.
 
+\wss{I think we need more information than this.  What are the values of the
+  variabilities in your table?  For instance, what objects are you allowing?}
 
 
 \newpage
