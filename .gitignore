@@ -1,0 +1,25 @@
+#LaTeX generated files
+*.aux
+*.log
+*.vrb
+*.blg
+*.bbl
+*.DS_Store
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.out
+*.snm
+*-nup.pdf
+.DS_Store
+.iTeXMac
+*-2x2.pdf
+*.pyc
+html
+latex
+*.class
+
+# Temporary Excel files
+~$*  
