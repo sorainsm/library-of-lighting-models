@@ -352,12 +352,40 @@ the design and implementation of a library of lighting models, and will be
 referenced in the creation of a verification and validation plan.
 
 \subsection{Scope of the Family} \label{sec_problem_definition}
-Lighting is a computationally intensive phenomena to model. For rendering 
-purposes lighting is broken up into shading models, and lighting models. 
-Shading models define how the components of light calculations are 
+In the physical world, light is described through the physics of optics which 
+describes the interaction of light with objects. The simplest approximation of 
+light's behaviour is geometrical optics, where light is treated as a continuous 
+ray that interacts with object surfaces based on a set of well defined 
+principles. Even though these behaviour principles are well defined, lighting 
+3D graphical environments has been computationally difficult. This is because 
+individual light sources emit a near infinite number of rays whose behaviour 
+needs to be individually calculated and tracked as it reflects and refracts off 
+of object surfaces.
+
+There are two forms of lighting techniques for 3D graphics: global and local 
+illumination. Global illumination describes how light interacts with all 
+objects in a scene; this includes light bouncing off of objects onto other 
+objects.
 
 
-There are two major schools light modeling 
+
+For rendering purposes lighting is broken up into shading models, and lighting 
+models. 
+
+\textbf{Lighting models} define the colour of individual parts of objects.
+
+
+
+\textbf{Shading models} approximate how light interacts with individual 
+objects; the underlying simplification being that we can't continuously 
+calculate light across the whole surface of an object, so the shading model 
+chooses representative points to calculate the light interaction. The shading 
+model also decides whether that information how that information will be 
+interpolated between calculated points. For example, a shading model may decide 
+that all lighting calculations will happen at the vertices of an object's mesh 
+and that the values will be held constant between calculated points. 
+Essentially, shading models cap the number of computations to make and 
+simplifies the problem of interaction.
 
 
 \begin{figure}[h]
