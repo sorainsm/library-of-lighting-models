@@ -352,6 +352,14 @@ the design and implementation of a library of lighting models, and will be
 referenced in the creation of a verification and validation plan.
 
 \subsection{Scope of the Family} \label{sec_problem_definition}
+Lighting is a computationally intensive phenomena to model. For rendering 
+purposes lighting is broken up into shading models, and lighting models. 
+Shading models define how the components of light calculations are 
+
+
+There are two major schools light modeling 
+
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{./images/problem-domain-analysis}
@@ -931,9 +939,6 @@ material properties, and an observer the goal statements are:
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{gs-display}:] 
 Render a fully lit and shaded scene of the objects based on the observer 
 location.
-%\plt{One
-%    sentence description of the goal.  There may be more than one.  Each Goal
-%    should have a meaningful label.}
 
 \wss{I like this goal statement.  However, I feel like the rest of the document
   doesn't completely refine it.  I feel like there should be an instance model
