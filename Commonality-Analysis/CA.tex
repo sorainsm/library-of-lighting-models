@@ -326,6 +326,27 @@ $\mathbb{R}$ & --- & Real numbers.  \wss{I suggest you be more
 
 \pagenumbering{arabic}
 
+\subsection{Notational Convention}
+This section outlines common notation convention used throughout this document.
+
+\begin{table}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Notation} & \textbf{Meaning} \\
+		\hline
+		$P$ & Capital letters denote a vector. \\
+		\hline
+		$P_{x}$ & The subscript symbol with a capital letter denotes the 
+		subscript-component of the vector. In this case, we see the x-component 
+		of vector P. \\
+		\hline		
+		$\langle P_{x}, P_{y}, P_{z} \rangle$ & Angled brackets denote the 
+		components of a vector. \\
+		\hline
+		\hline
+	\end{tabular}
+\end{table}
+
 \section{Introduction}
 An important part of computer graphics is modeling the lighting 
 of objects in a virtual environment. Understanding and modeling how light 
@@ -362,31 +383,38 @@ individual light sources emit a near infinite number of rays whose behaviour
 needs to be individually calculated and tracked as it reflects and refracts off 
 of object surfaces.
 
-There are two forms of lighting techniques for 3D graphics: global and local 
-illumination. Global illumination describes how light interacts with all 
-objects in a scene; this includes light bouncing off of objects onto other 
-objects.
+Lighting in 3D graphics happens at two levels: global and local illumination.  
+Global illumination is an indirect lighting method that describes how light 
+interacts with all objects in a scene; this includes light bouncing off of 
+objects onto other objects. This is performed through ray-tracing and 
+radiosity. Local illumination is a direct lighting method that describes how 
+light from a specific light source interacts with the surface of individual 
+objects. This is done through calculating how light rays reflect and refract in 
+relation to surface normals of an object. Global and local illumination are 
+both necessary to fully light a scene.
 
+Local illumination is broken up into shading models, and lighting models.  
+\textbf{Lighting models} define the colour of individual parts of objects. This 
+is done through combining the specular, ambient, and diffuse components of 
+lighting for each part of the object. The simplification here is through the 
+approximations made in calculating those three components. \textbf{Shading 
+models} approximate how light interacts with individual objects; the underlying 
+simplification being that we can't continuously calculate light across the 
+whole surface of an object, so the shading model chooses representative points 
+to calculate the light interaction. The shading model also decides whether that 
+information how that information will be interpolated between calculated 
+points. For example, a shading model may decide that all lighting calculations 
+will happen at the vertices of an object's mesh and that the values will be 
+held constant between calculated points. Essentially, shading models cap the 
+number of computations to make and simplifies the problem of interaction.
 
-
-For rendering purposes lighting is broken up into shading models, and lighting 
-models. 
-
-\textbf{Lighting models} define the colour of individual parts of objects.
-
-
-
-\textbf{Shading models} approximate how light interacts with individual 
-objects; the underlying simplification being that we can't continuously 
-calculate light across the whole surface of an object, so the shading model 
-chooses representative points to calculate the light interaction. The shading 
-model also decides whether that information how that information will be 
-interpolated between calculated points. For example, a shading model may decide 
-that all lighting calculations will happen at the vertices of an object's mesh 
-and that the values will be held constant between calculated points. 
-Essentially, shading models cap the number of computations to make and 
-simplifies the problem of interaction.
-
+We can organize the relationship between lighting methods in 3D graphics and 
+its physics basis in graphical form (see \ref{fig:prob-domain-analysis}). The 
+most abstract separation is the type of optics that the techniques are based on 
+(wave or geometrical optics). In the domain of geometrical optics based 
+techniques we can separate methods based on whether they address global or 
+local illumination. Finally at the level of local illumination we can see the 
+techniques of shading and lighting models.
 
 \begin{figure}[h]
 	\centering
@@ -395,19 +423,14 @@ simplifies the problem of interaction.
 	\label{fig:prob-domain-analysis}
 \end{figure}
 
-The problem domain for lighting models in computer graphics is broad (Fig. 
-\ref{fig:prob-domain-analysis}). To simplify this problem we invoke assumptions 
-\aSref{as-geometrical_appx}, \aSref{as-illumination}, 
-\aSref{as-illum_constraint}. This 
-allows us to focus on the parts of the problem connected by the orange line.
+The problem domain for lighting models in computer graphics is obviously broad. 
+To simplify this problem we invoke assumptions \aSref{as-geometrical_appx}, 
+\aSref{as-illumination}, \aSref{as-illum_constraint}. This allows us to focus 
+on understanding the techniques of local illumination (all aspects connected by 
+the orange line in \ref{fig:prob-domain-analysis}).
 
 The scope of the family includes geometrical optics simulation of light 
 reflection for 3D material objects in a local illumination context.
-
-\wss{Can you please explain this scope figure?  It looks like you have put some
-great thinking into coming up with it, and it serves an important purpose, but
-the words in the figure are not enough to explain the distinction between the
-different branches.}
 
 \subsection{Characteristics of Intended Reader}
 The intended readers of this document should have understanding of Grade 12 
@@ -461,7 +484,6 @@ data.
 \end{itemize}
 
 \subsection{Potential User Characteristics} \label{SecUserCharacteristics}
-
 The end user of \famname{} should have an Computer Science/Software Engineering 
 Undergraduate Level 3 understanding of Computer Graphics (such as through 
 completing the SFWR ENG/CS 3GC3) and moderate experience with programming.
@@ -545,13 +567,22 @@ of reflection does not depend of the position of an observer.
 \item[\label{}] \textit{Refraction}: The redirection of light rays when passing 
 through 
 different materials.
+%------------Lighting in Graphcis--------------------------------------
 \item[\label{}] \textit{Illumination}: Process by which amount of light 
 reaching a 
 surface is determined.
-\item[\label{}] \textit{Shading}: methods used to determine the colour and 
-intensity of 
-light reflected towards viewer. 
-\item[\label{}]\textit{ Lighting model}: Method used to calculate the colour of 
+\item[\label{}] \textit{Global Illumination}: Interactions of light through an 
+entire scene as it reflects off of objects onto other objects. Often done 
+through techniques like ray tracing, and radiosity.
+\item[\label{}] \textit{Ray tracing}: A rendering technique that traces the 
+path of light as pixels through a scene and models its interaction with the 
+objects it collides with.
+\item[\label{}] \textit{Radiosity}: 
+\item[\label{}] \textit{Local Illumination}: Interactions of light from light 
+sources with individual objects as defined by the shading and lighting models.
+\item[\label{}] \textit{Shading Model}: methods used to determine the colour 
+and intensity of light reflected towards viewer. 
+\item[\label{}]\textit{Lighting model}: Method used to calculate the colour of 
 a point on a surface. Incorporates a reflection model and a shading model. 
 \item[\label{}] \textit{Reflection model}: How light reflects off a surface. 
 \item[\label{}] \textit{Shading model}: How the normal vector is calculated for 
@@ -572,6 +603,9 @@ light travels infinitely in a single direction from the defined source point
 with intensity decreasing with inverse square of distance from source and 
 increased radius of coverage.
 %----------------Objects-------------------------------------
+\item[\label{}] \textit{Render}: The output of a graphics program.
+\item[\label{}] \textit{Environment}: The background objects in a scene along 
+with information about light sources.
 \item[\label{}] \textit{Scene}: A collection of objects with specific material 
 properties. 
 \item[\label{}] \textit{Object}: Set of polygons, edges, and vertices. 
@@ -580,6 +614,7 @@ exterior).
 \item[\label{}] \textit{Normal}: A vector perpendicular to a surface, point, or 
 pair of 
 vectors.
+
 
 \end{itemize}
 
@@ -641,10 +676,15 @@ Symbol &$P\bullet Q$\\
 		SI Units & --\\
 		\hline
 		Equation&$P\times Q = \langle P_{y}Q_{z}-P_{z}Q_{y}, 
-		P_{z}Q_{x}-P_{x}Q_{z}, P_{x}Q_{y}-P_{y}Q_{x} \rangle$ \wss{Do
-                          you consistently use angle brackets to define vectors?
-           I think it would be a good idea to include a section in the Reference
-                          Material section that explains your notational conventions.}
+		P_{z}Q_{x}-P_{x}Q_{z}, P_{x}Q_{y}-P_{y}Q_{x} \rangle$ 
+		
+%		\wss{Do
+%                          you consistently use angle brackets to define 
+%vectors?
+%           I think it would be a good idea to include a section in the 
+%Reference
+%                          Material section that explains your notational 
+%conventions.}
           \\
 		\hline
 		Description & $P$ and $Q$ are two $3$-dimensional vectors. The cross 
@@ -1083,10 +1123,13 @@ These are divided based on their binding time. All assumptions are used to
 support the \ref{gs-display}
 
 \begin{itemize}
-	\item \textbf{Scope Time Bindings}:
+	\item \textbf{Scope Time Bindings}: These assumptions are applied in the 
+	abstract design of the program. They dictate the family members that we 
+	cover, and the potential design choices available to us.
 	\begin{itemize}
 		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-geometrical_appx}:]
-		Light will be defined by Geometrical Optics principles (ray-based).
+		Light interactions will be defined by Geometrical Optics principles 
+		(ray-based).
 		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-illumination}:]
 		Lighting will be handled at the local illumination level.
 		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-loc-vs-global}:]
@@ -1094,9 +1137,28 @@ support the \ref{gs-display}
 		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-illum_constraint}:]
 		Objects will not reflect light at each other.
 		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-emission_constraint}:]
-		Objects will not emit light.		
+		Objects will not emit light.
+		\item[AS\refstepcounter{assumpnumB}\theassumpnumS\label{as-object_representation2}:
+		Object meshes will be closed and convex (there is a well defined 
+		interior and exterior).
+
 	\end{itemize}
-	\item \textbf{Build Time Bindings}:
+	\item \textbf{Build Time Bindings}: These assumptions are applied at build 
+	time. They have been separated by what they define when applied.
+	\begin{itemize}
+		\item \textbf{Objects}:
+		\begin{itemize}
+			\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_representation}:]
+			Objects will be represented by a geometric mesh of triangles.
+			\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_refraction}:]
+			All objects are opaque; light will not experience refraction with 
+			any object. 
+		\end{itemize}
+		\item \textbf{Light Sources}:
+		\item \textbf{Input Type}:
+	\end{itemize}
+
+
 	\begin{itemize}
 		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-coordinate_system}:]
 		 The virtual environment will be described by a 3D Caretsian Coordinate 
@@ -1106,14 +1168,6 @@ support the \ref{gs-display}
 		defined on a 3D Cartesian Coordinate System.
 		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obsv_total}:]
 		There will only be a single observer in a scene.				
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_representation}:]
-		Objects will be represented by a geometric mesh of triangles.
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_representation2}:]
-		Object meshes will be closed and convex (there is a well defined 
-		interior and exterior).				
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_refraction}:]
-		All objects are opaque; light will not experience refraction with any 
-		object. 
 	\end{itemize}
 	\item \textbf{Run-Time Bindings}: These were captured as inputs to the 
 	system.
