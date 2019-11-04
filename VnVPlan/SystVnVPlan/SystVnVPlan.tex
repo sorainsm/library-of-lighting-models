@@ -231,14 +231,28 @@ These are carried out through the test cases listed in this document.
 The following sections outline test cases for the functional requirements of 
 the system.
 
-This section is divided into different testing areas.
+This section is divided into different testing areas. These are:
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
+\begin{itemize}
+	\item Input testing, and
+	\item Run-Time testing.
+\end{itemize}
 
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good.}
+The subdivision was made to capture the types of tasks the system would need to 
+anticipate at different points in time during use. Input testing is preliminary 
+before the system begins to run calculations. Run-time testing is the real-time 
+calculations that the system needs to make in response to user input.
+
+There is no explicit output testing. By nature of this system rendering images, 
+every functional test implicitly tests the ability to output a file. As such, 
+the basic output testing is handled alongside the ``Load a Scene'' tasks.
+
+%\wss{Subsets of the tests may be in related, so this section is divided into
+%  different areas.  If there are no identifiable subsets for the tests, this
+%  level of document structure can be removed.}
+%
+%\wss{Include a blurb here to explain why the subsections below
+%  cover the requirements.  References to the SRS would be good.}
 
 \subsubsection{Input Testing}
 
@@ -626,254 +640,335 @@ All of these test cases share the following properties:
 	
 	How test will be performed: Valid scene is loaded. Testing framework 
 	automatically assigns $\alpha$ the new value.
-	How test will be performed: 
 
 %%Object Position	
 %Valid
-	\item{test-id2\\}Change Object Position -valid
+	\item{objPosition-valid\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New Point (2,0,0) for centre of object
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect object movement to coordinate (2,0,0) (including update of 
+	lighting as distance from light source is changed).
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-%Invalid
-	How test will be performed: 
+	Test Case Derivation: Lighting is dependent of position of object relative 
+	to the light source; therefore movement in position changes the lighting of 
+	an object causing all the intensities to be recalculated and the object to 
+	be recoloured.
+
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (2,0,0). System recalculates 
+	intensities and recolours moved object.
 	
-		\item{test-id2\\}Change Object Position - invalid
-		
-		Control: Manual versus Automatic
-		
-		Input: 
-		
-		Output: \wss{The expected result for the given inputs}
-		
-		Test Case Derivation: \wss{Justify the expected value given in the 
-		Output 
-			field}
-		
-		How test will be performed: 
+%Invalid	
+	\item{objPosition-invalid-outBounds\\}
+	
+	Control: Automatic
+	
+	Input: New Point (11,0,0) for centre of object
+	
+	Output: Error Message ``The centre of this object is outside of the room. 
+	It cannot be rendered. Please enter a different location for this 
+	object.''. Log message ``Error: Tried to move centre of object to (11,0,0).
+	
+	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
+	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the object's position is 
+	greater than any component of the scene size then the object is out of 
+	bounds. Out of bounds objects cannot be lit or rendered.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (11,0,0). System throws an error.
+	
+	\item{objPosition-invalid-onLight\\}
+	
+	Control: Automatic
+	
+	Input: New Point (5,5,5) for centre of object
+	
+	Output: Error Message ``The centre of this object intersects the light 
+	source.	It cannot be rendered. Please enter a different location for this 
+	object.''. Log message ``Error: Tried to move centre of object to light 
+	source position, (5,5,5)''.
+	
+	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
+	top of the light source. This would create a design issue of whether the 
+	opaque object would be blocking the light. To circumvent this, we impose 
+	that they cannot have their centres at the same position.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (5,5,5). System throws an error.
+
+	\item{objPosition-invalid-onObserver\\}
+	
+	Control: Automatic
+	
+	Input: New Point (0,0,0) for centre of object
+	
+	Output: Error Message ``The centre of this object intersects the observer.	
+	It cannot be rendered. Please enter a different location for this 
+	object.''. Log message ``Error: Tried to move centre of object to observer 
+	position, (0,0,0)''.
+	
+	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
+	top of the observer. This would create a design issue of whether the 
+	opaque object would be blocking the view, and how it would be lit. To 
+	circumvent this, we impose that they cannot have their centres at the same 
+	position.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (0,0,0). System throws an error.
+	
 %Boundary		
-	\item{test-id2\\}Change Object Position -boundary
+	\item{objPosition-valid-edgeOfRoom\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New Point (0,10,0) for centre of object
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: Error Message ``Parts of this object are outside of the scene size. 
+	Please move this object and re-render the scene.''. Log Message ``Error: 
+	Object partially outside of room.''
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	Test Case Derivation: Constraints on object position said $0 \ll 
+	x \le SIZE\_HEIGHT$, which means that the centre is on the wall of the 
+	scene. This means part of the object would be rendered outside the scene.
 	
-	How test will be performed: 
-	
-	\item{test-id2\\}Change Object Colour -valid
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (0,10,0). System throws an error.
 
-	\item{test-id2\\}Change Object Colour - invalid
+	\item{objPosition-valid-betweenLightAndViewer\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New Point (2,2,2) for centre of object
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect object movement to coordinate (2,2,2) (including update of 
+	lighting as distance from light source is changed).
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	Test Case Derivation: Lighting is dependent of position of object relative 
+	to the light source; therefore movement in position changes the lighting of 
+	an object causing all the intensities to be recalculated and the object to 
+	be recoloured. When an object is between the light and the viewer its faces 
+	should be dark as they're not being lit.
 	
-	How test will be performed: 
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (2,2,2). System recalculates 
+	intensities and recolours moved object.	
+	
+	\item{objPosition-valid-besideLight\\}
+	
+	Control: Automatic
+	
+	Input: New Point (5,3,0) for centre of object
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect object movement to coordinate (5,3,0) (including update of 
+	lighting as distance from light source is changed).
+	
+	Test Case Derivation: Lighting is dependent of position of object relative 
+	to the light source; therefore movement in position changes the lighting of 
+	an object causing all the intensities to be recalculated and the object to 
+	be recoloured. When an object is beside a light source it is highly 
+	illuminated making it very bright.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (5,3,0). System recalculates 
+	intensities and recolours moved object.			
 
-	\item{test-id2\\}Change Object Shape -valid
+%%Object Colour
+	\item{objColour-valid-base\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New (r,g,b) value for BASE\_COLOUR picked from GUI picker = 
+	(10,255,50).
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect the new base colour for the object. All diffuse terms need to be 
+	recalculated.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	Test Case Derivation: The intensity of the BASE\_COLOUR at a point is part 
+	of the diffuse model calculation. Change the BASE\_COLOUR requires 
+	recalculating all of the intensity values with this new (r,g,b) information.
 	
-	How test will be performed: 
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new r,g,b to (10,255,50). System recalculates 
+	intensities and recolours object.			
+
+	\item{objColour-valid-specular\\}
 	
-	\item{test-id2\\}Change Object Shape - invalid
+	Control: Automatic
 	
-	Control: Manual versus Automatic
+	Input: New (r,g,b) value for SPECULAR\_COLOUR picked from GUI picker = 
+	(10,255,50).
 	
-	Input: 
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect the new base colour for the object. All diffuse terms need to be 
+	recalculated.
 	
-	Output: \wss{The expected result for the given inputs}
+	Test Case Derivation: The intensity of the SPECULAR\_COLOUR at a point is 
+	part of the specular component calculation. Change the SPECULAR\_COLOUR 
+	requires recalculating all of the intensity values with this new (r,g,b) 
+	information.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new r,g,b to (10,255,50). System recalculates 
+	intensities and recolours object.	
 	
-	How test will be performed: 	
+	\item{objShape-valid\\}
+	
+	Control: Automatic
+	
+	Input: New shape selection from dropdown list: torus.
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to replace the sphere with a torus. All normals have changed, so all 
+	intensities need to be recalculated.
+	
+	Test Case Derivation: Different shapes have different normals, and so 
+	different ways of reflecting. The models need  to be sure to work with not 
+	just a sphere, but other objects as well.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new object shape. System recalculates 
+	intensities and recolours new object.
+	
 		
 \end{enumerate}
 
 \paragraph{Light Changes}
 
 \begin{enumerate}
+%%Light Positions
+%Valid
+	\item{lightPos-valid\\}
 	
-	\item{test-id2\\}Change Light Position -valid
+	Control: Automatic
 	
-	Control: Manual versus Automatic
+	Input: New Point (2,0,0) for centre of light source
 	
-	Input: 
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect light source movement to coordinate (2,0,0) (including update of 
+	lighting as distance from light source is changed).
 	
-	Output: \wss{The expected result for the given inputs}
+	Test Case Derivation: Lighting is dependent of position of object relative 
+	to the light source; therefore movement in light source position changes 
+	the lighting of objects causing all the intensities to be recalculated and 
+	the object to be recoloured.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (2,0,0). System recalculates 
+	intensities and recolours moved object.
 	
-	How test will be performed: 
+%Invalid	
+	\item{lightPos-invalid-outBounds\\}
 	
-	\item{test-id2\\}Change Light Position - invalid-out of room
+	Control: Automatic
 	
-	Control: Manual versus Automatic
+	Input: New Point (11,0,0) for centre of light
 	
-	Input: 
+	Output: Error Message ``This light source is outside of the room. It cannot 
+	be rendered. Please enter a different location for this object.''. Log 
+	message ``Error: Tried to move light source to (11,0,0).
 	
-	Output: \wss{The expected result for the given inputs}
+	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
+	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the light source's 
+	position is greater than any component of the scene size then the light 
+	source is out of bounds. Out of bounds light sources cannot light the scene.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the 
-		Output 
-		field}
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (11,0,0). System throws an error.
 	
-	How test will be performed: 
+	\item{lightPos-invalid-onObj\\}
 	
+	Same as \textit{objPosition-invalid-onLight}.
+	
+	\item{lightPos-invalid-onObserver\\}
+	
+	Control: Automatic
+	
+	Input: New Point (0,0,0) for centre of light source.
+	
+	Output: Error Message ``The centre of this light source intersects the 
+	observer. It cannot be rendered. Please enter a different location for this 
+	object.''. Log message ``Error: Tried to move light source to observer 
+	position, (0,0,0)''.
+	
+	Test Case Derivation: As per the requirement (\ref) light sources cannot be 
+	on top of the observer. We impose that they cannot have their centres at 
+	the same position.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (0,0,0). System throws an error.
+
+%Boundary	
 	\item{test-id2\\}Change Light Position -boundary
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New Point (0,10,0) for centre of light source.
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: Error Message ``Parts of this light source are outside of the scene 
+	size. Please move the light and re-render the scene.''. Log Message 
+	``Error: Light source partially outside of room.''
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	Test Case Derivation: Constraints on light position said $0 \ll 
+	x \le SIZE\_HEIGHT$, which means that the centre is on the wall of the 
+	scene. This means part of the light would be rendered outside the scene.
 	
-	How test will be performed: 
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new position to (0,10,0). System throws an error.
 	
-	\item{test-id2\\}Change Light Position - valid-beside object
+	\item{lightPos-valid-besideObject\\}
 	
-	Control: Manual versus Automatic
+	Same as \textit{objPosition-valid-besideLight}.
 	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the 
-		Output 
-		field}
-	
-	How test will be performed: 
-	
-	\item{test-id2\\}Change Light Position - valid behind object (obj between 
-	viewer and light)
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 
+	\item{lightPos-valid-behindObject\\}
+		
+	Same as \textit{objPosition-valid-betweenLightAndViewer}.
 
-	\item{test-id2\\}Change Light Position - invalid-on top of viwere/object
+%%Light Colour Change
+	\item{lightColour-valid\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New (r,g,b) value for LIGHT\_COLOUR picked from GUI picker = 
+	(10,255,50).
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to reflect the new light colour. All intensities need to be 
+	recalculated.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the 
-		Output 
-		field}
+	Test Case Derivation: The intensity of the LIGHT\_COLOUR at a point is part 
+	of all lighting model calculations. Changes to the LIGHT\_COLOUR requires 
+	recalculating all of the intensity values with this new (r,g,b) information.
 	
-	How test will be performed: 
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new r,g,b to (10,255,50). System recalculates 
+	intensities and recolours object.		
 
-	\item{test-id2\\}Change Light Colour -valid
+
+%%Light Type Change	
+	\item{lightShape-valid\\}
 	
-	Control: Manual versus Automatic
+	Control: Automatic
 	
-	Input: 
+	Input: New light type selection from dropdown list: directional.
 	
-	Output: \wss{The expected result for the given inputs}
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	to replace the point light with a directional light. Some incidence rays 
+	have changed, so all intensities need to be recalculated.
 	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
+	Test Case Derivation: Different types of light project light rays 
+	differently. As such the system needs to adapt to the changing type of 
+	lights available
 	
-	How test will be performed: 
-	
-	\item{test-id2\\}Change Light Colour - invalid
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 
-	
-	\item{test-id2\\}Change Light Shape -valid
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 
-	
-	\item{test-id2\\}Change Light Shape -valid-facing away from objects
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 	
-	
-	\item{test-id2\\}Change Light Shape - invalid
-	
-	Control: Manual versus Automatic
-	
-	Input: 
-	
-	Output: \wss{The expected result for the given inputs}
-	
-	Test Case Derivation: \wss{Justify the expected value given in the Output 
-		field}
-	
-	How test will be performed: 	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns new light type. System recalculates 
+	intensities and recolours new object.
 	
 \end{enumerate}
 
