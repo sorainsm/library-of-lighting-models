@@ -1,5 +1,8 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{amsmath, mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -79,21 +82,31 @@ matrix mapping the test cases to particular requirements.
 \subsection{Summary}
 This software implements a sub-family of lighting models. The larger family and 
 problem analysis is found in \ref{??}. This software aims to take in user 
-specifications about the graphical scene (lights, objects, shading models, and 
-an observer) and render a fully lit and shaded scene. To do this is runs 
-calculations using basic optics principles to approximate light behaviour in 3D 
-computer graphics.
+specifications about the graphical scene (lights, objects, shading model, 
+lighting model, and an observer) and render a fully lit and shaded scene. To do 
+this is runs calculations using basic optics principles to approximate light 
+behaviour in 3D computer graphics.
 
 \subsection{Objectives}
+The goal of this testing is to:
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+\begin{itemize}
+	\item Demonstrate adequate usability of the system,
+	\item Demonstrate learnability of the system, and
+	\item Evaluate the productivity of the system.
+\end{itemize}
+%
+%\wss{State what is intended to be accomplished.  The objective will be around
+%  the qualities that are most important for your project.  You might have
+%  something like: ``build confidence in the software correctness,''
+%  ``demonstrate adequate usability.'' etc.  You won't list all of the 
+%qualities,
+%  just those that are most important.}
 
+\pagebreak
 \subsection{Relevant Documentation}
-
+This section outlines other documentation that is relevant for understanding 
+this document.
 \begin{table}[h]
 	\begin{tabular}{|p{3.5cm}|p{3cm}|p{5cm}|l|}
 		\hline
@@ -147,7 +160,8 @@ The verification and validation team includes:
 	\end{tabular}
 \end{table}
 
-\subsection{SRS Verification Plan}
+\pagebreak
+\subsection{CA Verification Plan}
 
 We aim to verify the requirements listed in the Commonality Analysis in the 
 following ways:
@@ -155,9 +169,9 @@ following ways:
 \begin{itemize}
 	\item Have expert level users (familiar with graphics programming) do a 
 	close read of the commonality analysis to compare it against existing 
-	software tools.
+	software tools for functionality.
 	\item Review and revise requirements based on feedback from Domain Expert 
-	and Secondary Reviewer of SRS.
+	and Secondary Reviewer of CA.
 	\item Ask Dr. Smith to review the scope to consider whether the 
 	implementation scoping and thus listed requirements is inappropriate.
 \end{itemize}
@@ -167,18 +181,34 @@ following ways:
 We will be using the following methods to test the design:
 
 \begin{itemize}
-	\item Black box testing,
-	\item Stress testing.
+	\item Rubber duck testing,
+	\item Expert review,
+	\item
 \end{itemize}
 
 \subsection{Implementation Verification Plan}
-We will be using the following methods to test the implementation:
+The purpose of the implementation verification plan is to perform functional 
+testing of the components of the system. As such it measures whether the system 
+is behaving inline with the requirements documentation, and whether it meets 
+its non-functional requirements thresholds.
+
+We will be using the following methods to test the functional implementation:
 
 \begin{itemize}
-	\item White box testing,
-	\item Rubber duck testing,
+	\item Boundary value testing,
+	\item Endurance testing,
+	\item Error handling testing.
 \end{itemize}
 
+We will be using the following methods to test the non-functional 
+implementation:
+
+\begin{itemize}
+	\item Installation testing,
+	\item 
+\end{itemize}
+
+These are carried out through the test cases listed in this document.
 
 %\wss{You should at least point to the tests listed in this document and the 
 %unit
@@ -198,8 +228,10 @@ We will be using the following methods to test the implementation:
 \section{System Test Description}
 	
 \subsection{Tests for Functional Requirements}
+The following sections outline test cases for the functional requirements of 
+the system.
 
-
+This section is divided into different testing areas.
 
 \wss{Subsets of the tests may be in related, so this section is divided into
   different areas.  If there are no identifiable subsets for the tests, this
@@ -208,50 +240,642 @@ We will be using the following methods to test the implementation:
 \wss{Include a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good.}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Input Testing}
 
 \wss{It would be nice to have a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good.  If a section
   covers tests for input constraints, you should reference the data constraints
   table in the SRS.}
 		
-\paragraph{Title for Test}
+\paragraph{Load a Scene}
+~\newline
+The following test cases all share the same properties:
+
+\begin{itemize}
+	\item[] Initial State: No scene loaded.
+\end{itemize}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{loadScene-allValid\\}
 
-Control: Manual versus Automatic
+Control: Automatic
+								
+Input: \textit{SCENE\_DIR/valid-AllInputs.JSON}
 					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+Output: \textit{RENDERS\_DIR/render-valid-AllInputs}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: Having received a properly formatted and structured JSON 
+file containing all inputs for the scene, the system will output a fully 
+rendered and lit scene.
 					
-How test will be performed: 
+How test will be performed: System will try to load created test file from 
+scene directory.
 					
-\item{test-id2\\}
+\item{loadScene-validMissingSome\\}
 
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
+Control: Automatic
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Input: \textit{SCENE\_DIR/valid-MissingData.JSON}
 
-How test will be performed: 
+Output: Prompt Message: ``File exists, but is missing data. Would you like to 
+load the default settings for missing data?", Log message "Error: File exists 
+but is missing data."
+
+Test Case Derivation: 
+
+How test will be performed: System will try to load created test file from 
+scene directory.
+
+\item{loadScene-fileExistNoData\\}
+
+Control: Automatic
+									
+Input: \textit{SCENE\_DIR/valid-NoData.JSON}
+
+Output: Prompt Message ``File exists, but is empty. Would you like to load the 
+default scene?", Log message "Error: File exists but is empty."
+
+Test Case Derivation: In receiving an empty file, the system should be robust 
+enough to acknowledge the specific error and offer to substitute with the 
+default scene.
+
+How test will be performed: System will try to load created test file from 
+scene directory.
+
+\item{loadScene-invalidInput\\}
+
+Control: Automatic
+
+Input: \textit{SCENE\_DIR/invalid.JSON}
+
+Output: Error Message``File does not contain valid scene data.", Log message 
+"Error: Invalid scene data in file: \textit{SCENE\_DIR/invalid.JSON}."
+
+Test Case Derivation: In receiving invalid data, the system should be robust 
+enough to acknowledge the specific error and log it in the log file.
+
+How test will be performed: System will try to load created test file from 
+scene directory.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\paragraph{Create Default Scene}
+~\newline
+\begin{enumerate}
+	
+	\item{createDefault-validMissingData\\}
+	
+	Control: Automatic
 
-...
+	Initial State: No scene loaded.	System tried to load 
+	\textit{SCENE\_DIR/valid-MissingData.JSON} and displayed Prompt Message.
+
+	Input: YES selected at Prompt Message
+	
+	Output: \textit{RENDERS\_DIR/render-valid-MissingData-defaultsub}
+	
+	Test Case Derivation: System corrects partially invalid input by 
+	substituting missing information with predetermined default values.
+	
+	How test will be performed: System will fill in empty input with default 
+	values.
+	
+	\item{createDefault-fileExistsNoData\\}
+	
+	Control: Automatic
+	
+	Initial State: No scene loaded.	System tried to load 
+	\textit{SCENE\_DIR/valid-NoData.JSON} and displayed associated Prompt 
+	Message.
+	
+	Input: YES selected at Prompt Message
+	
+	Output: \textit{RENDERS\_DIR/render-valid-NoData-defaultsub}
+	
+	Test Case Derivation: System corrects partially invalid input by 
+	substituting missing information with predetermined default values.
+	
+	How test will be performed: System will fill in empty input with default 
+	values.	
+	
+\end{enumerate}
+
+\subsubsection{Run-Time Tests}
+This subset of tests outline scenarios that may happen during the run-time of 
+the program. As such it handles changes to the scene and rendering information.
+
+All of these test cases share the following properties:
+\begin{itemize}
+	\item[] Initial State: A valid scene 
+	(\textit{SCENE\_DIR/valid-AllInputs.JSON}) is loaded to the system.
+\end{itemize}
+
+\paragraph{Lighting Model Changes}
+
+\begin{enumerate}
+	
+	\item{lightModel-valid\\}
+	
+	Control: Automatic
+	
+	Input: Select different lighting model from dropdown list.
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
+	new lighting models.
+	
+	Test Case Derivation: After a scene is loaded, the user can only interact 
+	with the system through its GUI. Lighting model changes are determined by 
+	dropdown list selection.
+	
+	How test will be performed: System will recalculate luminous intensity of 
+	points on objects in the scene using the new model. New luminous intensity 
+	information will be sent through the rendering pipeline to output visuals.
+	
+\end{enumerate}
+
+\paragraph{Shading Model Changes}
+
+\begin{enumerate}
+	
+	\item{shadingModel-valid\\}
+	
+	Control: Automatic
+	
+	Input: Select different shading model from dropdown list.
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
+	new shading models.
+	
+	Test Case Derivation: After a scene is loaded, the user can only interact 
+	with the system through its GUI. Shading model changes are determined by 
+	dropdown list selection.
+	
+	How test will be performed: System will recalculate surface normals of 
+	points on objects in the scene using the new model. New surface normal
+	information will be sent through the rendering pipeline to output visuals.
+	
+\end{enumerate}
+
+\paragraph{Object Changes}
+
+\begin{enumerate}
+%%Object Material Properties
+%Valid changes	
+	\item{objMaterialPropChange-valid-ks\\}
+	
+	Control: Automatic
+	
+	Input: $k_{s} = 0.5$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{s}$ 
+	impact the specular component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{s}$ the new value. 
+	
+	\item{objMaterialPropChange-valid-kd\\}
+	
+	Control: Automatic
+	
+	Input: $k_{d} = 0.5$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{d} = k_{d}\cdot i(p,p_{0}) \cdot 
+	\max(0,(L_{i}\bullet N))$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{d}$ 
+	impact the diffuse component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{d}$ the new value. 	
+
+	\item{objMaterialPropChange-valid-ka\\}
+	
+	Control: Automatic
+	
+	Input: $k_{a} = 0.5$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
+	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
+	changes to the $k_{a}$ impact the ambient component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{a}$ the new value. 
+
+	\item{objMaterialPropChange-valid-$\alpha$\\}
+	
+	Control: Automatic
+	
+	Input: $\alpha = 2$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
+	impact the specular component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $\alpha$ the new value. 
+
+%Invalid
+	\item{objMaterialPropChange-invalid-ks\\}
+	
+	Control: Automatic
+	
+	Input: $k_{s} = 2$
+	
+	Output: Error Message ``New value of $k_{s}$ is outside of bounds. Please 
+	enter a different value.''. Log message ``Error: tried to assign $k_{s} = 
+	2$''. 
+	
+	Test Case Derivation: $0 \le k_{s} \le 1$; therefore the new assignment is 
+	invalid by the constraints.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	attempts to assign $k_{s}$ the new value. Error message is loaded instead. 
+	Error is written to log file.
+	
+	\item{objMaterialPropChange-invalid-kd\\}
+	
+	Control: Automatic
+	
+	Input: $k_{d} = 2$
+	
+	Output: Error Message ``New value of $k_{d}$ is outside of bounds. Please 
+	enter a different value.''. Log message ``Error: tried to assign $k_{d} = 
+	2$''. 
+	
+	Test Case Derivation: $0 \le k_{d} \le 1$; therefore the new assignment is 
+	invalid by the constraints.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	attempts to assign $k_{d}$ the new value. Error message is loaded instead. 
+	Error is written to log file.
+	
+	\item{objMaterialPropChange-invalid-ka\\}
+	
+	Control: Automatic
+	
+	Input: $k_{a} = 2$
+	
+	Output: Error Message ``New value of $k_{a}$ is outside of bounds. Please 
+	enter a different value.''. Log message ``Error: tried to assign $k_{a} = 
+	2$''. 
+	
+	Test Case Derivation: $0 \le k_{a} \le 1$; therefore the new assignment is 
+	invalid by the constraints.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	attempts to assign $k_{a}$ the new value. Error message is loaded instead. 
+	Error is written to log file.
+
+	\item{objMaterialPropChange-invalid-$\alpha$\\}
+	
+	Control: Automatic
+	
+	Input: $\alpha = -2$
+	
+	Output: Error Message ``New value of $\alpha$ is outside of bounds. Please 
+	enter a different value.''. Log message ``Error: tried to assign $\alpha = 
+	-2$''. 
+	
+	Test Case Derivation: $\alpha : \mathbb{Z_{+}}$; therefore the new 
+	assignment 
+	is invalid by the constraints.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	attempts to assign $\alpha$ the new value. Error message is loaded instead. 
+	Error is written to log file.
+
+%Boundary	
+	\item{objMaterialPropChange-bound-ks\\}
+	
+	Control: Automatic
+	
+	Input: $k_{s} = 1$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{s}$ 
+	impact the specular component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{s}$ the new value. 
+	
+	\item{objMaterialPropChange-bound-kd\\}
+	
+	Control: Automatic
+	
+	Input: $k_{d} = 1$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{d} = k_{d}\cdot i(p,p_{0}) \cdot 
+	\max(0,(L_{i}\bullet N))$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{d}$ 
+	impact the diffuse component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{d}$ the new value. 	
+	
+	\item{objMaterialPropChange-bound-ka\\}
+	
+	Control: Automatic
+	
+	Input: $k_{a} = 1$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
+	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
+	changes to the $k_{a}$ impact the ambient component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $k_{a}$ the new value. 
+	
+	\item{objMaterialPropChange-bound-$\alpha$\\}
+	
+	Control: Automatic
+	
+	Input: $\alpha = 0$
+	
+	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+	so that specular reflection uses new value.
+	
+	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
+	impact the specular component of the final scene.
+	
+	How test will be performed: Valid scene is loaded. Testing framework 
+	automatically assigns $\alpha$ the new value.
+	How test will be performed: 
+
+%%Object Position	
+%Valid
+	\item{test-id2\\}Change Object Position -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+%Invalid
+	How test will be performed: 
+	
+		\item{test-id2\\}Change Object Position - invalid
+		
+		Control: Manual versus Automatic
+		
+		Input: 
+		
+		Output: \wss{The expected result for the given inputs}
+		
+		Test Case Derivation: \wss{Justify the expected value given in the 
+		Output 
+			field}
+		
+		How test will be performed: 
+%Boundary		
+	\item{test-id2\\}Change Object Position -boundary
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Object Colour -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+
+	\item{test-id2\\}Change Object Colour - invalid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+
+	\item{test-id2\\}Change Object Shape -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Object Shape - invalid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 	
+		
+\end{enumerate}
+
+\paragraph{Light Changes}
+
+\begin{enumerate}
+	
+	\item{test-id2\\}Change Light Position -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Position - invalid-out of room
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the 
+		Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Position -boundary
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Position - valid-beside object
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the 
+		Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Position - valid behind object (obj between 
+	viewer and light)
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+
+	\item{test-id2\\}Change Light Position - invalid-on top of viwere/object
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the 
+		Output 
+		field}
+	
+	How test will be performed: 
+
+	\item{test-id2\\}Change Light Colour -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Colour - invalid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Shape -valid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 
+	
+	\item{test-id2\\}Change Light Shape -valid-facing away from objects
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 	
+	
+	\item{test-id2\\}Change Light Shape - invalid
+	
+	Control: Manual versus Automatic
+	
+	Input: 
+	
+	Output: \wss{The expected result for the given inputs}
+	
+	Test Case Derivation: \wss{Justify the expected value given in the Output 
+		field}
+	
+	How test will be performed: 	
+	
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
