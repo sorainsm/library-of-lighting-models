@@ -17,6 +17,7 @@
 \usepackage{caption}
 \usepackage{pdflscape}
 \usepackage{afterpage}
+\usepackage{multirow}
 
 \usepackage[round]{natbib}
 
@@ -110,11 +111,19 @@
 \midrule
 October 1, 2019 & 1.0 & Original draft\\
 October 17, 2019 & 1.1 & Updates in Response to GitHub Issues \\
+November 3, 2019 & 2.0 & Major Revisions Based on Dr. Smith's Feedback\\
 \bottomrule
 \end{tabularx}
 
 ~\newpage
 	
+\tableofcontents
+
+~\newpage
+
+
+\pagenumbering{arabic}
+
 \section{Reference Material}
 
 This section records information for easy reference.
@@ -129,14 +138,15 @@ description of the unit and the SI name.
 
 \renewcommand{\arraystretch}{1.2}
 %\begin{table}[ht]
-  \noindent \begin{tabular}{l l l} 
-    \toprule		
-    \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
-    \midrule 
-    \si{\radian} & angle & radian\\
-    \bottomrule
-  \end{tabular}
-  %	\caption{Provide a caption}
+\noindent \begin{tabular}{l l l} 
+	\toprule		
+	\textbf{symbol} & \textbf{unit} & \textbf{SI}\\
+	\midrule 
+	\si{\radian} & angle & radian\\
+	\si{cd} & luminous intensity & candela\\	
+	\bottomrule
+\end{tabular}
+%	\caption{Provide a caption}
 %\end{table}
 
 %\plt{Only include the units that your CA actually uses.  If there are no units
@@ -154,131 +164,109 @@ notation. The symbols are listed in alphabetical order.
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
-  \textbf{symbol} & \textbf{unit} & \textbf{description}\\
-  \midrule 
-$\mathbb{R}$ & --- & Real numbers.  \wss{I suggest you be more
-    precise and define this as the set of all real numbers.  The same comment
-    applies for the set of all integers.}
-  \\
-  $\mathbb{Z}$ & --- & Integers.
-  \\
-  $\psi$ & \si[per-mode=symbol] {\radian} & Angle between the normal and halfway
-  vector.
-  \\
-  $\theta$ & \si[per-mode=symbol] {\radian} & Angle between the viewer and the
-  reflected ray.
-  \\
-  $\angle\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence
-  between incident ray and surface normal. \wss{Why use the angle symbol for
-    just these two angles?  Are they different in some way?  If not, I suggest
-    you get rid of the symbol.  It seems inconsistent.}
-  \\
-  $\angle\theta_{r}$ & \si[per-mode=symbol] {\radian} & Angle of reflection
-  between reflected ray and surface normal.
-  \\
-  $\theta_{1}$ & \si[per-mode=symbol] {\radian} & Angle of incidence between
-  incident ray and surface normal in material 1.
-  \\
-  $\theta_{2}$ & \si[per-mode=symbol] {\radian} & Angle of refraction between
-  refracted ray and surface normal in material 2.
-  \\
-  $n_{1}$ & --- & Refractive index of first material.
-  \\
-  $n_{2}$ & --- & Refractive index of second material.
-  \\
-  $n_{i}$ & --- & Refractive index of i-th material.
-  \\
-  $p$ & --- & Point in space or on a surface.
-  \\
-  $p_{0}$ & --- & Point of origin.
-  \\
-  $v$ & --- & Position of viewer represented as a 3D point in space.
-  \\
-  $P$ & --- & $n$-dimensional Vector.
-  \\
-  $P_{x}$ & --- & $x$ dimension of Vector $P$.
-  \\
-  $P_{y}$ & --- & $y$ dimension of Vector $P$.
-  \\
-  $P_{z}$ & --- & $z$ dimension of Vector $P$.
-  \\
-  $P_{i}$ & --- & $i$th dimension of Vector $P$.
-  \\
-  $Q$ & --- & $n$-dimensional Vector.
-  \\
-  $Q_{x}$ & --- & $x$ dimension of Vector $Q$.
-  \\
-  $Q_{y}$ & --- & $y$ dimension of Vector $Q$.
-  \\
-  $Q_{z}$ & --- & $z$ dimension of Vector $Q$.
-  \\
-  $Q_{i}$ & --- & $i$th dimension of Vector $Q$.
-  \\
-  $\vec{L_{i}}$ & --- & Vector form of incident ray.
-  \\
-  $\vec{L_{r}}$ & --- & Vector form of reflected ray.
-  \\
-  $\vec{v}$ & --- & Vector from point to the viewer.
-  \\
-  $\vec{n}$ & --- & Vector form of surface normal.
-  \\
-  $\vec{N}$ & --- & Unit vector of surface normal, $\vec{n}$.
-  \\
-  $\vec{U_{L_{i}}}$ & --- & Unit vector of incident ray, $L_{i}$.
-  \\
-  $\vec{h}$ & --- & Unit vector halfway between the incident ray, $L_{i}$, and
-  the viewer vector, $\vec{v}$.
-  \\
-  $I$ & -- & Intensity (Luminance) of Light Source. \wss{Doesn't luminance have
-    units?  candela per meter squared? \url{https://en.wikipedia.org/wiki/Luminance}}
-  \\
-  $I_{L_{i}}$ & -- & Intensity (Luminance) of Light Source $L_{i}$.
-  \\
-  $I_{a}$ & -- & Ambient Luminance.
-  \\
-  $I_{ar}$ & -- & Red Colour Ambient Luminance.
-  \\
-  $I_{ag}$ & -- & Green Colour Ambient Luminance.
-  \\
-  $I_{ab}$ & -- & Blue Colour Ambient Luminance.
-  \\
-  $k_{a}$ & -- & Coefficient of Ambient Reflection.
-  \\
-  $I_{d}$ & -- & Diffuse Luminance.
-  \\
-  $I_{dr}$ & -- & Red Colour Diffuse Luminance.
-  \\
-  $I_{dg}$ & -- & Green Colour Diffuse Luminance.
-  \\
-  $I_{db}$ & -- & Blue Colour Diffuse Luminance.
-  \\
-  $k_{d}$ & -- & Coefficient of Diffuse Reflection.
-  \\
-  $I_{s}$ & -- & Specular Luminance.
-  \\
-  $I_{sr}$ & -- & Red Colour Specular Luminance.
-  \\
-  $I_{sg}$ & -- & Green Colour Specular Luminance.
-  \\
-  $I_{sb}$ & -- & Blue Colour Specular Luminance.
-  \\
-  $k_{s}$ & -- & Coefficient of Specular Reflection.
-  \\
-  $\alpha$ & -- & Shininess Coefficient.
-  \\
-  $I_{T}$ & -- & Total Luminance.
-  \\
-  $i$ & -- & Intensity of light. \wss{What is the difference between luminance
-    and intensity?  I've looked over your document and this still confuses me.
-    If they are the same thing, you should just use one term.  If they are
-    different, you need to clarify the difference.  I did a quick google search
-    and it looks like the units of intensity are lux?}
-  \\
-  $i(p)$ & -- & Intensity of light at a point $p$.
-  \\
-  $i(p, p_{0})$ & -- & Intensity of light from point $p$ at a point $p$.
-  \\
-  \bottomrule
+	\textbf{symbol} & \textbf{unit} & \textbf{description}\\
+	\midrule 
+	$\mathbb{R}$ & --- & Set of Real numbers.\\
+	$\mathbb{Z}$ & --- & Set of Integers.\\
+	$\psi$ & \si[per-mode=symbol] {\radian} & Angle between the normal and 
+	halfway	vector.	\\
+	$\theta$ & \si[per-mode=symbol] {\radian} & Angle between the viewer and the
+	reflected ray.	\\
+	$\theta_{i}$ & \si[per-mode=symbol] {\radian} & Angle of incidence
+	between incident ray and surface normal. \\
+	$\theta_{r}$ & \si[per-mode=symbol] {\radian} & Angle of reflection
+	between reflected ray and surface normal.
+	\\
+	$\theta_{1}$ & \si[per-mode=symbol] {\radian} & Angle of incidence between
+	incident ray and surface normal in material 1.
+	\\
+	$\theta_{2}$ & \si[per-mode=symbol] {\radian} & Angle of refraction between
+	refracted ray and surface normal in material 2.
+	\\
+	$n_{1}$ & --- & Refractive index of first material.
+	\\
+	$n_{2}$ & --- & Refractive index of second material.
+	\\
+	$n_{i}$ & --- & Refractive index of i-th material.
+	\\
+	$p$ & --- & Point in space or on a surface.
+	\\
+	$p_{0}$ & --- & Point of origin.
+	\\
+	$v$ & --- & Position of viewer represented as a 3D point in space.
+	\\
+	$P$ & --- & $n$-dimensional Vector.
+	\\
+	$P_{x}$ & --- & $x$ dimension of Vector $P$.
+	\\
+	$P_{y}$ & --- & $y$ dimension of Vector $P$.
+	\\
+	$P_{z}$ & --- & $z$ dimension of Vector $P$.
+	\\
+	$P_{i}$ & --- & $i$th dimension of Vector $P$.
+	\\
+	$Q$ & --- & $n$-dimensional Vector.
+	\\
+	$Q_{x}$ & --- & $x$ dimension of Vector $Q$.
+	\\
+	$Q_{y}$ & --- & $y$ dimension of Vector $Q$.
+	\\
+	$Q_{z}$ & --- & $z$ dimension of Vector $Q$.
+	\\
+	$Q_{i}$ & --- & $i$th dimension of Vector $Q$.
+	\\
+	$L_{i}$ & --- & Vector form of incident ray.
+	\\
+	$L_{r}$ & --- & Vector form of reflected ray.
+	\\
+	$V$ & --- & Vector from point to the viewer.
+	\\
+	$n$ & --- & Vector form of surface normal.
+	\\
+	$N$ & --- & Unit vector of surface normal, $n$.
+	\\
+	$H$ & --- & Unit vector halfway between the incident ray, $L_{i}$, and
+	the viewer vector, $V$.
+	\\
+	$I_{a}$ & cd & Ambient luminous intensity.
+	\\
+	$I_{ar}$ & cd & Red Colour ambient luminous intensity.
+	\\
+	$I_{ag}$ & cd & Green Colour ambient luminous intensity.
+	\\
+	$I_{ab}$ & cd & Blue Colour ambient luminous intensity.
+	\\
+	$k_{a}$ & -- & Coefficient of Ambient Reflection.
+	\\
+	$I_{d}$ & cd & Diffuse luminous intensity.
+	\\
+	$I_{dr}$ & cd & Red Colour Diffuse luminous intensity.
+	\\
+	$I_{dg}$ & cd & Green Colour Diffuse luminous intensity.
+	\\
+	$I_{db}$ & cd & Blue Colour Diffuse luminous intensity.
+	\\
+	$k_{d}$ & -- & Coefficient of Diffuse Reflection.
+	\\
+	$I_{s}$ & cd & Specular luminous intensity.
+	\\
+	$I_{sr}$ & cd & Red Colour Specular luminous intensity.
+	\\
+	$I_{sg}$ & cd & Green Colour Specular luminous intensity.
+	\\
+	$I_{sb}$ & cd & Blue Colour Specular luminous intensity.
+	\\
+	$k_{s}$ & -- & Coefficient of Specular Reflection.
+	\\
+	$\alpha$ & -- & Shininess Coefficient.
+	\\
+	$I_{T}$ & cd & Total luminous intensity.
+	\\
+	$i(p)$ & cd & Intensity of light at a point $p$.
+	\\
+	$i(p, p_{0})$ & cd & Intensity of light from point $p_{0}$ at a point $p$.
+	\\
+	\bottomrule
 \end{longtable*}
 %\plt{Use your problems actual symbols.  The si package is a good idea to use 
 %for
@@ -291,46 +279,38 @@ $\mathbb{R}$ & --- & Real numbers.  \wss{I suggest you be more
 
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  A & Assumption\\
-  AS & Scope Time Assumption \\
-  AB & Build Time Assumption \\
-  AR & Run Time Assumption \\
-  DD & Data Definition\\
-  GD & General Definition\\
-  GS & Goal Statement\\
-  IM & Instance Model\\
-  LC & Likely Change\\
-  PS & Physical System Description\\
-  R & Requirement\\
-  SRS & Software Requirements Specification\\
-  CA & Commonality Analysis \\
-  LM & Lighting Model\\
-  \famname{} & \famname{}\\
-  T & Theoretical Model\\
-  3D & Three Dimensional \\
-  API & Application Programming Interface \\
-  \bottomrule
+	\toprule		
+	\textbf{symbol} & \textbf{description}\\
+	\midrule 
+	A & Assumption\\
+	AS & Scope Time Assumption \\
+	AB & Build Time Assumption \\
+	AR & Run Time Assumption \\
+	DD & Data Definition\\
+	GD & General Definition\\
+	GS & Goal Statement\\
+	IM & Instance Model\\
+	LC & Likely Change\\
+	PS & Physical System Description\\
+	R & Requirement\\
+	SRS & Software Requirements Specification\\
+	CA & Commonality Analysis \\
+	LM & Lighting Model\\
+	\famname{} & \famname{}\\
+	T & Theoretical Model\\
+	3D & Three Dimensional \\
+	API & Application Programming Interface \\
+	\bottomrule
 \end{tabular}\\
 
 %\plt{Add any other abbreviations or acronyms that you add.}
 %\plt{Only include abbreviations and acronyms that are actually used.}
 
-\newpage
-
-\tableofcontents
-
-~\newpage
-
-\pagenumbering{arabic}
-
 \subsection{Notational Convention}
 This section outlines common notation convention used throughout this document.
 
-\begin{table}
-	\begin{tabular}{|l|l|}
+\begin{table}[H]
+	\begin{tabular}{|l|p{15cm}|}
 		\hline
 		\textbf{Notation} & \textbf{Meaning} \\
 		\hline
@@ -343,8 +323,57 @@ This section outlines common notation convention used throughout this document.
 		$\langle P_{x}, P_{y}, P_{z} \rangle$ & Angled brackets denote the 
 		components of a vector. \\
 		\hline
+		$(x, y, z)$ & Rounded brackets represent a tuple. These are used to 
+		denote coordinates, and multi-variable information like colour. \\
 		\hline
 	\end{tabular}
+	\caption{Notation used in this document.}
+	\label{tbl:notation-convention}
+\end{table}
+
+\subsection{System Variables}
+This section outlines system variables used throughout this document. The 
+purpose is to increase the readability and maintainability of this document by 
+abstracting threshold values to variables that are defined here.
+
+\begin{table}[H]
+	\begin{tabular}{|l|l|p{8cm}|}
+		\hline
+		\textbf{Variable Name} & \textbf{Value}& \textbf{Meaning} \\
+		\hline
+		MIN\_NUM\_LIGHTS & 1 & The minimum number of light sources that must be 
+		in a scene.\\
+		MAX\_NUM\_LIGHTS & 1 & The maximum number of light sources that can be 
+		in a scene.\\
+		LIGHT\_POSITION & & The position of the light source as a point, 
+		(x,y,z). All types of light sources treat their origin as a point 
+		source.\\
+		LIGHT\_COLOUR & & The light colour represented as an (r,g,b)-tuple.\\
+		MIN\_NUM\_OBJECTS & 1 & The minimum number of objects that must be in a 
+		scene. \\
+		MAX\_NUM\_OBJECTS & 1 & The maximum number of objects that can be in a 
+		scene. \\
+		OBJECT\_POSITION & & The position of the object's centrepoint 
+		represented as 3D coordinates (x,y,z).\\
+		OBJECT\_COLOUR & & The object colour represented as an (r,g,b)-tuple.\\
+		OBSERVER\_POSITION & & The position of the observer represented as a 
+		point, (x,y,z)\\
+		MAX\_HEIGHT & 100.0f & The maximum height that a scene can be.\\
+		MAX\_WIDTH & 100.0f & The maximum width that a scene can be.\\
+		MAX\_DEPTH & 100.0f & The maximum depth that a scene can be.\\
+		DEF\_HEIGHT & 10.0f & The default height of the scene.\\
+		DEF\_WIDTH & 10.0f & The default width of the scene.\\
+		DEF\_DEPTH & 10.0f & The default depth of the scene.\\
+		MODIFICATION\_TIME\_THRESHOLD & & The maximum amount of time it should 
+		take to modify (add, delete, or change) an element of the system.\\
+		USABILITY\_THRESHOLD & 90\% & The threshold of users that 
+		determines usability success.\\
+		DEF\_SHADE & Gouraud & The default shading model for the scene.\\
+		DEF\_LIGHT & Lambertian & The default lighting model for the scene.\\
+		\hline
+	\end{tabular}
+	\caption{System variable definitions of this document.}
+	\label{tbl:system-variables}
 \end{table}
 
 \section{Introduction}
@@ -425,9 +454,9 @@ techniques of shading and lighting models.
 
 The problem domain for lighting models in computer graphics is obviously broad. 
 To simplify this problem we invoke assumptions \aSref{as-geometrical_appx}, 
-\aSref{as-illumination}, \aSref{as-illum_constraint}. This allows us to focus 
-on understanding the techniques of local illumination (all aspects connected by 
-the orange line in \ref{fig:prob-domain-analysis}).
+\aSref{as-illumination}. This allows us to focus on understanding the 
+techniques of local illumination (all aspects connected by the orange line in 
+\ref{fig:prob-domain-analysis}).
 
 The scope of the family includes geometrical optics simulation of light 
 reflection for 3D material objects in a local illumination context.
@@ -645,13 +674,14 @@ Symbol &$P\bullet Q$\\
   Description & $P$ and $Q$ are two $n$-dimensional vectors. The dot product 
   ($P\bullet Q$) is the scalar sum of the products of each component. The dot 
   product acts a measure of the difference between the directions in which $P$ 
-  and $Q$ point. $P$ and $Q$ are perpendicular when $P\bullet Q = 0$. This is 
-  used in \tref{TM_Reflection} and \dref{GD_diffReflect}.
+  and $Q$ point. $P$ and $Q$ are perpendicular when $P\bullet Q = 0$..
   \\
   \hline
   Sources& \cite{Lengyel2003}\\
   \hline
-  Ref.\ By & \aBref{as-coordinate_system}, \aBref{as-coordinates}\\
+  Ref.\ By & \aBref{as-coordinate_system}, \aSref{as-emission_constraint}, 
+  \iref{IM_LamDiffuse}, \iref{IM_HalfLam}, \iref{IM_Phong}, 
+  \iref{IM_Blinn_Phong}, \tref{TM_Reflection} and \dref{GD_diffReflect}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -696,7 +726,7 @@ Symbol &$P\bullet Q$\\
 		\hline
 		Sources& \cite{Lengyel2003}\\
 		\hline
-		Ref.\ By & \aBref{as-coordinate_system}, \aBref{as-coordinates} \\
+		Ref.\ By & \aBref{as-coordinate_system} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -712,28 +742,26 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_ambient}\\
 		\hline
-		Label& \bf Ambient Luminance for a Light Source\\
+		Label& \bf Ambient Intensity for a Light Source\\
 		\hline
 		Symbol &$I_{a}$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & -- \wss{I wrote this elsewhere, but shouldn't
-                           luminance have units?}\\
+		SI Units & cd\\
+%-- \wss{I wrote this elsewhere, but shouldn't
+%	luminance have units?}		
 		\hline
-		Equation&$I_{a} = \begin{Bmatrix}
-		I_{ar} \\ I_{ag} \\ I_{ab} \\
-		\end{Bmatrix} = I_{L_{i}}\cdot k_{a}$\\
+		Equation&$I_{a} = (I_{ar}, I_{ag}, I_{ab}) = i(p,p_{0}) \cdot k_{a}$\\
 		\hline
-		Description & $I_{L{i}}$ is the intensity of the light source - it is 
-		uniform for ambient light and shouldn't rely on position. \\
-		& $k_{a}$ is the coefficient of ambient reflection.  \wss{Please
-          define all of the symbols in all of your DDs, GDs, etc.}\\
+		Description & $i(p, p_{0})$ is the intensity of the light at point $p$ 
+		from light source position $p_{0}$. Depending on the type of light 
+		source the intensity will change with distance from the source.\\
+		& $k_{a}$ is the coefficient of ambient reflection. \\
 		\hline
 		Sources& \cite{shreiner2012}\\
 		\hline
-		Ref.\ By & \iref{IM_LamDiffuse}, \iref{IM_HalfLam}, \iref{IM_Phong}, 
-		\iref{IM_Blinn_Phong}\\
+		Ref.\ By & \iref{IM_Phong}, \iref{IM_Blinn_Phong}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -756,19 +784,19 @@ Symbol &$P\bullet Q$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & --\\
+		SI Units & cd\\
 		\hline
-		Equation&$I_{d} = \begin{Bmatrix}
-		I_{dr} \\ I_{dg} \\ I_{db} \\
-		\end{Bmatrix} = k_{d}\cdot I_{L_{i}}(p)(\vec{U_{i}}\bullet \vec{N}) 
-		L_{d}$\\
+		Equation&$I_{d} = (I_{dr}, I_{dg}, I_{db})= k_{d}\cdot i(p,p_{0}) \cdot 
+		\max(0,(L_{i}\bullet N))$\\
 		\hline
-		Description & $p$ is the point where $\vec{L_{i}}$ hits the surface.
+		Description & $p$ is the point where $L_{i}$ hits the surface of an 
+		object.
 		\\
-		& $I_{L_{i}}(p)$ is the intensity of $L_{i}$ at point $p$. \\
+		& $i(p, p_{0})$ is the intensity of $L_{i}$ at point $p$ from light 
+		source position $p_{0}$. \\
 		& $k_{d}$ is the coefficient of diffuse reflection. \\
-		& $\vec{U_{i}}$ is the unit vector of $L_{i}$. \\
-		& $\vec{N}$ is the unit vector surface normal. \\
+		& $L_{i}$ is the incidence ray.\\
+		& $N$ is the unit vector surface normal. \\
 		\hline
 		Sources& \cite{shreiner2012}\\
 		\hline
@@ -795,21 +823,24 @@ Symbol &$P\bullet Q$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & --\\
+		SI Units & cd\\
 		\hline
-		Equation&$I_{s} = \begin{Bmatrix}
-		I_{sr} \\ I_{sg} \\ I_{sb} \\
-		\end{Bmatrix} = k_{s}L_{s}\max((\vec{U_{r}}\bullet \vec{v})^\alpha, 0)
-		$ \\
+		Equation&$I_{s} = (I_{sr},I_{sg},I_{sb}) = 
+		k_{s}\cdot i(p,p_{0}) \cdot \max(0, ({L_{r}}\bullet V))^\alpha$ \\
 		\hline
-		Description & $p_{0}$ is the position of the light source in Cartesian 
-		Coordinates.
+		Description & $p$ is the point where $L_{i}$ hits the surface of an 
+		object.
 		\\
-		& $\vec{U_{r}}$ is the unit vector of the reflected ray.\\
-		& $\vec{v}$ is the vector to the viewer.\\
+		& $i(p, p_{0})$ is the intensity of $L_{i}$ at point $p$ from light 
+		source position $p_{0}$. \\
+		& $L_{r}$ is the reflected ray. It is the reflection of the incidence 
+		ray, $L_{i}$, about the normal, $N$.\\
+		& $V$ is the unit vector between the point where the incidence ray hit 
+		the object, and the observer. \\
 		& $k_{s}$ is the specular coefficient of the material.\\
 		& $\alpha$ is the shininess coefficient to determine the size of the 
-		specular highlight.\\
+		specular highlight. The following image describes the behaviour of the 
+		specular highlight size based on $\alpha$\\
 		& \includegraphics[]{./images/shininess-coefficient}\\
 		\hline
 		Sources& \cite{shreiner2012}\\
@@ -836,7 +867,7 @@ Symbol &$P\bullet Q$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & --\\
+		SI Units & cd\\
 		\hline
 		Equation&$I_{T} = I_{a} + I_{d} + I_{s}$ \\
 		\hline
@@ -862,20 +893,21 @@ Symbol &$P\bullet Q$\\
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
 		\label{DD_Intensity_PointSource_Distance}\\
 		\hline
-		Label& \bf Intensity of illumination at point $p$ from a point source, 
+		Label& \bf Luminous intensity at point $p$ from a point source, 
 		$p_{0}$\\
 		\hline
 		Symbol &$i(p, p_{0})$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
-		SI Units & --\\
+		SI Units & cd\\
 		\hline
 		Equation&$i(p, p_{0}) = \frac{1}{|p-p_{0}|^2} I(p_{0})$\\
 		\hline
 		Description & Calculates the intensity of light at point $p$ from a 
-		light source at position $p_{0}$ in Cartesian Coordinates.
-		\\
+		light source at position $p_{0}$ in Cartesian Coordinates.\\
+		& $I(p_{0})$ is the intensity of the light source at it's source. 
+		Therefore it is just the straight intensity of the light.\\
 		\hline
 		Sources& \cite{Lengyel2003}\\
 		\hline
@@ -956,14 +988,14 @@ Symbol &$P\bullet Q$\\
 
 ~\newline
 
-\wss{You talk about surfaces, and polygons, but I don't see how you actually
-  represent an object.  Searching through again, I see that objects have a set
-  of possible shapes, but I don't see the connection between the shapes and
-  polygons.  The shapes are mathematical defined, especially something like a
-  sphere or a cube.  I think you need to say somewhere that you approximate the
-  shape with a mesh of polygons.  You might want to look at the commonality
-  analysis of mesh generators that I wrote with a student years ago.  It should
-  be in our cas741 repo under CAS 04-10-SS.pdf.}
+%\wss{You talk about surfaces, and polygons, but I don't see how you actually
+%  represent an object.  Searching through again, I see that objects have a set
+%  of possible shapes, but I don't see the connection between the shapes and
+%  polygons.  The shapes are mathematical defined, especially something like a
+%  sphere or a cube.  I think you need to say somewhere that you approximate the
+%  shape with a mesh of polygons.  You might want to look at the commonality
+%  analysis of mesh generators that I wrote with a student years ago.  It should
+%  be in our cas741 repo under CAS 04-10-SS.pdf.}
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -1033,9 +1065,9 @@ on.  %\plt{Modify the examples below for your problem, and add additional models
   \hline
   Label&\bf Law of Reflection\\
   \hline
-  Equation&   $\angle\theta_{i} = \angle\theta_{r}$ or 
-  $\vec{L_{i}}\bullet\vec{N} = 
-  \vec{L_{r}}\bullet\vec{N}$\\
+  Equation&   $\theta_{i} = \theta_{r}$ or 
+  $L_{i}\bullet N = 
+  L_{r} \bullet N$\\
   \hline
   Description & 
                 When a ray of light reflects off a surface, the angle of 
@@ -1093,9 +1125,9 @@ instance models.
 		% \hline
 		SI Units& - \\
 		\hline
-		Equation& $ \angle\theta_{i} = \angle\theta_{r}$ or 
-		$\vec{L_{i}}\bullet\vec{N} = 
-		\vec{L_{r}}\bullet\vec{N}$  \\
+		Equation& $ \theta_{i} = \theta_{r}$ or 
+		$L_{i}\bullet N = 
+		L_{r} \bullet N$  \\
 		\hline
 		Description &
 		Law of Reflection applied to rough surfaces.
@@ -1118,173 +1150,386 @@ implementation.
 Before tackling those sections, we summarize here variabilities in the problem.
 
 \subsection{Assumptions} \label{sec_Assumptions}
-This section outlines the various assumptions made in defining this problem.  
-These are divided based on their binding time. All assumptions are used to 
-support the \ref{gs-display}
+This section outlines the various assumptions made in defining this problem.   
+The nature of these assumptions is to make decisions in regards to the 
+variabilities of the system. These are invoked to limit the scope of the 
+problem being modeled, and often indicate areas where likely changes may occur.
 
+Assumptions are divided based on their binding time. All assumptions are used 
+to refine the \gsref{gs-display} and define the potential members of the 
+family that will be built.
+
+\subsubsection{Scope Time Bindings}
+These assumptions are applied in the abstract design of the program. They 
+dictate the family members that we cover, and the potential design choices 
+available to us. Changing these assumptions changes the underlying problem; as 
+such this would change the family we are discussing. Therefore these 
+assumptions will not change, and apply to all members of this family.
+
+~\newline
+\textbf{\emph{Physics Assumptions}}
 \begin{itemize}
-	\item \textbf{Scope Time Bindings}: These assumptions are applied in the 
-	abstract design of the program. They dictate the family members that we 
-	cover, and the potential design choices available to us.
-	\begin{itemize}
-		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-geometrical_appx}:]
-		Light interactions will be defined by Geometrical Optics principles 
-		(ray-based).
-		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-illumination}:]
-		Lighting will be handled at the local illumination level.
-		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-loc-vs-global}:]
-		Objects will not cast shadows on each other.		
-		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-illum_constraint}:]
-		Objects will not reflect light at each other.
-		\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-emission_constraint}:]
-		Objects will not emit light.
-		\item[AS\refstepcounter{assumpnumB}\theassumpnumS\label{as-object_representation2}:
-		Object meshes will be closed and convex (there is a well defined 
-		interior and exterior).
-
-	\end{itemize}
-	\item \textbf{Build Time Bindings}: These assumptions are applied at build 
-	time. They have been separated by what they define when applied.
-	\begin{itemize}
-		\item \textbf{Objects}:
-		\begin{itemize}
-			\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_representation}:]
-			Objects will be represented by a geometric mesh of triangles.
-			\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_refraction}:]
-			All objects are opaque; light will not experience refraction with 
-			any object. 
-		\end{itemize}
-		\item \textbf{Light Sources}:
-		\item \textbf{Input Type}:
-	\end{itemize}
-
-
-	\begin{itemize}
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-coordinate_system}:]
-		 The virtual environment will be described by a 3D Caretsian Coordinate 
-		System using right-hand rules.
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-coordinates}:]
-		Positions of light source(s), object(s), and the observer will be 
-		defined on a 3D Cartesian Coordinate System.
-		\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obsv_total}:]
-		There will only be a single observer in a scene.				
-	\end{itemize}
-	\item \textbf{Run-Time Bindings}: These were captured as inputs to the 
-	system.
+	\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-geometrical_appx}:]
+	Light interactions will be defined by Geometrical Optics principles 
+	(ray-based).
 \end{itemize}
 
-\wss{The scope time bindings make sense, but I am not sure how to interpret the
-  building time bindings.  Since they are build time, I'm assuming that whether
-  they apply or not is a build time decision.  Is this correct?  If so, it feels
-like if the assumptions do not apply another assumption will have to take its
-place, but I don't know what that assumption is.  For instance, if the object is
-not represented by a mesh of triangles, what is it represented by?}
+~\newline
+\textbf{\emph{Rendering Limitations}}
+\begin{itemize}
+	\item[AS\refstepcounter{assumpnumS}\theassumpnumS\label{as-illumination}:]
+	Lighting will be handled at the local illumination level.
+\end{itemize}
 
-\wss{I see the connection between the objects and their representation by
-  polygons is given here.  I mentioned this in an earlier comment, but I had
-  missed this mention.  However, I think you still need more information.  What
-  does it mean to represent an object by a mesh?  In the mesh generator CA that
-  I mentioned in an earlier comment a mesh is defined as covering up of a
-  domain, with several rules.  You might want to look at that definition.}
+\subsubsection{Build Time Bindings}
+These assumptions are applied in the concrete design of any individual family 
+member. They dictate the specifics of that family member, and concretize our 
+design choices. Changing these assumptions would change the particular family 
+member that is being built. As such, these assumptions are likely to change for 
+different contexts.
 
-\wss{Is the dimension of the problem a variability, or are lighting problems in
-  3D?}
+~\newline
+\textbf{\emph{Scene Assumptions}}
+\begin{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-coordinate_system}:]
+	The virtual environment will be described by a 3D Caretsian Coordinate 
+	System using right-hand rules.
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item The virtual environment will be described by a polar 
+			coordinate system.
+		\end{itemize}
+	\end{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-number-scenes}:]
+	Only one scene can be loaded into the system at a time.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-scenes-size}:]
+	The scene size is defined as a rectangular room with dimensions 
+	SCENE\_HEIGHT, SCENE\_WIDTH, and SCENE\_DEPTH.
+\end{itemize}
+
+~\newline
+\textbf{\emph{Object Assumptions}}
+\begin{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object-opaque}:] 
+	All objects are opaque; light will not experience refraction with any 
+	object. 
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item Objects can be transparent or opaque; light will experience 
+			refraction with transparent objects.
+			\item Objects can be transparent, translucent, or opaque; light 
+			will experience refraction with transparent and translucent objects.
+		\end{itemize}
+	\end{itemize}	
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-loc-vs-global}:]
+	Objects will not cast shadows on each other. Related to 
+	\aSref{as-illumination}.	
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-illum_constraint}:]
+	Objects will not reflect light at each other. Related to 
+	\aSref{as-illumination}.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-emission_constraint}:]
+	Objects will not emit light. Related to \aSref{as-illumination}.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obj-coord}:]
+	Positions of objects are defined on a 3D Cartesian Coordinate System. 
+	Related to \aBref{as-coordinate_system}.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obj-pos}:]
+	Objects have a fixed position and will not be moved during the running of 
+	the program.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_mesh}:] 
+	Object shapes will be approximated by a polygon mesh of triangles.
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item Objects will be approximated by a polygon mesh of 
+			quadrilaterals.
+			\item Objects will be approximated by a polygon mesh of convex 
+			polygons.
+		\end{itemize}
+	\end{itemize}			
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-poly-mesh-store}:]
+	Object polygon mesh is stored as a list of vertices and a set of polygon 
+	surfaces that are associated with vertices. Related to 
+	\aBref{as-object_mesh}.
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item Polygon mesh is stored as list of all vertices, and edges 
+			connecting them.
+		\end{itemize}
+	\end{itemize}		
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-object_representation2}:]
+	Object meshes will be closed and convex (there is a well defined interior 
+	and exterior). Related to \aBref{as-object_mesh}
+\end{itemize}
+
+~\newline
+\textbf{\emph{Lighting Assumptions}}
+\begin{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-light-coord}:]
+	Positions of light sources are defined on a 3D Cartesian Coordinate System. 
+	Related to \aBref{as-coordinate_system}.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-light-fixed}:]
+	Light sources have a fixed position and will not be moved during the 
+	running of the program.	Related to \aBref{as-light-coord}.
+\end{itemize}
+
+~\newline
+\textbf{\emph{Observer Assumptions}}
+\begin{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obsv_total}:]
+	There will only be a single observer in a scene.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obsv-coord}:]
+	Observer position is defined on a 3D Cartesian Coordinate System. 
+	Related to \aBref{as-coordinate_system}.
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-obsv_move}:]
+	The observer position will be fixed for the run-time of the program.
+\end{itemize}
+
+~\newline
+\textbf{\emph{Input Assumptions}}
+\begin{itemize}
+	\item[AB\refstepcounter{assumpnumB}\theassumpnumB\label{as-input-format}:]
+	Input will be accepted as a formatted JSON file.
+\end{itemize}
+
+\subsubsection{Run Time Bindings}
+These assumptions are used to detail the specifics of the individual program 
+that will run. Most of these are captured as inputs to the system. These can 
+change as the program is developed.
+
+~\newline
+\textbf{\emph{Lighting Assumptions}}
+\begin{itemize}
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-num}:]
+	There will be only one light source in the scene.
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item There will be between MIN\_NUM\_LIGHTS and MAX\_NUM\_LIGHTS 
+			in the scene.
+		\end{itemize}
+	\end{itemize}		
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-type}:]
+	The light source will one of the following types: point, spot light, 
+	directional, or ambient.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-init-pos}:]
+	The light source will be positioned at LIGHT\_POSITION.	
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-overlap}:]
+	The LIGHT\_POSITION will not overlap with the OBSERVER\_POSITION or any 
+	OBJECT\_POSITION.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-colour}:]
+	The light source will have a colour defined by an (r,g,b)-tuple called 
+	LIGHT\_COLOUR.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-light-default-colour}:]
+	The light source colour will default to white (255,255,255) if not 
+	specified.
+	
+\end{itemize}
+
+~\newline
+\textbf{\emph{Objects Assumptions}}
+\begin{itemize}
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-num}:]
+	There will be only one object in the scene.
+	\begin{itemize}
+		\item[] \textit{Alternate Assumptions}
+		\begin{itemize}
+			\item There will be between MIN\_NUM\_OBJECTS and MAX\_NUM\_OBJECTS 
+			in the scene.
+		\end{itemize}
+	\end{itemize}		
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-type}:]
+	The object will one of the following types: sphere, cube, torus, or teapot.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-init-pos}:]
+	The object will be positioned at OBJECT\_POSITION.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-overlap}:]
+	The OBJECT\_POSITION will not overlap with the OBSERVER\_POSITION  or 
+	LIGHT\_POSITION.		
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-properties}:]
+	The object will have values for the reflection, specular, diffuse, and 
+	shininess coefficients of its material.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-colour}:]
+	The object will have a colour defined by an (r,g,b)-tuple called 
+	OBJECT\_COLOUR.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obj-default-colour}:]
+	The object colour will default to white (255,255,255) if not specified.	
+\end{itemize}
+
+~\newline
+\textbf{\emph{Observer Assumptions}}
+\begin{itemize}
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obsv-pos}:]
+	The observer will be positioned at OBSERVER\_POSITION.
+	\item[AR\refstepcounter{assumpnumR}\theassumpnumR\label{as-obsv-overlap}:]
+	The OBSERVER\_POSITION will not overlap with any OBJECT\_POSITION or 
+	LIGHT\_POSITION.
+\end{itemize}
+
+%\wss{The scope time bindings make sense, but I am not sure how to interpret the
+%  building time bindings.  Since they are build time, I'm assuming that whether
+%  they apply or not is a build time decision.  Is this correct?  If so, it 
+%feels
+%like if the assumptions do not apply another assumption will have to take its
+%place, but I don't know what that assumption is.  For instance, if the object 
+%is
+%not represented by a mesh of triangles, what is it represented by?}
+%
+%\wss{I see the connection between the objects and their representation by
+%  polygons is given here.  I mentioned this in an earlier comment, but I had
+%  missed this mention.  However, I think you still need more information.  What
+%  does it mean to represent an object by a mesh?  In the mesh generator CA that
+%  I mentioned in an earlier comment a mesh is defined as covering up of a
+%  domain, with several rules.  You might want to look at that definition.}
+%
+%\wss{Is the dimension of the problem a variability, or are lighting problems in
+%  3D?}
 
 \subsection{Calculation} \label{sec_Calculation}
 This section outlines variabilities in design details, capturing variabilities 
 in: input, calculations, algorithms, and data structures.
 
-Input variabilities: 
+~\newline
+\textbf{Input variabilities:} 
 \begin{table}[H]
 	\centering
-	\begin{tabular}{|p{5cm}|p{6cm}|p{4cm}|p{1cm}|}
+	\begin{tabular}{|p{6cm}|p{5cm}|p{4cm}|p{2cm}|}
 		\hline
 		\textbf{Variability} & \textbf{Parameter of Variation} & 
 		\textbf{Constraints} &  \textbf{Related} \\
 		\hline
-		Model room size $\langle h,w,d \rangle$ & Set of $\mathbb{R}$
-                                                          \wss{The types don't
-                                                          match.  You have a
-                                                          vector? tuple? of 3
-                                                          real numbers for the
-                                                          size of the room, but
-                                                          the parameters of
-                                                          variation is a set of
-                                                          real numbers.} & -- & 
-		\aBref{as-coordinates}\\
-		\hline
-		Allowed values for position of light source $\langle x,y,z \rangle$ & 
-		Set of 
-		$\mathbb{R}$ \wss{The same comment as above applies.} & Must be in room boundaries. Light source cannot be 
-		inside of an object. Light source cannot be on top of another light 
-		source or on top of the observer. & \aBref{as-coordinates}\\
-		\hline
-		Allowed values for position of object(s) $\langle x,y,z \rangle$ & Set 
-		of $\mathbb{R}$ & Object(s) must be in room boundaries. Objects must 
-		not overlap with each other or a light source & 
-		\aBref{as-coordinates}\\
-		\hline
-		Allowed values for position of observer $[x,y,z]$ & Set of $\mathbb{R}$ 
-		& Observer must be in room boundaries. & \aBref{as-coordinates}\\
-		\hline				
-		Allowed values for colour of light $\langle r,g,b \rangle$ & Set of 
-		$\mathbb{Z}$ 
-		& 0 - 256 & --\\
-		\hline
-		Allowed values for colour of object $\langle r,g,b \rangle$ & Set of 
-		$\mathbb{Z}$ 
-		& 0 - 256 \wss{Why not just define a type for the integers
-                  between 0 and 256?  A similar comment applies elsewhere in
-                  this table.} & --\\
-		\hline
-		Reflection coefficient of material	& $k_{a} \in \mathbb{R}$ & $0 \le 
-		k_{a} \le 1$ & -- \\
-		\hline		
-		Specular coefficient of material & $k_{s} \in \mathbb{R}$ & $0 \le 
-		k_{s} \le 1$ & -- \\
-		\hline
-		Diffuse coefficient of material	& $k_{d} \in \mathbb{R}$ & & -- \\
-		\hline
-		Shininess coefficient of material	& $\alpha \in \mathbb{R}$ & -- & -- 
+		\multirow{3}{*}{Scene Size} & $SIZE\_HEIGHT: \mathbb{R}$ & $0 \ll 
+		SIZE\_HEIGHT \le MAX\_HEIGHT$ & 
 		\\
+		& $SIZE\_WIDTH: \mathbb{R}$ & $0 \ll 
+		SIZE\_WIDTH \le MAX\_WIDTH$ & \aBref{as-coordinate_system}\\
+		& $SIZE\_DEPTH: \mathbb{R}$ & $0 \ll 
+		SIZE\_DEPTH \le MAX\_DEPTH$ & \aBref{as-scenes-size} \\
+		\hline
+		\multirow{5}{*}{Position of light source $(x,y,z)$} & $x: \mathbb{R}$ & 
+		$0 \ll x \le SIZE\_HEIGHT$	& \aRref{as-light-init-pos}\\
+		& $y: \mathbb{R}$ &  $0 \ll y \le SIZE\_WIDTH$ & 
+		\aRref{as-light-num}\\
+		& $z: \mathbb{R}$ &  $0 \ll z \le SIZE\_DEPTH$ & \aBref{as-light-coord} 
+		\\
+		& & $(x,y,z) \ne OBSERVER\_POSITION $ & 
+		\aBref{as-light-fixed}\\
+		& &  $(x,y,z) \ne OBJECT\_POSITION $& \aRref{as-light-overlap}\\
+		\hline		
+	\end{tabular}
+	\caption{Parameters of Variation for Input (continued).}
+	\label{tbl:Input_Variations}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|p{6cm}|p{5cm}|p{4cm}|p{2cm}|}
+		\hline
+		\textbf{Variability} & \textbf{Parameter of Variation} & 
+		\textbf{Constraints} &  \textbf{Related} \\
+		\hline
+		\multirow{5}{*}{Position of object(s) $(x,y,z)$} & $x: \mathbb{R}$ & 
+		$0 \ll x \le SIZE\_HEIGHT$\\
+		&  $y: \mathbb{R}$ & $0 \ll y \le SIZE\_WIDTH$ & 
+		\aBref{as-coordinate_system}\\
+		& $z: \mathbb{R}$ &  $0 \ll z \le SIZE\_DEPTH$ & 
+		\aRref{as-obj-overlap}\\
+		& & $(x,y,z) \ne OBSERVER\_POSITION$ &  \\
+		& & $(x,y,z) \ne LIGHT\_POSITION$ &  \\
+		\hline
+		\multirow{5}{*}{Position of Observer $(x,y,z)$} & $x: \mathbb{R}$ & 
+		$0 \ll x \le SIZE\_HEIGHT$\\
+		&  $y: \mathbb{R}$ & $0 \ll y \le SIZE\_WIDTH$ & 
+		\aBref{as-coordinate_system}\\
+		& $z: \mathbb{R}$ &  $0 \ll z \le SIZE\_DEPTH$ & 
+		\aRref{as-obsv-overlap} \\
+		& & $(x,y,z) \ne OBJECT\_POSITION $ & \\
+		& & $(x,y,z) \ne LIGHT\_POSITION$ &  \\
 		\hline				
-		Type of light source & Set of $\{Point, Spot, Directional, Ambient\}$ & 
+		\multirow{3}{*}{Colour of light $(r,g,b)$} & $r: \mathbb{Z}$& $0 \le r 
+		\le 255$ & --\\
+		& $g: \mathbb{Z}$& $0 \le g \le 255$ & \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\\\
+		& $b: \mathbb{Z}$& $0 \le b \le 255$ & \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\\\
+		\hline
+		\multirow{3}{*}{Colour of object $(r,g,b)$} & $r: \mathbb{Z}$& $0 \le r 
+		\le 255$ & \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\\\
+		& $g: \mathbb{Z}$& $0 \le g \le 255$ & \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\\\
+		& $b: \mathbb{Z}$& $0 \le b \le 255$ & \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\\\
+		\hline
+	\end{tabular}
+	\caption{Parameters of Variation for Input (continued).}
+	\label{tbl:Input_Variations_cont}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|p{6cm}|p{5cm}|p{4cm}|p{2cm}|}
+		\hline
+		\textbf{Variability} & \textbf{Parameter of Variation} & 
+		\textbf{Constraints} &  \textbf{Related} \\
+		\hline
+		Ambient coefficient of material	& $k_{a}: \mathbb{R}$ & $0 \le 
+		k_{a} \le 1$ & \ddref{DD_Intensity_ambient}, \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\
+		\hline		
+		Specular coefficient of material & $k_{s}: \mathbb{R}$ & $0 \le 
+		k_{s} \le 1$ & \ddref{DD_Intensity_specular}, \iref{IM_Phong}, 
+		\iref{IM_Blinn_Phong} \\
+		\hline
+		Diffuse coefficient of material	& $k_{d}: \mathbb{R}$ & $0.5 \le k_{d} 
+		\le 1$ & \ddref{DD_Intensity_diffuse}, \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong}  \\
+		\hline		
+		Shininess coefficient of material	& $\alpha : \mathbb{R}$ & -- & 
+		\ddref{DD_Intensity_specular}, \iref{IM_Phong}, \iref{IM_Blinn_Phong} 
+		\\
+		\hline
+		Type of light source & One of $\{Point, Spot, Directional, Ambient\}$ & 
 		-- 
 		& --\\
 		\hline
-		Type of object(s) & Set of $\{Sphere, Cube, Torus, Teapot\}$ & -- & 
+		Type of object(s) & One of $\{Sphere, Cube, Torus, Teapot\}$ & -- & 
 		--\\
 		\hline
-		Type of shading & Set of $\{Flat, Gouraud, Phong\}$ & -- & 
+		Type of shading & One of $\{Flat, Gouraud, Phong\}$ & -- & 
 		--\\
 		\hline
-		Number of object(s) & Set of $\mathbb{R}$ & -- & 
+		Number of object(s) & $\mathbb{R}$ & $MIN\_NUM\_LIGHTS \le Number of 
+		object(s) \le MAX\_NUM\_OBJECTS$ & 
 		--\\
 		\hline
-		Number of light(s) & Set of $\mathbb{R}$ & -- & 
+		Number of light(s) & $\mathbb{R}$ & $ MIN\_NUM\_LIGHTS \le Number of 
+		light(s) \le MAX\_NUM\_LIGHTS$ & 
 		--\\
 		\hline
-		Number of observer(s) & Set of $\mathbb{R}$ & No. observers = 1 & 
+		Number of observer(s) & $\mathbb{R}$ & Number of observer(s) $= 
+		1$  & 
 		--\\
 		\hline
 		Input method & Single file with light, object and other data; multiple 
 		files (one for lights and one for objects) & -- & 
 		--\\
-		\hline								
+		\hline					
 	\end{tabular}
-	\caption{Parameters of Variation for Input.}
-	\label{tbl:Input_Variations}
+	\caption{Parameters of Variation for Input (continued).}
+	\label{tbl:Input_Variations_cont2}
 \end{table}
 
-Calculation variabilities:
-\begin{table}[h]
+\textbf{Calculation variabilities:}
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|p{5cm}|p{5cm}|p{2cm}|p{2cm}|}
 		\hline
 		\textbf{Variability} & \textbf{Parameters of Variation} & Constraints & 
 		\textbf{Ref.}\\
 		\hline
-		Interpolation of normals for shading & Set of 
+		Interpolation of normals for shading & One of 
 		$\{$\ddref{DD_Flat_Shading}, \ddref{DD_Gouraud_Shading}, 
 		\ddref{DD_Phong_Shading}$\}$ & -- & \aSref{as-coordinate_system} \\
 		\hline		
@@ -1314,35 +1559,51 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 		\hline
 		Label& \bf Lambertian (Diffuse) Reflection Model\\
 		\hline
-		Input& $\vec{L_{i}}$, $p_{0}$, object\\
-		& \\
+		\multirow{7}{*}{Input}& $L_{i}$ : Vector $\langle x, y, z \rangle$ \\
+		& $p_{0}$ : Point (x, y, z) \\
+		& LIGHT\_COLOUR : (r,g,b)\\
+		& $p$ : Point (x,y,z) \\ 
+		& OBJECT\_BASE\_COLOUR : (r,g,b)\\
+		& $N$ : Vector $\langle x, y, z \rangle$ \\
 		\hline
-		Output& $\vec{L_{r}}$  \\
-		&  $I_{d}$\\
+		\multirow{2}{*}{Output}& OBJECT\_RENDERING\_COLOUR : (r,g,b) \\
 		\hline
-		Description & $L_{i}$ is the vector representation of the incident 
+		Equation & $OBJECT\_RENDERING\_COLOUR = 
+		((L_{i} \bullet 
+		N)(I_{L_{i}p})\cdot(LIGHT\_COLOUR)\cdot(OBJECT\_BASE\_COLOUR)$
+		 \\
+		\hline
+		\multirow{7}{*}{Description} & The Lambertian Reflection Model 
+		considers only the 
+		diffuse elements of light when calculating the lighting model. The 
+		approximation is assuming there's no specular component. This is a 
+		refinement on \dref{GD_diffReflect}.\\
+		& $L_{i}$ is the vector representation of the incident 
 		ray.\\
-		& $U_{i}$ is the unit vector of $L_{i}$.\\
-		& $\vec{N}$ is the surface normal unit vector. \\
-		& $p_{0}$ is the point the incident ray intercepts the surface of an 
+		& $p$ is the point the incident ray intercepts the surface of an 
 		object. \\
-		& $k_{d}$  is the coefficient of diffuse reflection.\\
-		& $I_{L_{i}p_{0}}$ is the intensity of the light at point $P$\\
-		& This IM is a concrete refinement on \dref{GD_diffReflect} by modeling 
-		the interactions of a single light ray at a single point.\\
+		& $p_{0}$ is position of the light source. \\		
+		& $N$ is the surface normal unit vector of the object at the position 
+		$p$. \\
+		& $I_{L_{i}p}$ is the intensity of the light at point $p$, 
+		calculated by invoking \ddref{DD_Intensity_PointSource_Distance}, 
+		$i(p, p_{0})$\\
 		\hline
 		Sources& \cite{Comninos2005,Lengyel2003,shreiner2012} \\
 		\hline
 		Ref.\ By & \iref{IM_HalfLam}\\
 		\hline
+		Uses & \ddref{DD_Intensity_PointSource_Distance}, 
+		\ddref{DD_Dot_Product}\\
+		\hline		
 	\end{tabular}
 \end{minipage}\\
-
-\wss{As Peter pointed out on GitHub, the instance models are incomplete.  Think
-  about refining the inputs and outputs.  Including type information with the
-  inputs could help.  In particular, object is still vague at this point, and
-  you need it to be precise before you can do a calculation.  How the outputs
-  are calculated is also needed.}  ~\newline
+%
+%\wss{As Peter pointed out on GitHub, the instance models are incomplete.  Think
+%  about refining the inputs and outputs.  Including type information with the
+%  inputs could help.  In particular, object is still vague at this point, and
+%  you need it to be precise before you can do a calculation.  How the outputs
+%  are calculated is also needed.}  ~\newline
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -1352,29 +1613,49 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 		\rowcolor[gray]{0.9}
 		Number& IM\refstepcounter{instnum}\theinstnum \label{IM_HalfLam}\\
 		\hline
-		Label& \bf Half Lambert (Diffuse) Reflection Model\\
+		Label& \bf Mod Lambert (Diffuse Wrap) Reflection Model\\
 		\hline
-		Input& $\vec{L_{i}}$, $p_{0}$, object\\
+		\multirow{6}{*}{Input}& $L_{i}$ : Vector $\langle x, y, z \rangle$\\
+		& $p$ : Point (x,y,z)\\
+		& OBJECT\_BASE\_COLOUR : (r,g,b)\\
+		& $k_{d}$ : $\mathbb{R}$ \\
+		& LIGHT\_COLOUR : (r,g,b)\\
+		& $p_{0}$ : Point (x,y,z) \\
+		& $N$ : Vector $\langle x, y ,z \rangle$ \\
 		\hline
-		Output&  $\vec{L_{r}}$  \\
-		&  $I_{d}$\\
+		Output&  OBJECT\_RENDER\_COLOUR : (r,g,b)\\
 		\hline
-		Description & $L_{i}$ is the vector representation of the incident 
+		\multirow{2}{*}{Equation} & $OBJECT\_RENDER\_COLOUR = 
+		(LambertTerm)\cdot$\\
+		& $(OBJECT\_BASE\_COLOUR)\cdot(LIGHT\_COLOUR)\cdot(I_{L_{i}p})$\\
+		\hline
+		Description & This is a refinement of \iref{IM_LamDiffuse}. We 
+		incorporate the idea of a coefficient of diffuse reflection to modify 
+		the sharpness of the shadows. When $k_{d} = 1$ this model acts like 
+		\iref{IM_LamDiffuse}. We limit modifications be constraining $k_{d} \ge 
+		0.5$; this keeps the shadows visible and conceptually matches the idea 
+		that all objects have some element of diffuse reflection. When $k_{d} = 
+		0.5$ we call this special case the Half-Lambert Model. \\
+		& The $LambertTerm$ is the modified diffuse reflection. It is defined 
+		by: $LambertTerm = [(N \bullet L_{i})\cdot k_{d} + (1-k_{d})]^2$\\
+		&  $L_{i}$ is the vector representation of the incident 
 		ray.\\
-		& $U_{i}$ is the unit vector of $L_{i}$.\\
-		& $\vec{N}$ is the surface normal unit vector. \\
-		& $p_{0}$ is the point the incident ray intercepts the surface of an 
-		object. \\
+		& $N$ is the surface normal unit vector of the object at position 
+		$p$. \\
 		& $k_{d}$  is the coefficient of diffuse reflection.\\
-		& $I_{L_{i}p_{0}}$ is the intensity of the light at point $P$\\
-		& This IM is a concrete refinement on \iref{IM_LamDiffuse} by halving 
-		the dot product of the $\vec{U_{i}}$ and $\vec{N}$ to create a softer 
-		shading.\\
-		\\
+		& $p$ is the point the incident ray intercepts the surface of an 
+		object. \\
+		& $p_{0}$ is position of the light source. \\				
+		& $I_{L_{i}p}$ is the intensity of the light at point $p$, 
+		calculated by invoking \ddref{DD_Intensity_PointSource_Distance}, 
+		$i(p, p_{0})$\\
 		\hline
 		Sources& \cite{Comninos2005,Lengyel2003,shreiner2012} \\
 		\hline
-		Ref.\ By & \\
+		Ref.\ By & -- \\
+		\hline
+		Uses & \ddref{DD_Intensity_PointSource_Distance}, 
+		\ddref{DD_Dot_Product}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1391,38 +1672,80 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 		\hline
 		Label& \bf Phong Reflection Model\\
 		\hline
-		Input& $\vec{n}$, $p$, $v$, $\vec{L_{i}}$, $I_{a_{L_{i}}}$, 
-		$I_{d_{L_{i}}}$, $I_{s_{L_{i}}}$\\
-		& \\
+		\multirow{12}{*}{Input} & $L_{i}$ : Vector $\langle x, y ,z \rangle$\\
+		& $p$ : Point (x,y,z)\\
+		& OBSERVER\_POSITION : Point (x,y,z)\\		
+		& OBJECT\_POSITION : Point (x,y,z)\\
+		& OBJECT\_BASE\_COLOUR : (r,g,b)\\
+		& $k_{d}$ : $\mathbb{R}$\\
+		& OBJECT\_SPECULAR\_COLOUR: (r,g,b)\\
+		& $k_{s}$ : $\mathbb{R}$ \\
+		& $\alpha$ : $\mathbb{R}$ \\
+		& $N$ : Vector $\langle x, y ,z \rangle$\\
+		& $p_{0}$ : Point (x,y,z)\\		
+		& LIGHT\_COLOUR : (r,g,b)\\	
 		\hline
-		Output& $\vec{v}$, $\vec{L_{r}}$, $I_{a_{L_{r}}}$, $I_{d_{L_{r}}}$, 
-		$I_{s_{L_{r}}}$ \\
-		& \\
+		\multirow{2}{*}{Output} & $I_{T}$ : (r,g,b)\\
+		& OBJECT\_RENDERING\_COLOUR: (r,g,b)\\
 		\hline
-		Description& $p$ is a point on the polygon surface.\\
-		& $v$ is the position of the viewer.\\
-		& $\vec{L_{i}}$ is the incident ray hitting point $p$.\\
-		& $\vec{n}$ is the surface normal at point $p$.\\
-		& $I_{a_{L_{i}}}$ is the ambient intensity of the light described by 
-		$L_{i}$.\\
-		& $I_{d_{L_{i}}}$ is the diffuse intensity of the light described by 
-		$L_{i}$. \\
-		& $I_{s_{L_{i}}}$ is the specular intensity of the light described by 
-		$L_{i}$. \\
-		& $\vec{v}$ is the vector in the direction of the viewer from $p$.\\
-		& $\vec{L_{r}}$ is the perfectly reflected ray.\\
-		& $I_{a_{L_{r}}}$ is the ambient intensity of the light described by 
-		$L_{r}$.\\
-		& $I_{d_{L_{r}}}$ is the diffuse intensity of the light described by 
-		$L_{r}$. \\
-		& $I_{s_{L_{r}}}$ is the specular intensity of the light described by 
-		$L_{r}$. \\
-				
+		Equation & $I_{T} = I_{a} + I_{d} + I_{s}$\\
+		& $OBJECT\_RENDERING\_COLOUR = (I_{T})\cdot(LIGHT\_COLOUR)$\\
+		\hline
+		Description& This model approximates lighting as a linear combination 
+		of ambient, diffuse, and specular components of light. All of these 
+		aspects are calculated as noted in their respective Data Definitions. 
+		The following graphic shows the vectors needed to complete all Phong 
+		Model calculations.\\
 		& \includegraphics[scale=0.4]{./images/phong-reflection-model-vectors}\\
+%%Inputs
+		& $p$ is the point where the incident ray $L_{i}$ intersects the 
+		object's surface.\\
+		& $p_{0}$ is position of the light source. \\				
+		& $L_{i}$ is the normalized incident ray hitting point $p$.\\
+		\hline
+%%Calculated aspects
+	\end{tabular}
+\end{minipage}\\
+
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& \iref{IM_Phong} (continued)\\
+		\hline
+		Label& \bf Phong Reflection Model\\
+		\hline
+		%Middle calculations
+		Description & $N$ is the surface normal at point 
+		$p$.\\
+		& $k_{d}$ is the diffuse coefficient.\\
+		& $k_{s}$ is the specular coefficient\\
+		& $\alpha$ : is the shininess coefficient\\		
+		& $L_{r}$ is the normalized reflection of $L_{i}$ about $N$.\\
+		& $V$ is the normalized vector between the observer and $p$. $V = 
+		||OBSERVER\_POSITION - p||$\\
+		& $I_{a}$ is the ambient intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by 
+		\ddref{DD_Intensity_ambient} as:\\
+		& $I_{d}$ is the diffuse intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by 
+		\ddref{DD_Intensity_diffuse} as : \\
+		& $I_{d} = k_{d} \cdot \max(0, (N \bullet 
+		L_{i}))\cdot i(p,p_{0}) \cdot OBJECT\_BASE\_COLOUR$ \\
+		& $I_{s}$ is the specular intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by 
+		\ddref{DD_Intensity_specular} as: \\
+		& $I_{s} = k_{s} \cdot \max(0, (L_{r} \bullet V))^\alpha \cdot
+		i(p,p_{0})\cdot OBJECT\_SPECULAR\_COLOUR$ \\
 		\hline
 		Sources& \cite{Comninos2005,Lengyel2003,shreiner2012} \\
 		\hline
 		Ref.\ By & \iref{IM_Blinn_Phong}\\
+		\hline
+		Uses & \ddref{DD_Intensity_specular},\ddref{DD_Intensity_diffuse}, 
+		\ddref{DD_Intensity_ambient}, \ddref{DD_Intensity_Total}, 
+		\ddref{DD_Intensity_PointSource_Distance}, \ddref{DD_Dot_Product} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1439,42 +1762,75 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 		\hline
 		Label& \bf Blinn-Phong Reflection Model\\
 		\hline
-		Input& $\vec{n}$, $p$, $v$, $\vec{L_{i}}$, $I_{a_{L_{i}}}$, 
-		$I_{d_{L_{i}}}$, $I_{s_{L_{i}}}$\\
+		\multirow{12}{*}{Input} & $L_{i}$ : Vector $\langle x, y ,z \rangle$\\
+		& $p$ : Point (x,y,z)\\
+		& OBSERVER\_POSITION : Point (x,y,z)\\		
+		& OBJECT\_POSITION : Point (x,y,z)\\
+		& OBJECT\_BASE\_COLOUR : (r,g,b)\\
+		& $k_{d}$ : $\mathbb{R}$\\
+		& OBJECT\_SPECULAR\_COLOUR: (r,g,b)\\
+		& $k_{s}$ : $\mathbb{R}$ \\
+		& $\alpha$ : $\mathbb{R}$ \\
+		& $N$ : Vector $\langle x, y ,z \rangle$\\
+		& $p_{0}$ : Point (x,y,z)\\		
+		& LIGHT\_COLOUR : (r,g,b)\\	
 		\hline
-		Output& $\vec{v}$, $\vec{h}$, $I_{a_{h}}$, $I_{d_{h}}$, 
-		$I_{s_{L_{r}}}$ \\		
+		\multirow{2}{*}{Output} & $I_{T}$ : (r,g,b)\\
+		& OBJECT\_RENDERING\_COLOUR: (r,g,b)\\
 		\hline
-		Description& $p$ is a point on the polygon surface.\\
-		& $v$ is the position of the viewer.\\
-		& $\vec{L_{i}}$ is the incident ray hitting point $p$.\\
-		& $\vec{n}$ is the surface normal at point $p$.\\
-		& $I_{a_{L_{i}}}$ is the ambient intensity of the light described by 
-		$L_{i}$.\\
-		& $I_{d_{L_{i}}}$ is the diffuse intensity of the light described by 
-		$L_{i}$. \\
-		& $I_{s_{L_{i}}}$ is the specular intensity of the light described by 
-		$L_{i}$. \\
-		& $\vec{v}$ is the vector in the direction of the viewer from $p$.\\
-		& $\vec{L_{r}}$ is the perfectly reflected ray.\\
-		& $I_{a_{L_{r}}}$ is the ambient intensity of the light described by 
-		$L_{r}$.\\
-		& $I_{d_{L_{r}}}$ is the diffuse intensity of the light described by 
-		$L_{r}$. \\
-		& $I_{s_{L_{r}}}$ is the specular intensity of the light described by 
-		$L_{r}$. \\
-		& $\vec{h}$ is the unit vector halfway between $\vec{L_{i}}$ and 
-		$\vec{v}$ \\
-		& $\psi$ is the halfway angle, the angle between the normal and halfway 
-		vectors. \\
-		& $\phi$ is the angle between the viewer and the reflected ray. It is 
-		exactly $2\psi$. \\
-		& 
-		\includegraphics[scale=0.4]{./images/blinn-phong-reflection-model-vectors}\\
+		Equation & $I_{T} = I_{a} + I_{d} + I_{s}$\\
+		& $OBJECT\_RENDERING\_COLOUR = (I_{T})\cdot(LIGHT\_COLOUR)$\\
+		Description& The Blinn-Phong model is a modification of the Phong model 
+		where calculations use the half-direction vector, $H$. This changes the 
+		calculation of $I_{s}$ but nothing else.\\
+		&\includegraphics[scale=0.4]{./images/blinn-phong-reflection-model-vectors}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& \iref{IM_Blinn_Phong} (continued)\\
+		\hline
+		Label& \bf Blinn-Phong Reflection Model\\
+		\hline
+		%Middle calculations
+		Description & $p$ is the point where the incident ray $L_{i}$ 
+		intersects the 	object's surface.\\
+		& $p_{0}$ is position of the light source. \\				
+		& $L_{i}$ is the normalized incident ray hitting point $p$.\\
+		& $N$ is the surface normal at point $p$.\\
+		& $k_{d}$ is the diffuse coefficient.\\
+		& $k_{s}$ is the specular coefficient\\
+		& $\alpha$ : is the shininess coefficient\\		
+		& $L_{r}$ is the normalized reflection of $L_{i}$ about $N$.\\
+		& $V$ is the normalized vector between the observer and $p$. $V = 
+		||OBSERVER\_POSITION - p||$\\
+		& $H$ is the half-direction vector between $V$ and $L_{i}$. $H = 
+		||V+L_{i}||$\\		
+		& $I_{a}$ is the ambient intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by 
+		\ddref{DD_Intensity_ambient} as:\\
+		& $I_{d}$ is the diffuse intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by 
+		\ddref{DD_Intensity_diffuse} as : \\
+		& $I_{d} = k_{d}\cdot max(0, (N \bullet 
+		L_{i}))\cdot i(p,p_{0})\cdot OBJECT\_BASE\_COLOUR$ \\
+		& $I_{s}$ is the specular intensity of the light described by 
+		$L_{i}$ at point $p$. It is described by: \\
+		& $I_{s} = k_{s} \cdot \max(0, (N \bullet H))^\alpha \cdot
+		i(p,p_{0}) \cdot OBJECT\_SPECULAR\_COLOUR$ \\
 		\hline
 		Sources& \cite{Comninos2005,Lengyel2003,shreiner2012} \\
 		\hline
-		Ref.\ By & \\
+		Ref.\ By & \iref{IM_Blinn_Phong}\\
+		\hline
+		Uses & \ddref{DD_Intensity_diffuse}, 
+		\ddref{DD_Intensity_ambient}, \ddref{DD_Intensity_Total}, 
+		\ddref{DD_Intensity_PointSource_Distance}, \ddref{DD_Dot_Product} \\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1482,7 +1838,7 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 ~\newline
 
 \subsection{Output} \label{sec_Output}    
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\begin{tabular}{|p{5cm}|p{10cm}|}
 		\hline
@@ -1497,61 +1853,143 @@ identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 \end{table}
 
 \section{Requirements}
-
 This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
 
 \subsection{Family of Functional Requirements}
+The following are a list of the services that the system shall provide:
+\noindent 
+\begin{itemize}
+%%Reliability
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1}:] When presented 
+	with a scene in a file, the system shall correctly read from file the 
+	input data for light source(s) and object(s).
+	%%Rationale: The system may be provided a file with scene data. I want to 
+	%%leave this open that there could be a GUI with dropdown selections to 
+	%%make this process easier - ergo the "when".
 
-\noindent \begin{itemize}
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1Err}:]System 
+	responds with specific error message when system cannot read input files.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1Err-Def}:]	The 
+	system asks user if they would like to use the default settings when scene 
+	size, shading model, and/or reflection model information is missing from 
+	input, and applies (DEF\_HEIGHT, DEF\_WIDTH, DEF\_DEPTH), DEF\_SHADE and/or 
+	DEF\_LIGHT if the user answers yes.
+	%%Rationale: The system should be robust enough to render a scene when 
+	%%given just the light source, object information. This gives new users 
+	%%room to learn the input method. 
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs1}:] The library shall  
-correctly read from file the input data for light source(s) and object(s).
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs2}:]The library shall 
-verify that all input data meets constraints laid out in Table 
-\ref{tbl:Input_Variations}.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate1}:] The library 
-shall correctly calculate the surface normals for object(s) based on shading 
-model selected. 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate2}:] The library 
-shall calculate the incidence and reflection vectors off of object(s) 
-surface(s) based on light position(s), object(s) properties, shading model and 
-observer position.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate3}:] The library 
-shall calculate the light intensity based on light position(s), object(s) 
-material properties, and shading model.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate4}:] The library 
-shall calculate the total luminance of object(s) faces based on light source 
-type, light source position, object(s) material properties and position(s) and 
-observer position.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The library 
-will output code for a lit and shaded scene.
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_DefaultScene}:]When no 
+	input file is given, the system provides a default scene of dimension 
+	(DEF\_HEIGHT, DEF\_WIDTH, DEF\_DEPTH) with one point light source with the 
+	default light colour, one sphere with the default material properties, 
+	rendered using default shading (DEF\_SHADE) and lighting (DEF\_LIGHT).
+	%%Rationale: The system needs a default test case that shows minimum 
+	%%functioning.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs2}:]The system 
+	shall verify that all input data meets constraints laid out in Table 
+	\ref{tbl:Input_Variations}.
 
-\end{itemize}
-
-\wss{I suggest changing the phrasing of the requirements to say the library
-  offers these services.}
-
-\subsection{Nonfunctional Requirements}
-
-\noindent \begin{itemize}	
-	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR_Errors}:]System 
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs2Err}:] The system 
 	responds with specific error message when user inputs contain errors (type 
 	mismatch, data outside of constraints).
-	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR_Errors2}:]System 
-	responds with specific error message when system cannot read input files.
-	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR_Default}:]System 
-	provides a default setup for shading and reflection models.
-	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR_Default2}:]	System asks 
-	user if they would like to use the default setup when shading and 
-	reflection model information is missing from input.
-	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR_Usability}:]Users can 
-	render a default scene (one cube, one point light in the centre of the 
-	room, phong shading, and phong reflection model) faster than in OpenGL.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate1}:] The library 
+	shall correctly calculate the surface normals for object(s) based on 
+	shading model.
+	 
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate2}:] The library 
+	shall calculate the incidence and reflection vectors off of object(s) 
+	surface(s) based on light position(s), object(s) properties, shading model 
+	and observer position.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate3}:] The library 
+	shall calculate the light intensity based on light position(s), object(s) 
+	material properties, and shading model.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate4}:] The library 
+	shall calculate the final colour object(s) faces based on the intensities 
+	calculated in \rref{R_Calculate3}.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The library 
+	will output code for a lit and shaded scene.
+	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{R_Performance}:]Users can 
+	render a default scene (define in \rref{R_DefaultScene}) faster than in 
+	OpenGL.
+	%%Rationale: Performance comparison against main competitor.
 \end{itemize}
 
-\wss{There is an issue on GitHub about the NFRs here mostly being FRs.}
+%\wss{I suggest changing the phrasing of the requirements to say the library
+%  offers these services.}
+
+\subsection{Nonfunctional Requirements}
+\noindent 
+\begin{itemize}	
+%% Productivity Requirements
+	\item[R\refstepcounter{reqnum}\thereqnum 
+	\label{NFR-Productivity-InputMods}:] 
+	The addition of new input methods should not affect the usability of the 
+	system.
+	%%Rationale: The input methods should be a secret of the system that 
+	%%doesn't affect the interface. I'm not sure where to capture this. 
+	\item[R\refstepcounter{reqnum}\thereqnum 
+	\label{NFR-Productivity-Modifications}:] 
+	The addition of new lighting models, shading models, types of light sources 
+	and/or types of objects should be completable in 
+	MODIFICATION\_TIME\_THRESHOLD.
+	%%Rationale: The system should allow for expansion with new approximations; 
+	%%the design of the system should allow for new models or types to be 
+	%%inserted with minimal effort since all should require the same underlying 
+	%%information (object material properties, luminous intensity, etc.) The 
+	%%ability to modify the system in a defined amount of time adds to the 
+	%%overall productivity of the software as people would be able to expand 
+	%%and use it in a minimal amount of time. 
+%% Usability Requirements	
+	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR-Usability-Install}:] 
+	USABILITY\_THRESHOLD \% of users can install the system without requiring 
+	assistance.
+	%%Rationale: System usability is directly affected by whether it is easy to 
+	%%install.
+	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR-Usability-load}:] 
+	USABILITY\_THRESHOLD \% of users can load an existing scene with no 
+	assistance.
+	%%Rationale: Usability is determined by ability to perform the basic 
+	%%functions without needing assistance/making errors. It's unreasonable at 
+	%%this stage to dictate the number of errors that is a threshold since I 
+	%%haven't figured out what the system interface is going to look like - so 
+	%%the best method of judging at the moment is whether they can perform the 
+	%%tasks with no assistance regardless of how long it takes. Future 
+	%%refinements of this should indicate how many steps this particular 
+	%%interaction should be to quantify this data.
+	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR-Usability-changes}:] 
+	USABILITY\_THRESHOLD \% of users can change the parameters of the lighting 
+	models and re-render an existing scene with no assistance.
+	%%Rationale: same as above. The ability to perform this also informs us 
+	%%about the user's ability to recover from errors. If they entered the 
+	%%wrong model for example, they can enact this ability to correct it.
+	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR-Usability-new}:] 
+	USABILITY\_THRESHOLD \% of users can initialise a new scene with the 
+	default parameters (default object, light source, lighting model, and 
+	shader) with no assistance.
+	%%Rationale: same as above.		
+	\item[R\refstepcounter{reqnum}\thereqnum \label{NFR-Usability-perceived}:] 
+	USABILITY\_THRESHOLD \% of users perceive \famname to be easier to use than 
+	OpenGL.
+	%%Rationale: Way to qualitatively quantify how this system compares to on 
+	%%of its competitors.		
+	\item[R\refstepcounter{reqnum}\thereqnum 
+	\label{NFR-Usability-control-perceived}:] 
+	USABILITY\_THRESHOLD \% of users perceive \famname to allow them more 
+	control than the built in Unity shader options.
+	%%Rationale: Way to qualitatively quantify how this system compares to on 
+	%%of its competitors.	
+\end{itemize}
+
+%\wss{There is an issue on GitHub about the NFRs here mostly being FRs.}
 
 \section{Likely Changes}    
 
@@ -1625,16 +2063,123 @@ normals are computed (e.g. partial derivatives) may be added to the family.
 \section{Appendix}
 
 \subsection{First Stage of Implementation}
-\plt{In this section specify the family member, or sub-family, that you will be
-	implementing for CAS 741.  You should specify the value for all of your
-	variabilities, along with the binding time.  A tabular representation will
-	probably be the easiest way to convey this information.}
+%\plt{In this section specify the family member, or sub-family, that you will be
+%	implementing for CAS 741.  You should specify the value for all of your
+%	variabilities, along with the binding time.  A tabular representation will
+%	probably be the easiest way to convey this information.}
 
-In this project we will be implementing all of the family members touched by 
-the orange line in Figure \ref{fig:prob-domain-analysis}.
+In this project I aim to implement the local illumination shading and lighting 
+models outlined in this document. This means I've invoked 
+\aref{as-geometrical_appx}, \aref{as-illumination} and will only be working 
+with members of the family outlined in this document. The overall goal is to 
+implement these shaders as plug-ins for Unity (a game development engine), as 
+such I have made certain build-time decisions to fit this context.
 
-\wss{I think we need more information than this.  What are the values of the
-  variabilities in your table?  For instance, what objects are you allowing?}
+The following table illustrates the build-time decisions that I've made to 
+scope the project further.
+\begin{table}[H]
+	\begin{tabular}{|p{4cm}|p{8cm}|p{2.4cm}|}
+		\hline
+		\textbf{Variability} & \textbf{Decisions} & 
+		\textbf{Related Assumptions}\\
+		\hline
+%%Input Structure
+		\multirow{4}{*}{Input} & Input file will be formatted JSON, using 
+		standard conventions & \\
+		& Files will be stored in SCENE\_DIR & \\
+		& File contents can be modified by the user from the system GUI, 
+		the changes will be stored as proper JSON information & \\
+		& Files will list information in the following order:
+		\begin{itemize}
+			\item scene size;
+			\item lighting model;
+			\item shading model;
+			\item light source information;
+			\item object information;
+			\item observer information;			
+		\end{itemize}	& \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\begin{tabular}{|p{4cm}|p{8cm}|p{2.4cm}|}
+		\hline
+		\textbf{Variability} & \textbf{Decisions} & 
+		\textbf{Related Assumptions}\\
+		\hline
+%%System Internals
+%Coordinate System
+		\multirow{2}{*}{Coordinate System} & 3D Cartesian Coordinates with 
+		right-hand rules. & 
+		\aref{as-coordinate_system}\\ 
+		& System coordinates will be handled with floating point numbers. & \\	
+		\hline
+%Scene
+		\multirow{4}{*}{Scene} & Scene size will be ordered as (height, width, 
+		depth) & 
+		\aref{as-scenes-size} \\
+		& Scene size can be passed in at run-time through file & \\
+		& Default scene size will be (DEF\_HEIGHT, DEF\_WIDTH, DEF\_DEPTH) & \\
+		& Only one scene is loaded at a time. & \aref{as-number-scenes} \\
+		\hline
+%Lighting Model
+		Lighting Model & Lighting model can be one of: \iref{IM_LamDiffuse}, 
+		\iref{IM_HalfLam}, \iref{IM_Phong}, \iref{IM_Blinn_Phong} & \\
+		\hline
+%Shading Model
+		Shading Model & Shading model can be one of: \ddref{DD_Flat_Shading}, 
+		\ddref{DD_Gouraud_Shading}, \ddref{DD_Phong_Shading} & \\
+		\hline
+%Lights
+		\multirow{3}{*}{Lights} & Lights can be point lights, spotlights, 
+		directional lights, or ambient lights & \\
+		& Light can be passed in at run-time through file. & \\
+		& Light structures will contain the type of light, the colour of the 
+		light, the position of the light,  & 
+		\\
+		\hline
+%Objects
+		\multirow{3}{*}{Objects} & Objects can be spheres, cubes, toruses, or 
+		teapot & \\
+		& Objects can be passed in at run-time through file. & \\
+		& Object structures will contain a mesh containing a list of vertices 
+		and surfaces associated with vertices, the centrepoint of the object, 
+		and the material properties of the object (base colour, specular 
+		colour, coefficient of diffuse, specular, and ambient reflections, 
+		coefficient of shininess) & \\
+		& Objects will all have a white specular colour (255,255,255) & \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\begin{table}[H]
+	\begin{tabular}{|p{4cm}|p{8cm}|p{2.4cm}|}
+		\hline
+		\textbf{Variability} & \textbf{Decisions} & 
+		\textbf{Related Assumptions}\\
+		\hline
+		%Observer
+		\multirow{3}{*}{Observer} & There can only be 1 observer in a scene. &	
+		\\
+		& Observer information can be passed in at run-time through a file & \\
+		& Observer structure contains a position (x,y,z) that it is located at, 
+		and a direction that it is facing. & \\
+		\hline		
+		%%Output Structure
+		\multirow{2}{*}{Output} & Output will be a rendered scene using the 
+		Unity Engine & \\
+		& Rendered output image will be saved as an Unity executable in the 
+		director RENDERS\_DIR & \\
+		\hline		
+	\end{tabular}
+\end{table}
+
+We prioritize the implementation of the default scene's shading (DEF\_SHADE) 
+and lighting model (DEF\_LIGHTS). 
+
+%\wss{I think we need more information than this.  What are the values of the
+%  variabilities in your table?  For instance, what objects are you allowing?}
 
 
 \newpage
