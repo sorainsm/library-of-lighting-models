@@ -306,11 +306,16 @@ the basic output testing is handled alongside the ``Load a Scene'' tasks.
 %  cover the requirements.  References to the SRS would be good.}
 
 \subsubsection{Input Testing}
+The following section explicitly covers R1, R2, R3, R4, R5, and R6 from the CA 
+\ref{}. These requirements pertain to input handling; how the system should 
+behave when various types of input are given to it. Implicitly these test R7, 
+R8, R9, and R11 which are the underlying calculations that transform the input 
+into the output scene.
 
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
+%\wss{It would be nice to have a blurb here to explain why the subsections below
+%  cover the requirements.  References to the SRS would be good.  If a section
+%  covers tests for input constraints, you should reference the data constraints
+%  table in the SRS.}
 		
 \paragraph{Load a Scene}
 ~\newline
@@ -956,7 +961,7 @@ All of these test cases share the following properties:
 	automatically assigns new position to (0,0,0). System throws an error.
 
 %Boundary	
-	\item{test-id2\\}Change Light Position -boundary
+	\item{lightPos-valid-boundary\\}
 	
 	Control: Automatic
 	
@@ -975,11 +980,13 @@ All of these test cases share the following properties:
 	
 	\item{lightPos-valid-besideObject\\}
 	
-	Same as \textit{objPosition-valid-besideLight}.
+	Same as \textit{objPosition-valid-besideLight}. Not to be tested because it 
+	covers the same scenario.
 	
 	\item{lightPos-valid-behindObject\\}
 		
-	Same as \textit{objPosition-valid-betweenLightAndViewer}.
+	Same as \textit{objPosition-valid-betweenLightAndViewer}. Not to be tested 
+	because it covers the same scenario.
 
 %%Light Colour Change
 	\item{lightColour-valid\\}
@@ -1026,7 +1033,8 @@ All of these test cases share the following properties:
 \subsection{Tests for Nonfunctional Requirements}
 The following section outlines the test cases for the non-functional 
 requirements of the system. In particular these tests focus on the usability of 
-the system, encompassing aspects like ease of installation and learnability.
+the system, encompassing aspects like ease of installation, reliability, and 
+learnability.
 %
 %\wss{The nonfunctional requirements for accuracy will likely just reference the
 %  appropriate functional tests from above.  The test cases should mention
@@ -1036,7 +1044,6 @@ the system, encompassing aspects like ease of installation and learnability.
 %  survey.}
 
 \subsubsection{Usability}
-		
 \paragraph{Ease of Installation}
 The following test cases focuses on assessing the ease of installation of the 
 system. It would be unrealistic to test all potential install environments; 
@@ -1062,7 +1069,9 @@ Input/Condition: Install system package.
 Output/Result: Installation of Unity version CURRENT\_VERSION on a 
 Windows 10 machine with our system installed.
 					
-How test will be performed: 
+How test will be performed: The user will have a fresh install of Unity 
+CURRENT\_VERSION on a virtual windows machine. They will have a copy of the 
+system package to import into Unity.
 
 \item{install-clean-modern-mac\\}
 
@@ -1076,7 +1085,9 @@ Input/Condition: Install system package.
 Output/Result: Installation of Unity version CURRENT\_VERSION on a 
 MacOS machine with our system installed.
 
-How test will be performed: 
+How test will be performed: The user will have a fresh install of Unity 
+CURRENT\_VERSION on a virtual MacOS machine. They will have a copy of the 
+system package to import into Unity.
 					
 \item{install-clean-previous-windows\\}
 
@@ -1090,7 +1101,9 @@ Input/Condition: Install system package.
 Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
 Windows 10 machine with our system installed.
 
-How test will be performed: 
+How test will be performed: The user will have a fresh install of Unity 
+PREVIOUS\_VERSION on a virtual windows machine. They will have a copy of the 
+system package to import into Unity.
 
 \item{install-clean-previous-mac\\}
 
@@ -1104,13 +1117,68 @@ Input/Condition: Install system package.
 Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
 MacOS machine with our system installed.
 
-How test will be performed: 
+How test will be performed: The user will have a fresh install of Unity 
+PREVIOUS\_VERSION on a virtual MacOS machine. They will have a copy of the 
+system package to import into Unity.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Reliability}
+The following test cases focus on assessing the reliability of the system to 
+repeatedly perform routine tasks. The purpose of these tests is to determine 
+the load the system, and ensure that the output is reliable. These tests run 
+the system through the functional test cases multiple times in succession.
 
-...
+\begin{enumerate}
+	
+	\item{reliable-loading\\}
+	
+	Type: Automatic
+	
+	Initial State: No scene loaded.
+	
+	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}
+	
+	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
+	
+	How test will be performed: The system shall perform test 
+	\textit{loadScene-allValid} RELIABILITY\_THRESHOLD times in succession. The 
+	output should be the same as doing it once.
+
+	\item{reliable-taskSwitch\\}
+	
+	Type: Automatic
+	
+	Initial State: No scene loaded.
+	
+	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}, $k_{a} = 0.5$, 
+	$k_{d} = 0.5$, $k_{s} = 0.8$, $\alpha = 10$
+	
+	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
+	
+	How test will be performed: The system shall perform test 
+	\textit{loadScene-allValid} and then in sequence make changes to the object 
+	properties. The output file should have the following values:
+
+\end{enumerate}
+
+\subsubsection{Learnability}
+
+\begin{enumerate}
+	
+	\item{learnability\\}
+	
+	Type: Automatic
+	
+	Initial State: 
+	
+	Input/Condition: 
+	
+	Output/Result: 
+	
+	How test will be performed: 
+	
+\end{enumerate}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
