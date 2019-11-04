@@ -177,14 +177,34 @@ following ways:
 \end{itemize}
 
 \subsection{Design Verification Plan}
+The purpose of design verification is to ensure the structure of the code and 
+design of the system meets the requirements laid out in \ref{label}.
 
 We will be using the following methods to test the design:
 
 \begin{itemize}
 	\item Rubber duck testing,
 	\item Expert review,
-	\item
+	\item Task-based peer reviews.
 \end{itemize}
+
+The rubber duck testing will be performed by the primary tester (me). The 
+rationale is that it should make holes in the design decisions apparent by 
+forcing the primary tester to focus on justifying the system. The procedure 
+will involve close examination of the code, with a spoken aloud explanation of 
+the design decisions.
+
+The expert review will be performed by the secondary reviewers (Peter and Dr. 
+Smith). The rationale is that testers familiar with the project should be able 
+to verify if the design meets the requirements and constraints. This will be 
+done through posting of GitHub issues and feedback in the document.
+
+The task-based peer reviews will be performed by the tertiary testers (CAS 741 
+peers). The rationale is that targeted examination of parts of the system are 
+easier to perform and will generate better feedback. To divide the tasks, every 
+aspect of the system has to fulfil some requirement - the testers will then 
+examine whether that component of the system meets that requirement. The 
+feedback will be captured via GitHub issues.
 
 \subsection{Implementation Verification Plan}
 The purpose of the implementation verification plan is to perform functional 
@@ -195,38 +215,69 @@ its non-functional requirements thresholds.
 We will be using the following methods to test the functional implementation:
 
 \begin{itemize}
+	\item Rubber duck testing,
+	\item Peer reviews,
+	\item Expert reviews,
 	\item Boundary value testing,
 	\item Endurance testing,
 	\item Error handling testing.
 \end{itemize}
+
+Rubber duck testing, peer reviews, and expert reviews will also be used as 
+implementation verification techniques. These will be executed simultaneously 
+with the design verification versions, as the close attention paid in that 
+setting lends itself to looking for potential implementation errors.
+
+Boundary value testing will outline the expected behaviour of the system at the 
+boundaries of variable constraints. This testing ensures that all edge-case 
+behaviour has been considered and that system responses are designed for those 
+cases.
+
+Error handling testing will outline the expected system behaviour when invalid 
+data enters the system. This testing ensures that the system recognizes valid 
+data from invalid data and provides appropriate feedback to the user. 
+Successful error handling testing will also lead to better usability of the 
+system as more feedback on how to correct the system is provided to users.
+
+Endurance testing will outline the system behaviour under repetitive tasks with 
+valid input. The purpose of this is to push the system to its load capacity and 
+see how it reacts when its output keeps changing. The rationale for this 
+testing is to test the reliability of the software.
 
 We will be using the following methods to test the non-functional 
 implementation:
 
 \begin{itemize}
 	\item Installation testing,
-	\item 
+	\item Usability testing.
 \end{itemize}
 
 These are carried out through the test cases listed in this document.
 
-%\wss{You should at least point to the tests listed in this document and the 
-%unit
-%  testing plan.}
-%
-%\wss{In this section you would also give any details of any plans for static 
-%verification of
-%  the implementation.  Potential techniques include code walkthroughs, code
-%  inspection, static analyzers, etc.}
+These system tests are supplemented by the unit tests listed in \ref{label}. 
+This system testing presupposes that the system has passed its unit and 
+integration tests, and that the functionality of each part has been verified. 
+This assumption allows us to interpret the results of these system tests as 
+evaluating the design of the system structure as the sum of its parts.
 
 \subsection{Software Validation Plan}
-
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
+There are currently no plans to validate the software.
+%\wss{If there is any external data that can be used for validation, you should
+%  point to it here.  If there are no plans for validation, you should state 
+%that
+%  here.}
 
 \section{System Test Description}
-	
+The following section outlines the test cases to be used for testing the 
+functional and non-functional requirements at a system level.
+
+These test cases are divided between the functional and non-functional 
+requirements. The functional requirement test cases handle black-box behvaiour 
+of the system as it is fed different inputs. The non-functional requirement 
+test cases focus on testing the usability of the system as an end-user. 
+Therefore it doesn't test the productivity and maintainability based 
+non-functional requirements.
+
 \subsection{Tests for Functional Requirements}
 The following sections outline test cases for the functional requirements of 
 the system.
@@ -973,42 +1024,86 @@ All of these test cases share the following properties:
 \end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
+The following section outlines the test cases for the non-functional 
+requirements of the system. In particular these tests focus on the usability of 
+the system, encompassing aspects like ease of installation and learnability.
+%
+%\wss{The nonfunctional requirements for accuracy will likely just reference the
+%  appropriate functional tests from above.  The test cases should mention
+%  reporting the relative error for these tests.}
+%
+%\wss{Tests related to usability could include conducting a usability test and
+%  survey.}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.}
-
-\subsubsection{Area of Testing1}
+\subsubsection{Usability}
 		
-\paragraph{Title for Test}
+\paragraph{Ease of Installation}
+The following test cases focuses on assessing the ease of installation of the 
+system. It would be unrealistic to test all potential install environments; 
+however due to this being implemented in Unity, the installation environments 
+of this system are limited to those that Unity can run on.
+
+For this type of testing we are testing to pass, not testing to fail - i.e. we 
+want all of these test cases to pass. We are not concerned with cases of 
+invalid input, since that would just mean not installing our software. We let 
+the Unity error handling inform the user if the installation is unsuccessful.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{install-clean-modern-win\\}
 
-Type: 
+Type: Manual
 					
-Initial State: 
+Initial State: Clean installation of Unity version CURRENT\_VERSION on a 
+Windows 10 machine.
 					
-Input/Condition: 
+Input/Condition: Install system package.
 					
-Output/Result: 
+Output/Result: Installation of Unity version CURRENT\_VERSION on a 
+Windows 10 machine with our system installed.
 					
 How test will be performed: 
-					
-\item{test-id2\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+\item{install-clean-modern-mac\\}
+
+Type: Manual
+
+Initial State: Clean installation of Unity version CURRENT\_VERSION on a Mac OS 
+machine.
+
+Input/Condition: Install system package.
+
+Output/Result: Installation of Unity version CURRENT\_VERSION on a 
+MacOS machine with our system installed.
+
+How test will be performed: 
 					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
+\item{install-clean-previous-windows\\}
+
+Type: Manual
+
+Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a 
+Windows 10 machine.
+
+Input/Condition: Install system package.
+
+Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
+Windows 10 machine with our system installed.
+
+How test will be performed: 
+
+\item{install-clean-previous-mac\\}
+
+Type: Manual
+
+Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a Mac 
+OS machine.
+
+Input/Condition: Install system package.
+
+Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
+MacOS machine with our system installed.
+
 How test will be performed: 
 
 \end{enumerate}
