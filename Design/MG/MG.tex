@@ -31,10 +31,11 @@
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
 
+
 \begin{document}
 
-\title{Module Guide for \progname{}} 
-\author{Author Name}
+\title{Module Guide for Family of Light Models} 
+\author{Sasha Soraine}
 \date{\today}
 
 \maketitle
@@ -101,7 +102,7 @@ hides represent likely future changes.  Design for change is valuable in SC,
 where modifications are frequent, especially during initial development as the
 solution space is explored.  
 
-Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
+Our design follows the rules laid out by \citet{ParnasEtAl1984}, as follows:
 \begin{itemize}
 \item System details that are likely to change independently should be the
   secrets of separate modules.
@@ -161,11 +162,25 @@ change.
   hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
   initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acOutput}:] The format of the
+output data.
+\item[\refstepcounter{acnum} \actheacnum \label{acNormalCalculation}:] The 
+algorithm for calculating surface normals. %%The algorithm may change, or there 
+%%might not be one if the input changes to include a normal map.
+\item[\refstepcounter{acnum} \actheacnum \label{acNormalInterpolation}:] The 
+algorithm for interpolating surface normals.
+\item[\refstepcounter{acnum} \actheacnum \label{acLightingModels}:] The 
+algorithm for calculating the final colouring of objects. %%The algorithm may 
+%%change, or there might not be one if the input changes to include a normal 
+%%map.
+\item[\refstepcounter{acnum} \actheacnum \label{acShapes}:] The 
+format for representing object shapes. 
+\item[\refstepcounter{acnum} \actheacnum \label{acLights}:] The 
+format for representing light sources. 
+
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
-
 The module design should be as general as possible. However, a general system is
 more complex. Sometimes this complexity is not necessary. Fixing some design
 decisions at the system architecture stage can simplify the software design. If
@@ -176,7 +191,9 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucCartesian}:] The format of 3D 
+coordinates and vectors.
+
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -188,7 +205,15 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mScene}:] Scene Module
+\item [\refstepcounter{mnum} \mthemnum \label{mObject}:] Object Module
+\item [\refstepcounter{mnum} \mthemnum \label{mLights}:] Light Source Module
+\item [\refstepcounter{mnum} \mthemnum \label{mObsv}:] Observer Module
+\item [\refstepcounter{mnum} \mthemnum \label{mShade}:] Shader Module
+\item [\refstepcounter{mnum} \mthemnum \label{mLightModel}:] Lighting Model 
+Module
+\item [\refstepcounter{mnum} \mthemnum \label{mJSON}:] JSON Module
+\item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
 \end{description}
 
 
@@ -202,19 +227,19 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Scene Module\\
+& Object Module\\
+& Light Source Module\\
+& Observer Module \\
+& Shader Module\\
+& Lighting Model Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{2}{0.3\textwidth}{Software Decision Module} 
+& JSON Module\\ %I need the JSON module to parse and record inputs and output 
+%to files
+& Vector Math Module\\ %I'm not reinventing the wheel with this module; people 
+%smarter than me have implemented vector calculus.
 \bottomrule
 
 \end{tabular}
@@ -254,6 +279,8 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 to be implemented.
 
 \subsection{Hardware Hiding Modules (\mref{mHH})}
+The following section outlines the hardware hiding modules. Their 
+descriptions follow the format below: 
 
 \begin{description}
 \item[Secrets:]The data structure and algorithm used to implement the virtual
@@ -265,6 +292,8 @@ to be implemented.
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
+The following section outlines the behaviour-hiding modules. Their 
+descriptions follow the format below: 
 
 \begin{description}
 \item[Secrets:]The contents of the required behaviours.
@@ -276,29 +305,105 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+%\subsubsection{Input Format Module (\mref{mInput})}
+%
+%\begin{description}
+%\item[Secrets:]The format and structure of the input data.
+%\item[Services:]Converts the input data into the data structure used by the
+%  input parameters module.
+%\item[Implemented By:] [Your Program Name Here]
+%\end{description}
+
+%%The following modules handle data structure relation secrets.
+\subsubsection{Scene Module (\mref{mScene})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+	\item[Secrets:]The format and structure of a scene.
+	\item[Services:]Coordinates the objects, light sources, and observers in 
+	the scene.
+	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
-\subsubsection{Etc.}
-
-
-\subsection{Software Decision Module}
+\subsubsection{Object Module (\mref{mObject})}
 
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+	\item[Secrets:]The format and structure of objects.
+	\item[Services:]Converts input data into the data structure used to 
+	represent objects.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Light Source Module (\mref{mLights})}
+
+\begin{description}
+	\item[Secrets:]The format and structure of a light source.
+	\item[Services:]Converts input data into the data structure used to 
+	represent light sources.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Observer Module (\mref{mObsv})}
+
+\begin{description}
+	\item[Secrets:]The format and structure of an observer.
+	\item[Services:]Converts input data into the data structure used to 
+	represent observers.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+%%The following modules handle algorithm
+\subsubsection{Shader Module (\mref{mShade})}
+
+\begin{description}
+	\item[Secrets:]The algorithm to calculate object normals.
+	\item[Services:]Calculates surface normals for objects, and interpolates 
+	them between points on the mesh.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Lighting Model Module (\mref{mLightModel})}
+
+\begin{description}
+	\item[Secrets:]The algorithm to calculate luminous intensity of light at 
+	objects.
+	\item[Services:]Calculates luminous intensity and final colours based on 
+	lighting model.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsection{Software Decision Module}
+The following section outlines the software decision modules. Their 
+descriptions follow the format below: 
+
+\begin{description}
+	\item[Secrets:] The design decision based on mathematical theorems, physical
+	facts, or programming considerations. The secrets of this module are
+	\emph{not} described in the SRS.
+	\item[Services:] Includes data structure and algorithms used in the system 
+	that
+	do not provide direct interaction with the user. 
+	% Changes in these modules are more likely to be motivated by a desire to
+	% improve performance than by externally imposed changes.
+	\item[Implemented By:] --
+\end{description}
+
+\subsubsection{JSON Module (\mref{mJSON})}
+
+\begin{description}
+	\item[Secrets:]The algorithm to convert information to formatted JSON.
+	\item[Services:]Converts information from the system to formatted JSON for 
+	saving, and information from JSON to system readable data for loading.
+	\item[Implemented By:] ---
+\end{description}
+
+\subsubsection{Vector Math Module (\mref{mVectors})}
+
+\begin{description}
+	\item[Secrets:]The algorithms to perform vector calculus.
+	\item[Services:]Calculates normalized versions of vectors, unit vectors, 
+	and basic vector operations (addition, subtraction, dot and 
+	cross products).
+	\item[Implemented By:] ---
 \end{description}
 
 \subsubsection{Etc.}
@@ -380,6 +485,6 @@ because they use modules from the lower levels.
 %\section*{References}
 
 \bibliographystyle {plainnat}
-\bibliography{../../../refs/References}
+\bibliography{../../refs/References}
 
 \end{document}
