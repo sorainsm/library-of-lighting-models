@@ -214,6 +214,8 @@ actually be implemented.
 Module
 \item [\refstepcounter{mnum} \mthemnum \label{mJSON}:] JSON Module
 \item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
+\item [\refstepcounter{mnum} \mthemnum \label{mMesh}:] Polygon Mesh Module
+\item [\refstepcounter{mnum} \mthemnum \label{mNormals}:] Normal Map Module
 \end{description}
 
 
@@ -239,6 +241,10 @@ Module
 & JSON Module\\ %I need the JSON module to parse and record inputs and output 
 %to files
 & Vector Math Module\\ %I'm not reinventing the wheel with this module; people 
+%smarter than me have implemented vector calculus.
+& Polygon Mesh Module\\ %I'm not reinventing the wheel with this module; people 
+%smarter than me have implemented polygon mesh libraries and data structures.
+& Normal Maps Module\\ %I'm not reinventing the wheel with this module; people 
 %smarter than me have implemented vector calculus.
 \bottomrule
 
@@ -320,7 +326,7 @@ descriptions follow the format below:
 \begin{description}
 	\item[Secrets:]The format and structure of a scene.
 	\item[Services:]Coordinates the objects, light sources, and observers in 
-	the scene.
+	the scene. Calculates final lighting based on lighting and shader models.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
@@ -396,13 +402,23 @@ descriptions follow the format below:
 	\item[Implemented By:] ---
 \end{description}
 
-\subsubsection{Vector Math Module (\mref{mVectors})}
+\subsubsection{Polygon Mesh Module (\mref{mMesh})}
 
 \begin{description}
-	\item[Secrets:]The algorithms to perform vector calculus.
-	\item[Services:]Calculates normalized versions of vectors, unit vectors, 
-	and basic vector operations (addition, subtraction, dot and 
-	cross products).
+	\item[Secrets:]The data structures algorithms to represent and manipulate 
+	polygon meshes.
+	\item[Services:]Stores and retrieves data about polygon mesh.
+	\item[Implemented By:] ---
+\end{description}
+
+\subsubsection{Normal Maps Module (\mref{mNormals})}
+%%Rationale in separating from polygon mesh because the normal maps for the 
+%%objects are manipulated separately from the polygon mesh.
+\begin{description}
+	\item[Secrets:]The data structures algorithms to represent and manipulate 
+	normal maps.
+	\item[Services:]Stores and retrieves data about normal maps associated to 
+	polygon meshes.
 	\item[Implemented By:] ---
 \end{description}
 
