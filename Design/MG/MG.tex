@@ -205,17 +205,24 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{mInputs}:] Input Parameters Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOutputs}:] Output Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mShape}:] Shape Module
+\item [\refstepcounter{mnum} \mthemnum \label{mColour}:] Colour Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPoint}:] 3D Cartesian Coordinate 
+Module
+\item [\refstepcounter{mnum} \mthemnum \label{mMesh}:] Polygon Mesh Module
+\item [\refstepcounter{mnum} \mthemnum \label{mNormals}:] Normal Map Module
 \item [\refstepcounter{mnum} \mthemnum \label{mScene}:] Scene Module
 \item [\refstepcounter{mnum} \mthemnum \label{mObject}:] Object Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLights}:] Light Source Module
 \item [\refstepcounter{mnum} \mthemnum \label{mObsv}:] Observer Module
+\item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
 \item [\refstepcounter{mnum} \mthemnum \label{mShade}:] Shader Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLightModel}:] Lighting Model 
 Module
 \item [\refstepcounter{mnum} \mthemnum \label{mJSON}:] JSON Module
-\item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
-\item [\refstepcounter{mnum} \mthemnum \label{mMesh}:] Polygon Mesh Module
-\item [\refstepcounter{mnum} \mthemnum \label{mNormals}:] Normal Map Module
+\item [\refstepcounter{mnum} \mthemnum \label{mUnity}:] Rendering Module
 \end{description}
 
 
@@ -229,23 +236,38 @@ Module
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Scene Module\\
-& Object Module\\
-& Light Source Module\\
-& Observer Module \\
-& Shader Module\\
-& Lighting Model Module\\
-\midrule
-
-\multirow{2}{0.3\textwidth}{Software Decision Module} 
-& JSON Module\\ %I need the JSON module to parse and record inputs and output 
-%to files
-& Vector Math Module\\ %I'm not reinventing the wheel with this module; people 
-%smarter than me have implemented vector calculus.
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters Module\\
+%%Purpose of the input parameters module is to parse the JSON file and separate 
+%%it into usable objects
+& Output Format Module \\
+%% Purpose is to create the output of the module
+& Shape Module\\
+& Colour Module\\
+& 3D Cartesian Coordinate Module\\ %%Data type for representing cartesian 
+%%coordinates; works with the vector math module to define vectors and 
+%%calculate 
+%%things
 & Polygon Mesh Module\\ %I'm not reinventing the wheel with this module; people 
 %smarter than me have implemented polygon mesh libraries and data structures.
 & Normal Maps Module\\ %I'm not reinventing the wheel with this module; people 
 %smarter than me have implemented vector calculus.
+& Scene Module\\
+%% Data type definition of a scene in this program
+& Object Module\\
+%% Data type definition of an object in this program
+& Light Source Module\\
+%% Data type definition of a light source in this program
+& Observer Module \\
+%% Data type definition of an observer in this program
+& Vector Math Module\\ %I'm not reinventing the wheel with this module; people 
+%smarter than me have implemented vector calculus.
+& Shader Module\\
+& Lighting Model Module\\
+\midrule
+\multirow{2}{0.3\textwidth}{Software Decision Module} 
+& JSON Module\\ %I need the JSON module to parse and write JSON files
+& Rendering Module\\ %Rationale: The outputted JSON file will be passed back to 
+%unity for rendering
 \bottomrule
 
 \end{tabular}
@@ -267,6 +289,11 @@ between requirements and modules is listed in Table \ref{TblRT}.
   requirements with a password.  In scientific examples, the choice of algorithm
 could potentially go here, if that is a decision that is exposed by the
 interface.}
+
+%%TO DO:
+% - talk about the JSON design decision
+% - talk about implementing as a system plug-in for unity to leverage GUI
+% - talk about types being used and why
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -321,45 +348,110 @@ descriptions follow the format below:
 %\end{description}
 
 %%The following modules handle data structure relation secrets.
-\subsubsection{Scene Module (\mref{mScene})}
+%%--------------Formatting Inputs/Outputs --------------%%
+\subsubsection{Input Parameters Module (\mref{mInputs})}
 
 \begin{description}
-	\item[Secrets:]The format and structure of a scene.
+	\item[Secrets:]The format and structure of inputs to the system.
+	\item[Services:]Converts information passed to the system into formats 
+	readable by the system.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Output Parameters Module (\mref{mOutputs})}
+
+\begin{description}
+	\item[Secrets:]The format and structure of outputs from the system.
+	\item[Services:]Converts information from system formats to storage formats 
+	for output.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+%%--------------Basic Types for the System --------------%%
+\subsubsection{Shape Module (\mref{mShape})}
+\begin{description}
+	\item[Secrets:]The structure of a Shape.
+	\item[Services:]Constrains shapes usable in the system.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Colour Module (\mref{mColour})}
+\begin{description}
+	\item[Secrets:]The structure of colours.
+	\item[Services:]Constrains colours usable in the system.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{3D Cartesian Coordinate Module (\mref{mPoint})}
+\begin{description}
+	\item[Secrets:]The structure of a 3D Cartesian Coordainte (point).
+	\item[Services:]Constrains valid points in the system.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Polygon Mesh Module (\mref{mMesh})}
+\begin{description}
+	\item[Secrets:]The data structures and algorithms to represent and 
+	manipulate polygon meshes.
+	\item[Services:]Stores and retrieves data about polygon mesh.
+	\item[Implemented By:] ---
+\end{description}
+
+\subsubsection{Normal Maps Module (\mref{mNormals})}
+%%Rationale in separating from polygon mesh because the normal maps for the 
+%%objects are manipulated separately from the polygon mesh.
+\begin{description}
+	\item[Secrets:]The data structures algorithms to represent and manipulate 
+	normal maps.
+	\item[Services:]Stores and retrieves data about normal maps associated to 
+	polygon meshes.
+	\item[Implemented By:] ---
+\end{description}
+
+%%--------------Conceptual Types that we work with from CA --------------%%
+\subsubsection{Scene Module (\mref{mScene})}
+\begin{description}
+	\item[Secrets:]The structure of a scene.
 	\item[Services:]Coordinates the objects, light sources, and observers in 
 	the scene. Calculates final lighting based on lighting and shader models.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
 \subsubsection{Object Module (\mref{mObject})}
-
 \begin{description}
-	\item[Secrets:]The format and structure of objects.
+	\item[Secrets:]The structure of objects.
 	\item[Services:]Converts input data into the data structure used to 
 	represent objects.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
 \subsubsection{Light Source Module (\mref{mLights})}
-
 \begin{description}
-	\item[Secrets:]The format and structure of a light source.
+	\item[Secrets:]The structure of a light source.
 	\item[Services:]Converts input data into the data structure used to 
 	represent light sources.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
 \subsubsection{Observer Module (\mref{mObsv})}
-
 \begin{description}
-	\item[Secrets:]The format and structure of an observer.
+	\item[Secrets:]The structure of an observer.
 	\item[Services:]Converts input data into the data structure used to 
 	represent observers.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
 %%The following modules handle algorithm
-\subsubsection{Shader Module (\mref{mShade})}
+%%--------------Basic Calculations --------------%%
+\subsubsection{Vector Math Module (\mref{mVectors})}
+\begin{description}
+	\item[Secrets:]The structure and operations available to Vectors.
+	\item[Services:]Creates and manipulates vectors.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
 
+%%--------------Lighting Specific Calculations --------------%%
+\subsubsection{Shader Module (\mref{mShade})}
 \begin{description}
 	\item[Secrets:]The algorithm to calculate object normals.
 	\item[Services:]Calculates surface normals for objects, and interpolates 
@@ -368,7 +460,6 @@ descriptions follow the format below:
 \end{description}
 
 \subsubsection{Lighting Model Module (\mref{mLightModel})}
-
 \begin{description}
 	\item[Secrets:]The algorithm to calculate luminous intensity of light at 
 	objects.
@@ -396,29 +487,18 @@ descriptions follow the format below:
 \subsubsection{JSON Module (\mref{mJSON})}
 
 \begin{description}
-	\item[Secrets:]The algorithm to convert information to formatted JSON.
+	\item[Secrets:]The structure and parsing of JSON.
 	\item[Services:]Converts information from the system to formatted JSON for 
 	saving, and information from JSON to system readable data for loading.
 	\item[Implemented By:] ---
 \end{description}
 
-\subsubsection{Polygon Mesh Module (\mref{mMesh})}
+\subsubsection{Rendering Module (\mref{mUnity})}
 
 \begin{description}
-	\item[Secrets:]The data structures algorithms to represent and manipulate 
-	polygon meshes.
-	\item[Services:]Stores and retrieves data about polygon mesh.
-	\item[Implemented By:] ---
-\end{description}
-
-\subsubsection{Normal Maps Module (\mref{mNormals})}
-%%Rationale in separating from polygon mesh because the normal maps for the 
-%%objects are manipulated separately from the polygon mesh.
-\begin{description}
-	\item[Secrets:]The data structures algorithms to represent and manipulate 
-	normal maps.
-	\item[Services:]Stores and retrieves data about normal maps associated to 
-	polygon meshes.
+	\item[Secrets:]The algorithm to convert output files to rendered scene.
+	\item[Services:]Converts information from the JSON output files to rendered 
+	scene.
 	\item[Implemented By:] ---
 \end{description}
 

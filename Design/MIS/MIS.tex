@@ -145,21 +145,20 @@ The following table is taken directly from the Module Guide document for this pr
 		{Hardware-Hiding Module} & ~ \\
 		\midrule
 		
-		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Scene Module\\
-		& Object Module\\
-		& Light Source Module\\
-		& Observer Module \\
-		& Shader Module\\
-		& Lighting Model Module\\
-		\midrule
-		
-		\multirow{2}{0.3\textwidth}{Software Decision Module} 
-		& JSON Module\\ %I need the JSON module to parse and record inputs and 
-		%output 
-		%to files
-		& Vector Math Module\\ %I'm not reinventing the wheel with this module; 
-		%people 
-		%smarter than me have implemented vector calculus.
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters 
+		Module\\
+		%%Purpose of the input parameters module is to parse the JSON file and 
+		%%separate 
+		%%it into usable objects
+		& Output Format Module \\
+		%% Purpose is to create the output of the module
+		& Shape Module\\
+		& Colour Module\\
+		& 3D Cartesian Coordinate Module\\ %%Data type for representing 
+		%%cartesian 
+		%%coordinates; works with the vector math module to define vectors and 
+		%%calculate 
+		%%things
 		& Polygon Mesh Module\\ %I'm not reinventing the wheel with this 
 		%module; people 
 		%smarter than me have implemented polygon mesh libraries and data 
@@ -167,6 +166,25 @@ The following table is taken directly from the Module Guide document for this pr
 		& Normal Maps Module\\ %I'm not reinventing the wheel with this module; 
 		%people 
 		%smarter than me have implemented vector calculus.
+		& Scene Module\\
+		%% Data type definition of a scene in this program
+		& Object Module\\
+		%% Data type definition of an object in this program
+		& Light Source Module\\
+		%% Data type definition of a light source in this program
+		& Observer Module \\
+		%% Data type definition of an observer in this program
+		& Vector Math Module\\ %I'm not reinventing the wheel with this module; 
+		%people 
+		%smarter than me have implemented vector calculus.
+		& Shader Module\\
+		& Lighting Model Module\\
+		\midrule
+		\multirow{2}{0.3\textwidth}{Software Decision Module} 
+		& JSON Module\\ %I need the JSON module to parse and write JSON files
+		& Rendering Module\\ %Rationale: The outputted JSON file will be passed 
+		%back to 
+		%unity for rendering
 		\bottomrule
 		
 	\end{tabular}
@@ -174,8 +192,150 @@ The following table is taken directly from the Module Guide document for this pr
 	\label{TblMH}
 \end{table}
 
-\newpage
 ~\newpage
+
+
+
+\section{MIS of Input Parameters Module} \ref{mInputs} \\
+The Input Parameters Module converts the JSON data from the input file into the 
+objects usable by the system. During this process, the input parameters 
+
+\subsection{Module}
+Input Parameters
+
+\subsection{Uses}
+JSON, Object, Light Source, Observer, Scene
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		\multirow{4}{*}{convertJSONtoScene} & \multirow{4}{2cm}{JSON File} & s: 
+		Scene & INPUT\_INVALID\_FILE\\
+		& & o : Object & INPUT\_FILE\_EMPTY\\
+		& & l : LightSource & \\
+		& & v : Observer & \\
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+N/A
+%\wss{Not all modules will have state variables.  State variables give the 
+%module a memory.}
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Routine Semantics}
+\noindent convertJSONtoScene($in: JSON$):
+\begin{itemize}
+	\item output: $s : Scene, o : Object, l : LightSource , v: Observer | 
+	s.Valid(o,l,v)$ %%The scene will check whether the positional information 
+	%%is valid.
+	\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Scene Module} \ref{mScene} \\
+The Scene Module is an abstract object module that contains the structure for 
+the overall scene. It maintains information about the entities in the scene 
+(object, light source, observer) regarding their distances between each other. 
+It constrains the positions, sizes, and directions of entities based on the 
+specified size of the scene.
+%\wss{Use labels for
+%  cross-referencing}
+%
+%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+%
+%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+Scene
+
+\subsection{Uses}
+Input,  
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+$SCENE\_MAX\_X : \mathbb{R}$\\
+$SCENE\_MIN\_X : \mathbb{R}$\\
+$SCENE\_MAX\_Y : \mathbb{R}$\\
+$SCENE\_MIN\_Y : \mathbb{R}$\\
+$SCENE\_MAX\_Z : \mathbb{R}$\\
+$SCENE\_MIN\_Z : \mathbb{R}$\\
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		initScene & $max\_X : \mathbb{R}$ & & \\
+		 & $max\_Y : \mathbb{R}$ & & \\		
+		 & $max\_Z : \mathbb{R}$ & & \\				 
+		 & $o : Object$ & & \\				 
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+N/A
+%\wss{Not all modules will have state variables.  State variables give the 
+%module a memory.}
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+N/A
+%\wss{Try to minimize assumptions and anticipate programmer errors via
+%  exceptions, but for practical purposes assumptions are sometimes 
+%appropriate.}
+
+\subsubsection{Access Routine Semantics}
+
+%\wss{A module without environment variables or state variables is unlikely to
+%  have a state transition.  In this case a state transition can only occur if
+%  the module is changing the state of another module.}
+%
+%\wss{Modules rarely have both a transition and an output.  In most cases you
+%  will have one or the other.}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
 
 \section{MIS of Objects Module} \label{mObjects} 
 The Objects Module is an abstract object module that contains the structure for 
