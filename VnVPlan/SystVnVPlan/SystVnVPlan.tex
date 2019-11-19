@@ -37,7 +37,7 @@
 \usepackage{longtable}
 \usepackage{lscape}
 
-%\input{../../Comments}
+\input{../../Comments}
 %\input{../../Common}
 
 
@@ -99,9 +99,8 @@ description of the unit and the SI name.
 \subsection{Table of Symbols}
 
 The table that follows summarizes the symbols used in this document along with
-their units.  The choice of symbols was made to be consistent with the physics 
-and calculus 
-notation. The symbols are listed in alphabetical order.
+their units.  The choice of symbols was made to be consistent with the physics
+and calculus notation. The symbols are listed in alphabetical order.
 
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
@@ -174,16 +173,18 @@ notation. The symbols are listed in alphabetical order.
 
 \pagenumbering{arabic}
 
-This document outlines a system validation and verification plan for the 
-implementation of a sub-family of lighting models, based on the Commonality 
-Analysis for a Family of Lighting Models. First it will cover general 
-information about the system, including the particular design qualities the 
-system should emphasize and any relevant documentation. Next it will outline 
-the verification plans for the commonality analysis/requirements, system 
-design, and implementation. It will then outline the software validation plan. 
-Finally it will outline a series of representative test cases that are meant to 
-test the functional and non-functional requirements, along with a traceability 
-matrix mapping the test cases to particular requirements.
+This document outlines a system validation and verification plan for the
+implementation of a sub-family of lighting models, based on the Commonality
+Analysis (CA) for a Family of Lighting Models. \wss{I suggest a citation to your
+  commonality analysis, and/or a link to the github location for the document.}
+First it will cover general information about the system, including the
+particular design qualities the system should emphasize and any relevant
+documentation. Next it will outline the verification plans for the commonality
+analysis/requirements, system design, and implementation. It will then outline
+the software validation plan.  Finally it will outline a series of
+representative test cases that are meant to test the functional and
+non-functional requirements, along with a traceability matrix mapping the test
+cases to particular requirements.
 
 \section{General Information}
 
@@ -192,7 +193,7 @@ This software implements a sub-family of lighting models. The larger family and
 problem analysis is found in CA. This software aims to take in user 
 specifications about the graphical scene (lights, objects, shading model, 
 lighting model, and an observer) and render a fully lit and shaded scene. To do 
-this is runs calculations using basic optics principles to approximate light 
+this, it runs calculations using basic optics principles to approximate light 
 behaviour in 3D computer graphics.
 
 \subsection{Objectives}
@@ -246,7 +247,7 @@ if able, but are under no obligation to participate.
 The verification and validation team includes:
 
 \begin{table}[h]
-	\begin{tabular}{|l|l|p{9cm}|}
+	\begin{tabular}{|l|l|p{8cm}|}
 		\hline
 		\textbf{Name} & \textbf{Role} & \textbf{Goal} \\
 		\hline
@@ -268,6 +269,9 @@ The verification and validation team includes:
 	\end{tabular}
 \end{table}
 
+\wss{If you use the booktabs package, your tables will look a little better
+  spaced out.  (I also shortened the width of the last column of your table.)}
+
 \pagebreak
 \subsection{CA Verification Plan}
 
@@ -277,11 +281,14 @@ following ways:
 \begin{itemize}
 	\item Have expert level users (familiar with graphics programming) do a 
 	close read of the commonality analysis to compare it against existing 
-	software tools for functionality.
+	software tools for functionality. \wss{What existing tools are you
+          comparing to?  This would be very helpful information.}
 	\item Review and revise requirements based on feedback from Domain Expert 
 	and Secondary Reviewer of CA.
-	\item Ask Dr. Smith to review the scope to consider whether the 
-	implementation scoping and thus listed requirements is inappropriate.
+      \item Ask Dr.\ Smith \wss{Dr. Smith includes two spaces after the period.
+          Use Dr.\ Smith, or Dr.~Smith} to review the scope to consider whether
+        the implementation scoping and thus listed requirements is
+        inappropriate.
 \end{itemize}
 
 \subsection{Design Verification Plan}
@@ -368,8 +375,15 @@ integration tests, and that the functionality of each part has been verified.
 This assumption allows us to interpret the results of these system tests as 
 evaluating the design of the system structure as the sum of its parts.
 
+\wss{The implementation verification plan is very ambitious.  You might have to
+  ``fake it'' and pretend that some of the verification will be taking place
+  after the course is over.}
+
 \subsection{Software Validation Plan}
-There are currently no plans to validate the software.
+There are currently no plans to validate the software.  \wss{Why not?  I think
+  you should explain that validation is not suitable for your software.  You are
+  not comparing the output to reality; you are comparing your results to
+  mathematical models.}
 %\wss{If there is any external data that can be used for validation, you should
 %  point to it here.  If there are no plans for validation, you should state 
 %that
@@ -380,7 +394,8 @@ The following section outlines the test cases to be used for testing the
 functional and non-functional requirements at a system level.
 
 These test cases are divided between the functional and non-functional 
-requirements. The functional requirement test cases handle black-box behvaiour 
+requirements. The functional requirement test cases handle black-box behvaiour
+\wss{spell check}
 of the system as it is fed different inputs. The non-functional requirement 
 test cases focus on testing the usability of the system as an end-user. 
 Therefore it doesn't test the productivity and maintainability based 
@@ -414,8 +429,12 @@ the basic output testing is handled alongside the ``Load a Scene'' tasks.
 %  cover the requirements.  References to the SRS would be good.}
 
 \subsubsection{Input Testing}
-The following section explicitly covers R1, R2, R3, R4, R5, and R6 from the CA 
-\ref{}. These requirements pertain to input handling; how the system should 
+The following section explicitly covers R1, R2, R3, R4, R5, and R6 \wss{The
+  original blank project template is set up to allow external cross-references
+  between documents.  Hard-coding these numbers will be a maintenance
+  challenge.} from the CA 
+\ref{}. \wss{It is a good idea to reference the CA, but the reference is
+  missing.}  These requirements pertain to input handling; how the system should 
 behave when various types of input are given to it. Implicitly these test R7, 
 R8, R9, and R11 which are the underlying calculations that transform the input 
 into the output scene.
@@ -441,14 +460,19 @@ Control: Automatic
 								
 Input: \textit{SCENE\_DIR/valid-AllInputs.JSON} (See \ref{in:valid-All})
 					
-Output: \textit{RENDERS\_DIR/render-valid-AllInputs}
+Output: \textit{RENDERS\_DIR/render-valid-AllInputs} \wss{You should explain
+  somewhere the SCENE\_DIR and the RENDERS\_DIR folders.  Are these actual
+  names, or are they placeholders that the tester will fill in with their
+  specific folders?  I prefer the second option, since it is more general.}
 
 Test Case Derivation: Having received a properly formatted and structured JSON 
 file containing all inputs for the scene, the system will output a fully 
 rendered and lit scene.
 					
 How test will be performed: System will try to load created test file from 
-scene directory.
+scene directory. \wss{How do you automatically assess success on this test?  Do
+  you simply look for the presence of a file in the expected location?  A
+  similar question applies for your other input tests.}
 					
 \item{loadScene-validMissingSome\\}
 
@@ -457,8 +481,8 @@ Control: Automatic
 Input: \textit{SCENE\_DIR/valid-MissingData.JSON}(See \ref{in:valid-Miss})
 
 Output: Prompt Message: ``File exists, but is missing data. Would you like to 
-load the default settings for missing data?", Log message "Error: File exists 
-but is missing data."
+load the default settings for missing data?'', Log message ``Error: File exists 
+but is missing data.''
 
 Test Case Derivation: 
 
@@ -487,14 +511,16 @@ Control: Automatic
 
 Input: \textit{SCENE\_DIR/invalid.JSON}(See \ref{in:invalid})
 
-Output: Error Message``File does not contain valid scene data.", Log message 
+Output: Error Message ``File does not contain valid scene data.'', Log message 
 "Error: Invalid scene data in file: \textit{SCENE\_DIR/invalid.JSON}."
 
 Test Case Derivation: In receiving invalid data, the system should be robust 
 enough to acknowledge the specific error and log it in the log file.
 
 How test will be performed: System will try to load created test file from 
-scene directory.
+scene directory. \wss{For the tests where an exception is expected, you can
+  automate this in your unit testing by having the test case assertion be that
+  the correct exception is raised.}
 
 \end{enumerate}
 
@@ -541,6 +567,8 @@ scene directory.
 	
 \end{enumerate}
 
+\wss{I like how you have specific tests cases.  Great!}
+
 \subsubsection{Run-Time Tests}
 This subset of tests outline scenarios that may happen during the run-time of 
 the program. As such it handles changes to the scene and rendering information. 
@@ -562,7 +590,10 @@ All of these test cases share the following properties:
 	
 	Control: Automatic
 	
-	Input: Select different lighting model from dropdown list.
+	Input: Select different lighting model from dropdown list. \wss{There
+          isn't enough information here for someone else to do this test.  The
+          input is ambiguous.  The same comment applies for other tests in this
+          section.}
 	
 	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
 	new lighting models.
@@ -573,7 +604,9 @@ All of these test cases share the following properties:
 	
 	How test will be performed: System will recalculate luminous intensity of 
 	points on objects in the scene using the new model. New luminous intensity 
-	information will be sent through the rendering pipeline to output visuals.
+	information will be sent through the rendering pipeline to output
+        visuals. \wss{How do you tell if this test has passed?  How do you tell
+          this automatically?}
 	
 \end{enumerate}
 
@@ -620,7 +653,10 @@ All of these test cases share the following properties:
 	impact the specular component of the final scene.
 	
 	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{s}$ the new value. 
+	automatically assigns $k_{s}$ the new value. \wss{How do you
+          automatically tell that this test case passes?  Are you just checking
+          a single value, or how the value is used in the scene?  A similar
+          comment applies to other test cases in this section.}
 	
 	\item{objMaterialPropChange-valid-kd\\}
 	
@@ -1142,6 +1178,13 @@ All of these test cases share the following properties:
 	
 \end{enumerate}
 
+\wss{There is a great variety of test cases, and many exceptions are covered,
+  but I still don't see how you can tell that the scene is rendered correctly
+  with respect to the mathematical model?  Do you have a pseudo-oracle that you
+  can compare the results to?  Can you do a bitwise comparison between your
+  image and the ``correct'' image?  If not, then you at least need some manual
+  tests to verify that the scene renderings look correct.}
+
 \subsection{Tests for Nonfunctional Requirements}
 The following section outlines the test cases for the non-functional 
 requirements of the system. In particular these tests focus on the usability of 
@@ -1253,7 +1296,8 @@ the system through the functional test cases multiple times in succession.
 	
 	\item{reliable-loading\\}
 	
-	Type: Automatic
+	Type: Automatic \wss{How is this automated?  Do you have a unit testing
+          framework that can do this?}
 	
 	Initial State: No scene loaded.
 	
@@ -1265,6 +1309,9 @@ the system through the functional test cases multiple times in succession.
 	How test will be performed: The system shall perform test 
 	\textit{loadScene-allValid} RELIABILITY\_THRESHOLD times in succession. The 
 	output should be the same as doing it once.
+
+\wss{Interesting test case.  It does sometimes confuse systems to do something
+  like this twice.  Good idea.}
 
 	\item{reliable-taskSwitch\\}
 	
@@ -1348,8 +1395,10 @@ All learnability test cases share the following properties:
 	Expert (\ref{survey:expert}) Usability Survey depending on their 
 	familiarity with other 3D graphics programs.
 
-
 \end{enumerate}
+
+\wss{The learnability measurements sound good to me.  I hope you have time to at
+least do a few measurements.}
 
 \subsection{Traceability Between Test Cases and Requirements}
 The following section summarizes the relationships between test cases and 
@@ -1358,7 +1407,9 @@ here for convenience. Note that requirements 12-14 are not covered by test
 cases - this is because their requirements are not part of the objective of 
 this test plan.
 
-\paragraph{Requirements from CA}
+\paragraph{Requirements from CA} \wss{For maintainability reasons, it usually
+  isn't a good idea to copy and paste between documents.  A cross-reference to
+  the CA document should be all that you need.}
 ~\newline
 \noindent 
 \begin{itemize}
