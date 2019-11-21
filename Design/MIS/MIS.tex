@@ -258,6 +258,521 @@ N/A
 
 \newpage
 
+
+%% Basic Types
+\section{MIS of Point3D} \ref{mPoints} \\
+The Point3D module captures the structure of a 3D Caretsian Coordinate and 
+functions that are useful for this structure.
+
+\subsection{Module}
+Point3D
+
+\subsection{Uses} -
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Point & $\mathbb{R} \times \mathbb{R} \times \mathbb{R}$ & -- & -- \\
+		.x & -- & $\mathbb{R}$ & -- \\
+		.y & -- & $\mathbb{R}$ & -- \\		
+		.z & -- & $\mathbb{R}$ & -- \\
+		distance\_abs & Point3D & $\mathbb{R}$ & -- \\
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+x : $\mathbb{R}$ \\
+y : $\mathbb{R}$ \\
+z : $\mathbb{R}$ \\
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+Point3D positions (x,y,z) are only set once (at initialization). This means 
+there will be no individual setter methods.
+
+\subsubsection{Access Routine Semantics}
+\noindent Point($Ix: \mathbb{R}, Iy: \mathbb{R}, Iz: \mathbb{R}$):
+\begin{itemize}
+	\item transition: $x, y, z := Ix, Iy, Iz$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .x():
+\begin{itemize}
+	\item output: $self.x$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .y():
+\begin{itemize}
+	\item output: $self.y$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .z():
+\begin{itemize}
+	\item output: $self.z$
+	\item exception: N/A
+\end{itemize} 
+
+\noindent distance\_abs(p:Point3D):
+\begin{itemize}
+	\item output: $ \sqrt{(p.x-self.x)^2 + (p.y-self.y)^2 + (p.z-self.z)^2}$
+	\item exception: N/A
+\end{itemize} 
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Colour} \ref{mColour} \\
+The Colour module captures the structure of colours used in this program.
+
+\subsection{Module}
+Colour
+
+\subsection{Uses} -
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Colour & $\mathbb{Z}^+ \times \mathbb{Z}^+ \times \mathbb{Z}^+$ & -- & 
+		-- \\
+		.r & -- & $\mathbb{Z}^+$ & -- \\
+		.g & -- & $\mathbb{Z}^+$ & -- \\		
+		.b & -- & $\mathbb{Z}^+$ & -- \\		%%
+		.set\_r & $\mathbb{Z}^+$ & & -- \\
+		.set\_g & $\mathbb{Z}^+$ & & -- \\		
+		.set\_b & $\mathbb{Z}^+$ & & -- \\		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+r : $\mathbb{Z}^+$ \\
+g : $\mathbb{Z}^+$ \\
+b : $\mathbb{Z}^+$ \\
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+	\item Colours can be changed at any point in time - therefore setters will 
+	be needed.
+	\item Colours are represented by RGB values that (individually) range from 
+	0 to 255.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent Colour($Ir: \mathbb{Z}^+, Ig: \mathbb{Z}^+, Ib: \mathbb{Z}^+$):
+\begin{itemize}
+	\item transition: $r, g, b := Ir, Ig, Ib$
+	\item exception: exc := $(r < 0 || r > 255) \implies INVALID\_R$ \\
+		$ | (g < 0 || g > 255) \implies INVALID\_G$ \\ $| (b < 0 || b > 255) 
+		\implies INVALID\_B$
+\end{itemize}
+
+\noindent .r():
+\begin{itemize}
+	\item output: $self.r$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .g():
+\begin{itemize}
+	\item output: $self.g$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .b():
+\begin{itemize}
+	\item output: $self.b$
+	\item exception: N/A
+\end{itemize} 
+
+\noindent .set\_r($Ir: \mathbb{Z}^+$):
+\begin{itemize}
+	\item transition: $r := Ir$
+	\item exception: exc := $(r < 0 || r > 255) \implies INVALID\_R$ \\
+\end{itemize}
+
+\noindent .set\_g($Ig: \mathbb{Z}^+$):
+\begin{itemize}
+	\item transition: $g := Ig$
+	\item exception: exc := $(g < 0 || g > 255) \implies INVALID\_G$ \\
+\end{itemize}
+
+\noindent .set\_b($Ib: \mathbb{Z}^+$):
+\begin{itemize}
+	\item transition: $b := Ib$
+	\item exception: exc := $(b < 0 || b > 255) \implies INVALID\_B$ \\
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Vector} \ref{mVector} \\
+The Vector module captures the structure of Vector objects.
+
+\subsection{Module}
+Vector
+
+\subsection{Uses}
+Point3D \ref{mPoints}
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Vector\_P & Point3D $\times$ Point3D & -- & -- \\
+		Vector & $ \mathbb{Z} \times \mathbb{Z} \times \mathbb{Z} \times 
+		\mathbb{R} $ & -- & -- \\
+		.m & & $\mathbb{R}$ & -- \\
+		direction & & $ \mathbb{Z} \times \mathbb{Z} \times \mathbb{Z}$  & -- 
+		\\	
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+ux := $\mathbb{Z}$ \\
+uy := $\mathbb{Z}$ \\
+uz := $\mathbb{Z}$ \\
+m := $\mathbb{R}$ \\ 
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+\begin{itemize}
+	\item Vectors can be created infinitely; we will only set them once during 
+	initialization.			
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+\noindent Vector($p:Point3D, q:Point3D$):
+\begin{itemize}
+	\item transition: $ux:= (q.x - p.x)/m$ \\
+	$uy:= (q.y - p.y)/m$ \\
+	$uz:= (q.z - p.z)/m$ \\
+	$m := p.distance\_abs(q)$\\
+	\item exception: --
+\end{itemize}
+
+\noindent Vector($Ix: \mathbb{Z}, Iy: \mathbb{Z}, Iz: \mathbb{Z}, Im: 
+\mathbb{R} 
+$):
+\begin{itemize}
+	\item transition: $ux, uy, uz, m := Ix, Iy, Iz, Im$
+	\item exception: exc := $(ux < -1 || ux > 1) \implies INVALID\_UX$ \\
+	$ | (ux < -1 || ux > 1) \implies INVALID\_UY$ \\ $| (ux < -1 || ux > 1) 
+	\implies INVALID\_UZ$ \\ $| (m < 0) \implies INVALID\_M$
+\end{itemize}
+
+\noindent .m():
+\begin{itemize}
+	\item output: $self.m$
+	\item exception: N/A
+\end{itemize}
+
+\noindent direction():
+\begin{itemize}
+	\item output: $self.ux, self.uy, self.uz$
+	\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Light Type} \ref{mLightType} \\
+The Light Type module is an abstract data type which captures information 
+related to the different types of light sources.
+
+\subsection{Module}
+LightType
+
+\subsection{Uses}
+N/A
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		.name & & {ambient,point,spotlight,directional} & -- \\
+		.i & & ?? & -- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+name := {ambient, point, spotlight, directional} \\
+i := Function that describes how the light intensity changes as a function of 
+distance. Every type of light has an associated function - so this should 
+really be a set of functions.\\
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent .name():
+\begin{itemize}
+	\item output: $self.name$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .i():
+\begin{itemize}
+	\item output: $self.i$
+	\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Polygon} \ref{mPolygon} \\
+The Polygon module is an abstract data type captures the structure of polygons 
+used in polygon meshes.
+
+\subsection{Module}
+Polygon
+
+\subsection{Uses}
+Point3d \ref{mPoints} \\
+Vector \ref{mVector}\\
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Polygon & \{triangle, quad\} $\times (Point3D, Vector)^n$ & -- & -- \\
+		.shape & -- & \{triangle, quad\} & -- \\
+		.bounds & -- & Set of (Point3D, Vector) & -- \\
+		.s\_norm & -- & Vector & -- \\
+		getEdges & Point3D & Set of Vectors & -- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+shape := \{triangle, quad\}
+bounds := Set of (Point3D, Vector) tuples
+s\_norm := Vector
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent Polygon($t:\{triangle, quad\}, (p:Point3D, v:Vector)^n$):
+\begin{itemize}
+	\item transition: $shape := t;$ \\
+	$bounds := \cup (p,v)$ \\
+	$s\_norm := Calculate norm as cross-product of two vectors from 1 vertex.$
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent .shape():
+\begin{itemize}
+	\item output: $self.shape$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .bounds():
+\begin{itemize}
+	\item output: $self.bounds$
+	\item exception: N/A
+\end{itemize}
+
+\noindent .s\_norm():
+\begin{itemize}
+	\item output: $self.s\_norm$
+	\item exception: N/A
+\end{itemize}
+
+\noindent getEdges(p:Point3D):
+This method retrieves all the edges that are connected to the vertex 
+represented by Point3D p. Individual polygons should have a maximum of two 
+edges per vertex based on the polygon assumptions.
+\begin{itemize}
+	\item output: $Set of Vectors := \forall b : (Point3D,Vector) | (b \in 
+	self.bounds \wedge b[0] == p) \implies \cup b[1] $
+	\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+sizeOfBounds $\equiv$ Number of elements in the set of (Point3D, Vector) 
+tuples.\\
+
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of VecMath} \ref{mPolygon} \\
+The Vector Math module is a library of services that can be used with Vectors. 
+All functions here take in 2 Vectors and output either a Vector or a scalar 
+value.
+
+\subsection{Module}
+VecMath
+
+\subsection{Uses}
+Vector \ref{mVector}\\
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		add & Vector $\times$ Vector & Vector & -- \\
+		sclMult & Vector $\times \mathbb{R}$ & Vector & -- \\ 
+		dot & Vector $\times$ Vector & $\mathbb{R}$ & -- \\
+		cross & Vector $\times$ Vector & Vector & -- \\
+		angleBetween & Vector $\times$ Vector & rad & -- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent add($v1:Vector, v2:Vector$):
+\begin{itemize}
+	\item output: 
+	Vector((v1.x+v2.x),(v1.y+v2.y),(v1.z,v2.z),$\sqrt{(v1.x+v2.x)^2+(v1.y+v2.y)^2+(v1.z,v2.z)^2}$)
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent sclMult($v1:Vector, r:\mathbb{R}$):
+\begin{itemize}
+	\item output: 
+	ux := $r \times v1.x$ \\
+	uy := $r \times v1.y$ \\
+	uz := $r \times v1.z$ \\	
+	\item exception: exc := \\
+\end{itemize}
+
+
+\noindent dot($v1:Vector, v2:Vector$):
+\begin{itemize}
+	\item output: 
+	ux := $v1.x \times v2.x$ \\
+	uy := $v1.y \times v2.y$ \\
+	uz := $v1.z \times v2.z$ \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent cross($v1:Vector, v2:Vector$):
+\begin{itemize}
+	\item output: 
+	ux := $(v1.y \times v2.z) - (v1.z \times v2.y)$  \\
+	uy := $(v1.z \times v2.x) - (v1.x \times v2.z)$  \\
+	uz := $(v1.x \times v2.y) - (v1.y \times v2.x)$  \\
+	\item exception: exc := \\
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
 \section{MIS of Scene Module} \ref{mScene} \\
 The Scene Module is an abstract object module that contains the structure for 
 the overall scene. It maintains information about the entities in the scene 
