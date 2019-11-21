@@ -259,7 +259,7 @@ N/A
 \newpage
 
 
-%% Basic Types
+%% -----------------------------Basic Types---------------------------------
 \section{MIS of Point3D} \ref{mPoints} \\
 The Point3D module captures the structure of a 3D Caretsian Coordinate and 
 functions that are useful for this structure.
@@ -622,6 +622,7 @@ N/A
 		.bounds & -- & Set of (Point3D, Vector) & -- \\
 		.s\_norm & -- & Vector & -- \\
 		getEdges & Point3D & Set of Vectors & -- \\
+		getPoints & & Set of Point3D & -- \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -645,7 +646,7 @@ N/A
 \begin{itemize}
 	\item transition: $shape := t;$ \\
 	$bounds := \cup (p,v)$ \\
-	$s\_norm := Calculate norm as cross-product of two vectors from 1 vertex.$
+	s\_norm := Calculate norm as cross-product of two vectors from 1 vertex.
 	\item exception: exc := \\
 \end{itemize}
 
@@ -672,10 +673,19 @@ This method retrieves all the edges that are connected to the vertex
 represented by Point3D p. Individual polygons should have a maximum of two 
 edges per vertex based on the polygon assumptions.
 \begin{itemize}
-	\item output: $Set of Vectors := \forall b : (Point3D,Vector) | (b \in 
+	\item output: Set of Vectors := $\forall b : (Point3D,Vector) | (b \in 
 	self.bounds \wedge b[0] == p) \implies \cup b[1] $
 	\item exception: N/A
 \end{itemize}
+
+\noindent getPoints():
+This method retrieves the set of points in the polygon.
+\begin{itemize}
+	\item output: Set of Point3D := $b: (Point3D, Vector)| \forall b \in 
+	self.bounds  \cup b.[0]$
+	\item exception: N/A
+\end{itemize}
+
 
 \subsubsection{Local Functions}
 sizeOfBounds $\equiv$ Number of elements in the set of (Point3D, Vector) 
@@ -688,7 +698,125 @@ tuples.\\
 
 \newpage
 
-\section{MIS of VecMath} \ref{mPolygon} \\
+%%---------------------------------Complex Types--------------------------------
+%%These are just the types that rely on the beasic types but are closer in 
+%%detail to the problem we're trying to describe.
+
+\section{MIS of Mesh} \ref{mMesh} \\
+The Mesh module is an abstract data type that captures the structure of polygon 
+meshes as used by this program. It also provides methods to find out basic data 
+about the polygon mesh.
+
+\subsection{Module}
+Mesh
+
+\subsection{Uses}
+Point3d \ref{mPoints} \\
+Vector \ref{mVector}\\
+VecMath \ref{mVecMath}\\
+Polygon \ref{mPolygon}\\
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+N/A
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Mesh & Set of Polygons & -- & -- \\
+		.Surfaces & - & Set of Polygons & -- \\
+		.Edges & - & Set of Vectors & -- \\
+		.Vertices & - & Set of Point3D & -- \\
+		isInMesh & Polygon & $\mathbb{B}$ & -- \\ %Check whether the given 
+		%polygon is part of the mesh
+		numPoly & Point3D & $\mathbb{Z^+}$ & -- \\ %Given a vertex, count how 
+		%many polygons that vertex is attached to.
+		intersects & Vector & Polygon & -- \\ %Given a vector (e.g. a ray) 
+		%calculate the polygon that it intersects with in that mesh
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+Vertices : Set of Point3D
+Edges : Set of Vectors
+Surfaces : Set of Polygons
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent Mesh($P:Set of Polygons$):
+\begin{itemize}
+	\item transition: Surfaces := P \\
+	Vertices := $(p:Polygon | \forall p \in P \cup p.getPoints)$\\
+	(Vertices pulls its values from the bounds of the polygons in P)\\
+	Edges := $(p:Polygon, v:Point3D | \forall p \in P \forall v \in p.getPoints 
+	\cup (p.getEdges(v)))$\\
+	(Edges pulls its values from the bounds of the polygons in P)\\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent .Surfaces():
+\begin{itemize}
+	\item output := self.Surfaces \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent .Vertices():
+\begin{itemize}
+	\item output := self.Vertices \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent .Edges():
+\begin{itemize}
+	\item output := self.Edges \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent isInMesh($p:Polygon$):
+\begin{itemize}
+	\item output := $(q:Polygon|\exists q \in self.Surfaces where q == p)$ \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent numPoly($p:Point3D$):
+\begin{itemize}
+	\item output $\equiv$ counter := $p \in self.Vertices \implies (s:Polygon| 
+	\forall s \in self.Surfaces)$ if $p \in s.bounds$ then $counter++$ \\
+	\item exception: exc := $\{p \notin self.Vertices \implies 
+	ERR\_POINT\_NOT\_IN\_MESH\}$\\
+\end{itemize}
+
+\noindent intersects($r:Vector$):
+\begin{itemize}
+	\item output := calculate whether the given vector intersects with any 
+	polygon on the mesh, and return the first polygon it intersects with.\\
+	\item exception: exc := \\
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+
+
+%%---------------------------------Libraries------------------------------------
+\section{MIS of VecMath} \ref{mVecMath} \\
 The Vector Math module is a library of services that can be used with Vectors. 
 All functions here take in 2 Vectors and output either a Vector or a scalar 
 value.
@@ -732,7 +860,8 @@ N/A
 \noindent add($v1:Vector, v2:Vector$):
 \begin{itemize}
 	\item output: 
-	Vector((v1.x+v2.x),(v1.y+v2.y),(v1.z,v2.z),$\sqrt{(v1.x+v2.x)^2+(v1.y+v2.y)^2+(v1.z,v2.z)^2}$)
+	Vector((v1.x+v2.x),(v1.y+v2.y),(v1.z,v2.z), \\
+	$\sqrt{(v1.x+v2.x)^2+(v1.y+v2.y)^2+(v1.z,v2.z)^2}$)
 	\item exception: exc := \\
 \end{itemize}
 
@@ -761,6 +890,12 @@ N/A
 	ux := $(v1.y \times v2.z) - (v1.z \times v2.y)$  \\
 	uy := $(v1.z \times v2.x) - (v1.x \times v2.z)$  \\
 	uz := $(v1.x \times v2.y) - (v1.y \times v2.x)$  \\
+	\item exception: exc := \\
+\end{itemize}
+
+\noindent angleBetween($v1:Vector, v2:Vector$):
+\begin{itemize}
+	\item output: $\cos^{-1}(\frac{dot(v1, v2)}{v1.m \times v2.m})$
 	\item exception: exc := \\
 \end{itemize}
 
