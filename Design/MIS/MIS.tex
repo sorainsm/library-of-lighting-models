@@ -264,21 +264,22 @@ N/A
 The Point3D module captures the structure of a 3D Caretsian Coordinate and 
 functions that are useful for this structure.
 
-\subsection{Module}
+\subsection{Template Module}
 Point3D
 
 \subsection{Uses} -
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+Point3D = ?
+
 \subsubsection{Exported Access Programs}
 \begin{center}
 	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Point & $\mathbb{R} \times \mathbb{R} \times \mathbb{R}$ & -- & -- \\
+		Point & $\mathbb{R}, \mathbb{R}, \mathbb{R}$ & -- & -- \\
 		.x & -- & $\mathbb{R}$ & -- \\
 		.y & -- & $\mathbb{R}$ & -- \\		
 		.z & -- & $\mathbb{R}$ & -- \\
@@ -303,6 +304,10 @@ N/A
 \subsubsection{Assumptions}
 Point3D positions (x,y,z) are only set once (at initialization). This means 
 there will be no individual setter methods.
+
+We assume that all the routines can only be called after Point() has been 
+called once. This means there needs to be at least one Point3D before you can 
+call other routines.
 
 \subsubsection{Access Routine Semantics}
 \noindent Point($Ix: \mathbb{R}, Iy: \mathbb{R}, Iz: \mathbb{R}$):
@@ -347,21 +352,22 @@ N/A
 \section{MIS of Colour} \ref{mColour} \\
 The Colour module captures the structure of colours used in this program.
 
-\subsection{Module}
+\subsection{Template Module}
 Colour
 
 \subsection{Uses} -
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+Colour = ?
+
 \subsubsection{Exported Access Programs}
 \begin{center}
 	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Colour & $\mathbb{Z}^+ \times \mathbb{Z}^+ \times \mathbb{Z}^+$ & -- & 
+		Colour & $\mathbb{Z}^+,\mathbb{Z}^+,\mathbb{Z}^+$ & -- & 
 		-- \\
 		.r & -- & $\mathbb{Z}^+$ & -- \\
 		.g & -- & $\mathbb{Z}^+$ & -- \\		
@@ -397,9 +403,9 @@ N/A
 \noindent Colour($Ir: \mathbb{Z}^+, Ig: \mathbb{Z}^+, Ib: \mathbb{Z}^+$):
 \begin{itemize}
 	\item transition: $r, g, b := Ir, Ig, Ib$
-	\item exception: exc := $(r < 0 || r > 255) \implies INVALID\_R$ \\
-		$ | (g < 0 || g > 255) \implies INVALID\_G$ \\ $| (b < 0 || b > 255) 
-		\implies INVALID\_B$
+	\item exception: exc := $(r < 0 || r > 255) \implies $INVALID\_R \\
+		$ | (g < 0 || g > 255) \implies $INVALID\_G \\ $| (b < 0 || b > 255) 
+		\implies $INVALID\_B
 \end{itemize}
 
 \noindent .r():
@@ -422,20 +428,20 @@ N/A
 
 \noindent .set\_r($Ir: \mathbb{Z}^+$):
 \begin{itemize}
-	\item transition: $r := Ir$
-	\item exception: exc := $(r < 0 || r > 255) \implies INVALID\_R$ \\
+	\item transition: r := Ir
+	\item exception: exc := $(r < 0 || r > 255) \implies $INVALID\_R \\
 \end{itemize}
 
 \noindent .set\_g($Ig: \mathbb{Z}^+$):
 \begin{itemize}
-	\item transition: $g := Ig$
-	\item exception: exc := $(g < 0 || g > 255) \implies INVALID\_G$ \\
+	\item transition: g := Ig
+	\item exception: exc := $(g < 0 || g > 255) \implies $INVALID\_G \\
 \end{itemize}
 
 \noindent .set\_b($Ib: \mathbb{Z}^+$):
 \begin{itemize}
-	\item transition: $b := Ib$
-	\item exception: exc := $(b < 0 || b > 255) \implies INVALID\_B$ \\
+	\item transition: b := Ib
+	\item exception: exc := $(b < 0 || b > 255) \implies $INVALID\_B \\
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -450,26 +456,25 @@ N/A
 \section{MIS of Vector} \ref{mVector} \\
 The Vector module captures the structure of Vector objects.
 
-\subsection{Module}
+\subsection{Template Module}
 Vector
 
 \subsection{Uses}
 Point3D \ref{mPoints}
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+Vector = ?
 \subsubsection{Exported Access Programs}
 \begin{center}
 	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Vector\_P & Point3D $\times$ Point3D & -- & -- \\
-		Vector & $ \mathbb{Z} \times \mathbb{Z} \times \mathbb{Z} \times 
-		\mathbb{R} $ & -- & -- \\
+		Vector\_P & Point3D, Point3D & -- & -- \\
+		Vector & $ \mathbb{Z},\mathbb{Z},\mathbb{Z},\mathbb{R} $ & -- & -- \\
 		.m & & $\mathbb{R}$ & -- \\
-		direction & & $ \mathbb{Z} \times \mathbb{Z} \times \mathbb{Z}$  & -- 
+		direction & & $ \mathbb{Z},\mathbb{Z},\mathbb{Z}$  & -- 
 		\\	
 		\hline
 	\end{tabular}
@@ -477,6 +482,7 @@ N/A
 
 \subsection{Semantics}
 \subsubsection{State Variables}
+start := Point3D \\
 ux := $\mathbb{Z}$ \\
 uy := $\mathbb{Z}$ \\
 uz := $\mathbb{Z}$ \\
@@ -495,12 +501,13 @@ N/A
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
-\noindent Vector($p:Point3D, q:Point3D$):
+\noindent Vector(p:Point3D, q:Point3D):
 \begin{itemize}
-	\item transition: $ux:= (q.x - p.x)/m$ \\
+	\item transition: start:= p\\
+	$ux:= (q.x - p.x)/m$ \\
 	$uy:= (q.y - p.y)/m$ \\
 	$uz:= (q.z - p.z)/m$ \\
-	$m := p.distance\_abs(q)$\\
+	$m := start.distance\_abs(q)$\\
 	\item exception: --
 \end{itemize}
 
@@ -508,10 +515,10 @@ N/A
 \mathbb{R} 
 $):
 \begin{itemize}
-	\item transition: $ux, uy, uz, m := Ix, Iy, Iz, Im$
-	\item exception: exc := $(ux < -1 || ux > 1) \implies INVALID\_UX$ \\
-	$ | (ux < -1 || ux > 1) \implies INVALID\_UY$ \\ $| (ux < -1 || ux > 1) 
-	\implies INVALID\_UZ$ \\ $| (m < 0) \implies INVALID\_M$
+	\item transition: ux, uy, uz, m := Ix, Iy, Iz, Im
+	\item exception: exc := $(ux < -1 || ux > 1) \implies $INVALID\_UX \\
+	$ | (ux < -1 || ux > 1) \implies$  INVALID\_UY \\ $| $(ux $< -1 ||$ ux $> 
+	1$) $\implies $ INVALID\_UZ \\ $| (m < 0) \implies$ INVALID\_M
 \end{itemize}
 
 \noindent .m():
@@ -526,6 +533,13 @@ $):
 	\item exception: N/A
 \end{itemize}
 
+\noindent .start():
+\begin{itemize}
+	\item output: $self.start$
+	\item exception: N/A
+\end{itemize}
+
+
 \subsubsection{Local Functions}
 N/A
 %\wss{As appropriate} \wss{These functions are for the purpose of specification.
@@ -539,30 +553,32 @@ N/A
 The Light Type module is an abstract data type which captures information 
 related to the different types of light sources.
 
-\subsection{Module}
+\subsection{Template Module}
 LightType
 
 \subsection{Uses}
 N/A
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+LightType = ?
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{4cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		.name & & {ambient,point,spotlight,directional} & -- \\
-		.i & & ?? & -- \\
+		LightType & \{ambient,point,spotlight,directional\} & LightType & -- \\
+		.name & & LightType & -- \\
+		.i & LightType & $\mathbb{R},\mathbb{R} \to 
+		\mathbb{R}$ & -- \\
 		\hline
 	\end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-name := {ambient, point, spotlight, directional} \\
+name := \{ ambient, point, spotlight, directional \} \\
 i := Function that describes how the light intensity changes as a function of 
 distance. Every type of light has an associated function - so this should 
 really be a set of functions.\\
@@ -576,6 +592,18 @@ N/A
 \subsubsection{Assumptions}
 
 \subsubsection{Access Routine Semantics}
+\noindent LightType(inName):
+\begin{itemize}
+	\item transition: self.name := inName \\
+					  self.i := (name == ambient $\implies \lambda d, i_{0} \to 
+					  i_{0}$ |\\
+					  name == directional $\implies \lambda d, i_{0} \to 
+					  \frac{1}{d^2}i_{0}$)
+	\item output: self
+	\item exception: exc:= \{inName $\notin$ {ambient, spotlight, point, 
+	directional} $\implies$ INVALID\_LIGHT\_TYPE \}
+\end{itemize}
+
 \noindent .name():
 \begin{itemize}
 	\item output: $self.name$
@@ -601,7 +629,7 @@ N/A
 The Polygon module is an abstract data type captures the structure of polygons 
 used in polygon meshes.
 
-\subsection{Module}
+\subsection{Template Module}
 Polygon
 
 \subsection{Uses}
@@ -609,15 +637,15 @@ Point3d \ref{mPoints} \\
 Vector \ref{mVector}\\
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+Polygon = ?
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{4cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Polygon & \{triangle, quad\} $\times (Point3D, Vector)^n$ & -- & -- \\
+		Polygon & \{triangle, quad\}, (Point3D, Vector)$^n$ & -- & -- \\
 		.shape & -- & \{triangle, quad\} & -- \\
 		.bounds & -- & Set of (Point3D, Vector) & -- \\
 		.s\_norm & -- & Vector & -- \\
@@ -644,27 +672,35 @@ N/A
 \subsubsection{Access Routine Semantics}
 \noindent Polygon($t:\{triangle, quad\}, (p:Point3D, v:Vector)^n$):
 \begin{itemize}
-	\item transition: $shape := t;$ \\
+	\item transition:= $shape := t;$ \\
 	$bounds := \cup (p,v)$ \\
 	s\_norm := Calculate norm as cross-product of two vectors from 1 vertex.
-	\item exception: exc := \\
+	\item exception: exc := \{(t $\notin$ \{triangle, quad\} $\implies$ 
+	INVALID\_SHAPE) \\ $|$ (t:\{triangle, quad\},b: Set of (Point3D, Vector)$|$ 
+	t == triangle, sizeOfBounds $<$ 6 $\implies$ TOO\_FEW\_POINTS) \\ $|$ 
+	(t:\{triangle, quad\},b: Set of (Point3D, Vector) $|$ t == triangle, 
+	sizeOfBounds $>$ 6 $\implies$ TOO\_MANY\_POINTS) \\ $|$ 
+	(t:\{triangle, quad\},b: Set of (Point3D, Vector) $|$ t == quad, 
+	sizeOfBounds $>$ 8 $\implies$ TOO\_MANY\_POINTS) \\ $|$ 
+	(t:\{triangle, quad\},b: Set of (Point3D, Vector) $|$ t == quad, 
+	sizeOfBounds $<$ 8 $\implies$ TOO\_FEW\_POINTS)  \}\\
 \end{itemize}
 
 \noindent .shape():
 \begin{itemize}
-	\item output: $self.shape$
+	\item output:= self.shape
 	\item exception: N/A
 \end{itemize}
 
 \noindent .bounds():
 \begin{itemize}
-	\item output: $self.bounds$
+	\item output:= self.bounds
 	\item exception: N/A
 \end{itemize}
 
 \noindent .s\_norm():
 \begin{itemize}
-	\item output: $self.s\_norm$
+	\item output:= self.s\_norm
 	\item exception: N/A
 \end{itemize}
 
@@ -673,7 +709,7 @@ This method retrieves all the edges that are connected to the vertex
 represented by Point3D p. Individual polygons should have a maximum of two 
 edges per vertex based on the polygon assumptions.
 \begin{itemize}
-	\item output: Set of Vectors := $\forall b : (Point3D,Vector) | (b \in 
+	\item output:= Set of Vectors := $\forall b : (Point3D,Vector) | (b \in 
 	self.bounds \wedge b[0] == p) \implies \cup b[1] $
 	\item exception: N/A
 \end{itemize}
@@ -707,7 +743,7 @@ The Mesh module is an abstract data type that captures the structure of polygon
 meshes as used by this program. It also provides methods to find out basic data 
 about the polygon mesh.
 
-\subsection{Module}
+\subsection{Template Module}
 Mesh
 
 \subsection{Uses}
@@ -717,8 +753,9 @@ VecMath \ref{mVecMath}\\
 Polygon \ref{mPolygon}\\
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
-N/A
+\subsubsection{Exported Types}
+Mesh = ?
+
 \subsubsection{Exported Access Programs}
 \begin{center}
 	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
@@ -741,9 +778,9 @@ N/A
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-Vertices : Set of Point3D
-Edges : Set of Vectors
-Surfaces : Set of Polygons
+Vertices : Set of Point3D\\
+Edges : Set of Vectors\\
+Surfaces : Set of Polygons\\
 
 \subsubsection{Environment Variables}
 N/A
@@ -757,44 +794,53 @@ N/A
 \noindent Mesh($P:Set of Polygons$):
 \begin{itemize}
 	\item transition: Surfaces := P \\
-	Vertices := $(p:Polygon | \forall p \in P \cup p.getPoints)$\\
+	Vertices := $(p:Polygon | \forall p \in P \to \cup p.getPoints)$\\
 	(Vertices pulls its values from the bounds of the polygons in P)\\
 	Edges := $(p:Polygon, v:Point3D | \forall p \in P \forall v \in p.getPoints 
 	\cup (p.getEdges(v)))$\\
 	(Edges pulls its values from the bounds of the polygons in P)\\
-	\item exception: exc := \\
+	\item exception: exc := \{ P == $\emptyset \implies$ INVALID\_MESH\\ $| 
+	(p,q:Polygon| \forall p, q \in P, p \neq q \land p.shape \neq q.shape 
+	\implies$ POLYGON\_SHAPES\_MISMATCH)\\ $| (p,q:Polygon, 
+	p_{1},q_{1}:Point3D| 
+	\forall p \in P, \exists q \in P$ such that $\exists p_{1} \in 
+	p.getPoints() 
+	\land \exists q_{1} \in q.getPoints()$ such that $p_{1} \neq q_{1} 
+	\implies$ 
+	INVALID\_POLYS)\}\\
+	
 \end{itemize}
 
 \noindent .Surfaces():
 \begin{itemize}
 	\item output := self.Surfaces \\
-	\item exception: exc := \\
+	\item exception: N/A\\
 \end{itemize}
 
 \noindent .Vertices():
 \begin{itemize}
 	\item output := self.Vertices \\
-	\item exception: exc := \\
+	\item exception: N/A\\
 \end{itemize}
 
 \noindent .Edges():
 \begin{itemize}
 	\item output := self.Edges \\
-	\item exception: exc := \\
+	\item exception: N/A\\
 \end{itemize}
 
 \noindent isInMesh($p:Polygon$):
 \begin{itemize}
 	\item output := $(q:Polygon|\exists q \in self.Surfaces where q == p)$ \\
-	\item exception: exc := \\
+	\item exception: N/A\\
 \end{itemize}
 
 \noindent numPoly($p:Point3D$):
 \begin{itemize}
-	\item output $\equiv$ counter := $p \in self.Vertices \implies (s:Polygon| 
-	\forall s \in self.Surfaces)$ if $p \in s.bounds$ then $counter++$ \\
-	\item exception: exc := $\{p \notin self.Vertices \implies 
-	ERR\_POINT\_NOT\_IN\_MESH\}$\\
+	\item output:=  counter := $p \in$ self.Vertices $\implies (s:Polygon| 
+	\forall s \in$ self.Surfaces) if $p \in s.bounds$ then $counter++$ \\
+	\item exception: exc := $\{p \notin self.Vertices \implies$ 
+	ERR\_POINT\_NOT\_IN\_MESH\}\\
 \end{itemize}
 
 \noindent intersects($r:Vector$):
@@ -813,6 +859,95 @@ N/A
 
 \newpage
 
+\section{MIS of Mesh} \ref{mLightSource} \\
+The Light Source module is an Abstract Data Type that defines the structure and 
+behaviours of light sources in the scene.
+\subsection{Template Module}
+LightSource
+
+\subsection{Uses}
+Point3d \ref{mPoints} \\
+Vector \ref{mVector}\\
+VecMath \ref{mVecMath}\\
+Polygon \ref{mPolygon}\\
+
+\subsection{Syntax}
+\subsubsection{Exported Types}
+LightSource = ?
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		LightSource & Point3D, Colour, LightType, $\mathbb{R}$ Set of Vectors & 
+		LightSource & \\
+		.origin & & Point3D & \\
+		.colour & & Colour & \\
+		.type & & LightType & \\
+		.intensity & & $\mathbb{R}$ & \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+o: Point3D \\ %%Origin position of light source
+c: Colour \\
+t: lightType \\
+$i_{0}$: $\mathbb{R}$ \\
+ds: Set of Vector \\ %%Set of direction vectors 
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent LightSource(inP: Point3d, inC: Colour, lt: LightType, ins: 
+$\mathbb{R}$ inDs: Set of Vectors):
+\begin{itemize}
+	\item transition: o, c, t, i, ds := inP, inC, lt, ins, inDs \\
+	\item exception: N/A\\
+\end{itemize}
+
+\noindent .origin():
+\begin{itemize}
+	\item output:= self.o\\
+	\item exception: N/A\\
+\end{itemize}
+
+\noindent .colour():
+\begin{itemize}
+	\item output:= self.c\\
+	\item exception: N/A\\
+\end{itemize}
+
+\noindent .type():
+\begin{itemize}
+	\item output:= self.t\\
+	\item exception: N/A\\
+\end{itemize}
+
+\noindent .intensity():
+\begin{itemize}
+	\item output: self.i\\
+	\item exception: N/A\\
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
 
 
 %%---------------------------------Libraries------------------------------------
@@ -871,7 +1006,7 @@ N/A
 	ux := $r \times v1.x$ \\
 	uy := $r \times v1.y$ \\
 	uz := $r \times v1.z$ \\	
-	\item exception: exc := \\
+	\item exception: \\
 \end{itemize}
 
 
@@ -881,7 +1016,7 @@ N/A
 	ux := $v1.x \times v2.x$ \\
 	uy := $v1.y \times v2.y$ \\
 	uz := $v1.z \times v2.z$ \\
-	\item exception: exc := \\
+	\item exception: \\
 \end{itemize}
 
 \noindent cross($v1:Vector, v2:Vector$):
@@ -890,13 +1025,13 @@ N/A
 	ux := $(v1.y \times v2.z) - (v1.z \times v2.y)$  \\
 	uy := $(v1.z \times v2.x) - (v1.x \times v2.z)$  \\
 	uz := $(v1.x \times v2.y) - (v1.y \times v2.x)$  \\
-	\item exception: exc := \\
+	\item exception: \\
 \end{itemize}
 
 \noindent angleBetween($v1:Vector, v2:Vector$):
 \begin{itemize}
 	\item output: $\cos^{-1}(\frac{dot(v1, v2)}{v1.m \times v2.m})$
-	\item exception: exc := \\
+	\item exception: \\
 \end{itemize}
 
 \subsubsection{Local Functions}
