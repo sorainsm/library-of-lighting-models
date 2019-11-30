@@ -7,6 +7,7 @@
 \usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{xr}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -18,6 +19,9 @@
 
 \input{../../Comments}
 \input{../../Common}
+
+\externaldocument{../MIS/MIS}
+\externaldocument[CA-]{../../Commonality-Analysis/CA}
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
@@ -73,9 +77,8 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
+  Lighting Models & Explanation of program name\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -220,7 +223,8 @@ Module
 \item [\refstepcounter{mnum} \mthemnum \label{mObjects}:] Object Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLights}:] Light Source Module
 \item [\refstepcounter{mnum} \mthemnum \label{mObsv}:] Observer Module
-\item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
+\item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Module
+\item [\refstepcounter{mnum} \mthemnum \label{mVecMath}:] Vector Math Module
 \item [\refstepcounter{mnum} \mthemnum \label{mShader}:] Shader Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLightModel}:] Lighting Model 
 Module
@@ -285,14 +289,15 @@ The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table \ref{TblRT}.
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.  In scientific examples, the choice of algorithm
-could potentially go here, if that is a decision that is exposed by the
-interface.}
+
+%\wss{The intention of this section is to document decisions that are made
+%``between'' the requirements and the design.  To satisfy some requirements,
+%design decisions need to be made.  Rather than make these decisions implicit,
+%they are explicitly recorded here.  For instance, if a program has security
+%requirements, a specific design decision may be made to satisfy those
+%requirements with a password.  In scientific examples, the choice of algorithm
+%could potentially go here, if that is a decision that is exposed by the
+%interface.}
 
 %%TO DO:
 % - talk about the JSON design decision
@@ -308,8 +313,10 @@ module. The \emph{Services} field specifies \emph{what} the module will do
 without documenting \emph{how} to do it. For each module, a suggestion for the
 implementing software is given under the \emph{Implemented By} title. If the
 entry is \emph{OS}, this means that the module is provided by the operating
-system or by standard programming language libraries.  \emph{\progname{}} means the
-module will be implemented by the \progname{} software.
+system or by standard programming language libraries.  \emph{Lighting Models} 
+means 
+the
+module will be implemented by the Lighting Models software.
 
 Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
@@ -359,7 +366,7 @@ descriptions follow the format below:
 	\item[Secrets:]The format and structure of inputs to the system.
 	\item[Services:]Converts information passed to the system into formats 
 	readable by the system.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Output Parameters Module (\mref{mOutputs})}
@@ -368,7 +375,7 @@ descriptions follow the format below:
 	\item[Secrets:]The format and structure of outputs from the system.
 	\item[Services:]Converts information from system formats to storage formats 
 	for output.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 %%--------------Basic Types for the System --------------%%
@@ -377,28 +384,28 @@ descriptions follow the format below:
 	\item[Secrets:]The structure of a Polygon.
 	\item[Services:]Constrains polygons usable in meshes and defines their 
 	characteristics and behaviours.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Light Type Module (\mref{mTypes})}
 \begin{description}
 	\item[Secrets:]The types of lights possible in a scene.
 	\item[Services:]Defines types of light and their respective behaviours.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Colour Module (\mref{mColour})}
 \begin{description}
 	\item[Secrets:]The structure of colours.
 	\item[Services:]Constrains colours usable in the system.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{3D Cartesian Coordinate Module (\mref{mPoint})}
 \begin{description}
 	\item[Secrets:]The structure of a 3D Cartesian Coordainte (point).
 	\item[Services:]Constrains valid points in the system.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Polygon Mesh Module (\mref{mMesh})}
@@ -406,7 +413,7 @@ descriptions follow the format below:
 	\item[Secrets:]The data structures and algorithms to represent and 
 	manipulate polygon meshes.
 	\item[Services:]Stores and retrieves data about polygon mesh.
-	\item[Implemented By:] ---
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Normal Maps Module (\mref{mNormals})}
@@ -417,7 +424,14 @@ descriptions follow the format below:
 	normal maps.
 	\item[Services:]Stores and retrieves data about normal maps associated to 
 	polygon meshes.
-	\item[Implemented By:] ---
+	\item[Implemented By:] Lighting Models
+\end{description}
+
+\subsubsection{Vector Module (\mref{mVectors})}
+\begin{description}
+	\item[Secrets:]The structure and operations available to Vectors.
+	\item[Services:]Creates and manipulates vectors.
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 %%--------------Conceptual Types that we work with from CA --------------%%
@@ -426,7 +440,7 @@ descriptions follow the format below:
 	\item[Secrets:]The structure of a scene.
 	\item[Services:]Coordinates the objects, light sources, and observers in 
 	the scene. Calculates final lighting based on lighting and shader models.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Object Module (\mref{mObjects})}
@@ -434,7 +448,7 @@ descriptions follow the format below:
 	\item[Secrets:]The structure of objects.
 	\item[Services:]Converts input data into the data structure used to 
 	represent objects.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Light Source Module (\mref{mLights})}
@@ -442,7 +456,7 @@ descriptions follow the format below:
 	\item[Secrets:]The structure of a light source.
 	\item[Services:]Converts input data into the data structure used to 
 	represent light sources.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsubsection{Observer Module (\mref{mObsv})}
@@ -450,16 +464,16 @@ descriptions follow the format below:
 	\item[Secrets:]The structure of an observer.
 	\item[Services:]Converts input data into the data structure used to 
 	represent observers.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 %%The following modules handle algorithm
 %%--------------Basic Calculations --------------%%
-\subsubsection{Vector Math Module (\mref{mVectors})}
+\subsubsection{Vector Math Module (\mref{mVecMath})}
 \begin{description}
-	\item[Secrets:]The structure and operations available to Vectors.
-	\item[Services:]Creates and manipulates vectors.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Secrets:]Operations and algebra for vectors.
+	\item[Services:]Calculates vector algebra.
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 %%--------------Lighting Specific Calculations --------------%%
@@ -468,7 +482,7 @@ descriptions follow the format below:
 	\item[Secrets:]The algorithm to calculate object normals.
 	\item[Services:]Calculates surface normals for objects, and interpolates 
 	them between points on the mesh.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:]Lighting Models
 \end{description}
 
 \subsubsection{Lighting Model Module (\mref{mLightModel})}
@@ -477,7 +491,7 @@ descriptions follow the format below:
 	objects.
 	\item[Services:]Calculates luminous intensity and final colours based on 
 	lighting model.
-	\item[Implemented By:] [Your Program Name Here]
+	\item[Implemented By:] Lighting Models
 \end{description}
 
 \subsection{Software Decision Module}
@@ -502,7 +516,7 @@ descriptions follow the format below:
 	\item[Secrets:]The structure and parsing of JSON.
 	\item[Services:]Converts information from the system to formatted JSON for 
 	saving, and information from JSON to system readable data for loading.
-	\item[Implemented By:] ---
+	\item[Implemented By:] Unity Engine
 \end{description}
 
 \subsubsection{Rendering Module (\mref{mUnity})}
@@ -511,7 +525,7 @@ descriptions follow the format below:
 	\item[Secrets:]The algorithm to convert output files to rendered scene.
 	\item[Services:]Converts information from the JSON output files to rendered 
 	scene.
-	\item[Implemented By:] ---
+	\item[Implemented By:] Unity Engine
 \end{description}
 
 \subsubsection{Etc.}
@@ -523,29 +537,37 @@ requirements and between the modules and the anticipated changes.
 
 % the table should use mref, the requirements should be named, use something
 % like fref
+The following table will correlate the functional requirements from the CA to 
+the modules presented here.
 \begin{table}[H]
 \centering
 \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+\ref{CA-R_Inputs1} & \mref{mInputs}, \mref{mJSON}, \mref{mHH}\\
+\ref{CA-R_Inputs1Err} & \mref{mInputs}\\
+\ref{CA-R_Inputs1Err-Def} & -- \\
+\ref{CA-R_DefaultScene} & -- \\
+\ref{CA-R_Inputs2} & \mref{mScene}, \mref{mObjects}, \mref{mObsv}, 
+\mref{mLights}\\
+\ref{CA-R_Inputs2Err} & \mref{mInputs}, \mref{mScene}, \mref{mObjects}, 
+\mref{mObsv}, \mref{mLights}\\
+\ref{CA-R_Calculate1} & \mref{mVecMath}, \mref{mShader}\\
+\ref{CA-R_Calculate2} & \mref{mVecMath}, \mref{mShader},  
+\mref{mScene}\\
+\ref{CA-R_Calculate3} & \mref{mVecMath}, \mref{mLightModel}, \mref{mScene}\\
+\ref{CA-R_Calculate4} & \mref{mScene}, \mref{mObjects}, \mref{mLightModel}\\
+\ref{CA-R_Output} & \mref{mOutputs}\\
+\ref{CA-R_Performance} & -- \\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
 \label{TblRT}
 \end{table}
 
+The following table will correlate the anticipated changes with the decomposed 
+modules.
 \begin{table}[H]
 \centering
 \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
@@ -553,17 +575,14 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acInput} & \mref{mInputs}, \mref{mJSON}\\
+\acref{acOutput} & \mref{mOutputs}, \mref{mJSON}, \mref{mUnity}\\
+\acref{acNormalCalculation} & \mref{mShader}, \mref{mVecMath}\\
+\acref{acNormalInterpolation} & \mref{mShader}\\
+\acref{acLightingModels} & \mref{mLightModel}\\
+\acref{acShapes} & \mref{mPolygon},\mref{mMesh}\\
+\acref{acLights} & \mref{mLights}\\
+
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -584,8 +603,8 @@ system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
 \begin{figure}[H]
-\centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics{mg-hierarchy}
+%\includegraphics[width=0.7\textwidth]{./mg-hierarchy.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
