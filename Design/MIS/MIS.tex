@@ -152,9 +152,10 @@ The following table is taken directly from the Module Guide document for this pr
 		%%it into usable objects
 		& Output Format Module \\
 		%% Purpose is to create the output of the module
-		& Shape Module\\
+		& Polygon Module\\
 		& Colour Module\\
-		& 3D Cartesian Coordinate Module\\ %%Data type for representing 
+		& 3D Cartesian Coordinate (Point3D) Module\\ %%Data type for 
+		%%representing 
 		%%cartesian 
 		%%coordinates; works with the vector math module to define vectors and 
 		%%calculate 
@@ -194,8 +195,18 @@ The following table is taken directly from the Module Guide document for this pr
 
 ~\newpage
 
+The following sections of this document will outline the module interface 
+specifications for the modules listed in the module hierarchy. Two modules are 
+omitted from this discussion: the hardware-hiding module, and the rendering 
+module. The hardware hiding module is provided via the syntax of the 
+programming language to interface with the computer hardware, as such I will 
+not be documenting it here. The rendering module will be handled by the Unity 
+environment, the process of documenting how it would work wouldn't be 
+appropriate for the scope of this work. Suffice it to say that the 
+documentation for the rendering module can be found in the documentation for 
+the Unity Engine.
 
-
+%% -------------------------File Related Modules--------------------------------
 \section{MIS of Input Parameters Module} \ref{mInputs} \\
 The Input Parameters Module converts the JSON data from the input file into the 
 objects usable by the system. During this process, the input parameters 
@@ -204,7 +215,6 @@ objects usable by the system. During this process, the input parameters
 Input Parameters
 
 \subsection{Uses}
-JSON, Object, Light Source, Observer, Scene
 
 \subsection{Syntax}
 \subsubsection{Exported Constants}
@@ -232,7 +242,7 @@ N/A
 %module a memory.}
 
 \subsubsection{Environment Variables}
-N/A
+input: File
 %\wss{This section is not necessary for all modules.  Its purpose is to capture
 %  when the module has external interaction with the environment, such as for a
 %  device driver, screen interface, keyboard, file, etc.}
@@ -279,7 +289,7 @@ Point3D = ?
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Point & $\mathbb{R}, \mathbb{R}, \mathbb{R}$ & -- & -- \\
+		Point & $\mathbb{R}, \mathbb{R}, \mathbb{R}$ & Point3D & -- \\
 		.x & -- & $\mathbb{R}$ & -- \\
 		.y & -- & $\mathbb{R}$ & -- \\		
 		.z & -- & $\mathbb{R}$ & -- \\
@@ -312,31 +322,32 @@ call other routines.
 \subsubsection{Access Routine Semantics}
 \noindent Point($Ix: \mathbb{R}, Iy: \mathbb{R}, Iz: \mathbb{R}$):
 \begin{itemize}
-	\item transition: $x, y, z := Ix, Iy, Iz$
+	\item transition: x, y, z := Ix, Iy, Iz
+	\item output:= self
 	\item exception: N/A
 \end{itemize}
 
 \noindent .x():
 \begin{itemize}
-	\item output: $self.x$
+	\item output:= self.x
 	\item exception: N/A
 \end{itemize}
 
 \noindent .y():
 \begin{itemize}
-	\item output: $self.y$
+	\item output:= self.y
 	\item exception: N/A
 \end{itemize}
 
 \noindent .z():
 \begin{itemize}
-	\item output: $self.z$
+	\item output:= self.z
 	\item exception: N/A
 \end{itemize} 
 
 \noindent distance\_abs(p:Point3D):
 \begin{itemize}
-	\item output: $ \sqrt{(p.x-self.x)^2 + (p.y-self.y)^2 + (p.z-self.z)^2}$
+	\item output:= $sqrt{(p.x-self.x)^2 + (p.y-self.y)^2 + (p.z-self.z)^2}$
 	\item exception: N/A
 \end{itemize} 
 
@@ -367,8 +378,8 @@ Colour = ?
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Colour & $\mathbb{Z}^+,\mathbb{Z}^+,\mathbb{Z}^+$ & -- & 
-		-- \\
+		Colour & $\mathbb{Z}^+,\mathbb{Z}^+,\mathbb{Z}^+$ & & INVALID\_R, 
+		INVALID\_G, INVALID\_B \\
 		.r & -- & $\mathbb{Z}^+$ & -- \\
 		.g & -- & $\mathbb{Z}^+$ & -- \\		
 		.b & -- & $\mathbb{Z}^+$ & -- \\		%%
@@ -460,7 +471,6 @@ The Vector module captures the structure of Vector objects.
 Vector
 
 \subsection{Uses}
-Point3D \ref{mPoints}
 
 \subsection{Syntax}
 \subsubsection{Exported Types}
@@ -471,10 +481,11 @@ Vector = ?
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Vector\_P & Point3D, Point3D & -- & -- \\
-		Vector & $ \mathbb{Z},\mathbb{Z},\mathbb{Z},\mathbb{R} $ & -- & -- \\
+		Vector\_P & Point3D, Point3D & -- & SAME\_POINTS \\
+		Vector & $ \mathbb{R},\mathbb{R},\mathbb{R},\mathbb{R} $ & -- & 
+		INVALID\_UX, INVALID\_UY, INVALID\_UZ, INVALID\_M \\
 		.m & & $\mathbb{R}$ & -- \\
-		direction & & $ \mathbb{Z},\mathbb{Z},\mathbb{Z}$  & -- 
+		direction & & $ \mathbb{R},\mathbb{R},\mathbb{R}$  & -- 
 		\\	
 		\hline
 	\end{tabular}
@@ -483,9 +494,9 @@ Vector = ?
 \subsection{Semantics}
 \subsubsection{State Variables}
 start := Point3D \\
-ux := $\mathbb{Z}$ \\
-uy := $\mathbb{Z}$ \\
-uz := $\mathbb{Z}$ \\
+ux := $\mathbb{R}$ \\
+uy := $\mathbb{R}$ \\
+uz := $\mathbb{R}$ \\
 m := $\mathbb{R}$ \\ 
 
 \subsubsection{Environment Variables}
@@ -504,11 +515,11 @@ N/A
 \noindent Vector(p:Point3D, q:Point3D):
 \begin{itemize}
 	\item transition: start:= p\\
-	$ux:= (q.x - p.x)/m$ \\
-	$uy:= (q.y - p.y)/m$ \\
-	$uz:= (q.z - p.z)/m$ \\
-	$m := start.distance\_abs(q)$\\
-	\item exception: --
+	ux:= (q.x - p.x)/m \\
+	uy:= (q.y - p.y)/m \\
+	uz:= (q.z - p.z)/m \\
+	m := start.distance\_abs(q)\\
+	\item exception: exc:= \{ p == q $\implies$ SAME\_POINTS\}
 \end{itemize}
 
 \noindent Vector($Ix: \mathbb{Z}, Iy: \mathbb{Z}, Iz: \mathbb{Z}, Im: 
@@ -564,7 +575,7 @@ N/A
 LightType = ?
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{7cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
@@ -596,9 +607,12 @@ N/A
 \begin{itemize}
 	\item transition: self.name := inName \\
 					  self.i := (name == ambient $\implies \lambda d, i_{0} \to 
-					  i_{0}$ |\\
-					  name == directional $\implies \lambda d, i_{0} \to 
-					  \frac{1}{d^2}i_{0}$)
+					  i_{0}$ \\
+					  $|$  name == directional $\implies \lambda d, i_{0} \to 
+					  \frac{1}{d^2}i_{0}$ \\
+					  $|$ name == point $\implies \lambda d, i_{0} \to 
+					  i_{0}$\\
+					  $|$ name == spotlight $\implies$)
 	\item output: self
 	\item exception: exc:= \{inName $\notin$ {ambient, spotlight, point, 
 	directional} $\implies$ INVALID\_LIGHT\_TYPE \}
@@ -633,15 +647,13 @@ used in polygon meshes.
 Polygon
 
 \subsection{Uses}
-Point3d \ref{mPoints} \\
-Vector \ref{mVector}\\
 
 \subsection{Syntax}
 \subsubsection{Exported Types}
 Polygon = ?
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{7cm} p{5cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
@@ -657,9 +669,9 @@ Polygon = ?
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-shape := \{triangle, quad\}
-bounds := Set of (Point3D, Vector) tuples
-s\_norm := Vector
+shape := \{triangle, quad\}\\
+bounds := Set of (Point3D, Vector) tuples\\
+s\_norm := Vector\\
 
 \subsubsection{Environment Variables}
 N/A
@@ -704,18 +716,18 @@ N/A
 	\item exception: N/A
 \end{itemize}
 
-\noindent getEdges(p:Point3D):
+\noindent getEdges(p:Point3D):\\
 This method retrieves all the edges that are connected to the vertex 
 represented by Point3D p. Individual polygons should have a maximum of two 
-edges per vertex based on the polygon assumptions.
+edges per vertex based on the polygon assumptions.\\
 \begin{itemize}
 	\item output:= Set of Vectors := $\forall b : (Point3D,Vector) | (b \in 
 	self.bounds \wedge b[0] == p) \implies \cup b[1] $
 	\item exception: N/A
 \end{itemize}
 
-\noindent getPoints():
-This method retrieves the set of points in the polygon.
+\noindent getPoints():\\
+This method retrieves the set of points in the polygon.\\
 \begin{itemize}
 	\item output: Set of Point3D := $b: (Point3D, Vector)| \forall b \in 
 	self.bounds  \cup b.[0]$
@@ -747,10 +759,6 @@ about the polygon mesh.
 Mesh
 
 \subsection{Uses}
-Point3d \ref{mPoints} \\
-Vector \ref{mVector}\\
-VecMath \ref{mVecMath}\\
-Polygon \ref{mPolygon}\\
 
 \subsection{Syntax}
 \subsubsection{Exported Types}
@@ -758,7 +766,7 @@ Mesh = ?
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
@@ -772,6 +780,7 @@ Mesh = ?
 		%many polygons that vertex is attached to.
 		intersects & Vector & Polygon & -- \\ %Given a vector (e.g. a ray) 
 		%calculate the polygon that it intersects with in that mesh
+		pointsOnMesh & Point3D & $\mathbb{B}$ & -- \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -793,7 +802,7 @@ N/A
 \subsubsection{Access Routine Semantics}
 \noindent Mesh($P:Set of Polygons$):
 \begin{itemize}
-	\item transition: Surfaces := P \\
+	\item transition: Surfaces := P
 	Vertices := $(p:Polygon | \forall p \in P \to \cup p.getPoints)$\\
 	(Vertices pulls its values from the bounds of the polygons in P)\\
 	Edges := $(p:Polygon, v:Point3D | \forall p \in P \forall v \in p.getPoints 
@@ -807,47 +816,53 @@ N/A
 	p.getPoints() 
 	\land \exists q_{1} \in q.getPoints()$ such that $p_{1} \neq q_{1} 
 	\implies$ 
-	INVALID\_POLYS)\}\\
+	INVALID\_POLYS)\}
 	
 \end{itemize}
 
 \noindent .Surfaces():
 \begin{itemize}
-	\item output := self.Surfaces \\
-	\item exception: N/A\\
+	\item output := self.Surfaces
+	\item exception: N/A
 \end{itemize}
 
 \noindent .Vertices():
 \begin{itemize}
-	\item output := self.Vertices \\
-	\item exception: N/A\\
+	\item output := self.Vertices
+	\item exception: N/A
 \end{itemize}
 
 \noindent .Edges():
 \begin{itemize}
-	\item output := self.Edges \\
-	\item exception: N/A\\
+	\item output := self.Edges
+	\item exception: N/A
 \end{itemize}
 
 \noindent isInMesh($p:Polygon$):
 \begin{itemize}
-	\item output := $(q:Polygon|\exists q \in self.Surfaces where q == p)$ \\
-	\item exception: N/A\\
+	\item output := $(q:Polygon|\exists q \in self.Surfaces where q == p)$
+	\item exception: N/A
 \end{itemize}
 
 \noindent numPoly($p:Point3D$):
 \begin{itemize}
 	\item output:=  counter := $p \in$ self.Vertices $\implies (s:Polygon| 
-	\forall s \in$ self.Surfaces) if $p \in s.bounds$ then $counter++$ \\
+	\forall s \in$ self.Surfaces) if $p \in s.bounds$ then $counter++$
 	\item exception: exc := $\{p \notin self.Vertices \implies$ 
-	ERR\_POINT\_NOT\_IN\_MESH\}\\
+	ERR\_POINT\_NOT\_IN\_MESH\}
 \end{itemize}
 
 \noindent intersects($r:Vector$):
 \begin{itemize}
 	\item output := calculate whether the given vector intersects with any 
-	polygon on the mesh, and return the first polygon it intersects with.\\
-	\item exception: exc := \\
+	polygon on the mesh, and return the first polygon it intersects with.
+	\item exception: exc :=
+\end{itemize}
+
+\noindent pointsOnMesh(p: Point3D):
+\begin{itemize}
+	\item output := return true if p is a point on a polygon in the mesh.
+	\item exception: exc :=
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -859,17 +874,13 @@ N/A
 
 \newpage
 
-\section{MIS of Mesh} \ref{mLightSource} \\
+\section{MIS of LightSources} \ref{mLightSource} \\
 The Light Source module is an Abstract Data Type that defines the structure and 
 behaviours of light sources in the scene.
 \subsection{Template Module}
 LightSource
 
 \subsection{Uses}
-Point3d \ref{mPoints} \\
-Vector \ref{mVector}\\
-VecMath \ref{mVecMath}\\
-Polygon \ref{mPolygon}\\
 
 \subsection{Syntax}
 \subsubsection{Exported Types}
@@ -877,11 +888,12 @@ LightSource = ?
 
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{2cm} p{7cm} p{2cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		LightSource & Point3D, Colour, LightType, $\mathbb{R}$ Set of Vectors & 
+		LightSource & Point3D, Colour, LightType, $\mathbb{R}$, Set of Vectors 
+		& 
 		LightSource & \\
 		.origin & & Point3D & \\
 		.colour & & Colour & \\
@@ -912,32 +924,32 @@ N/A
 \noindent LightSource(inP: Point3d, inC: Colour, lt: LightType, ins: 
 $\mathbb{R}$ inDs: Set of Vectors):
 \begin{itemize}
-	\item transition: o, c, t, i, ds := inP, inC, lt, ins, inDs \\
-	\item exception: N/A\\
+	\item transition: o, c, t, i, ds := inP, inC, lt, ins, inDs
+	\item exception: N/A
 \end{itemize}
 
 \noindent .origin():
 \begin{itemize}
-	\item output:= self.o\\
-	\item exception: N/A\\
+	\item output:= self.o
+	\item exception: N/A
 \end{itemize}
 
 \noindent .colour():
 \begin{itemize}
-	\item output:= self.c\\
-	\item exception: N/A\\
+	\item output:= self.c
+	\item exception: N/A
 \end{itemize}
 
 \noindent .type():
 \begin{itemize}
-	\item output:= self.t\\
-	\item exception: N/A\\
+	\item output:= self.t
+	\item exception: N/A
 \end{itemize}
 
 \noindent .intensity():
 \begin{itemize}
-	\item output: self.i\\
-	\item exception: N/A\\
+	\item output: self.i
+	\item exception: N/A
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -949,6 +961,502 @@ N/A
 
 \newpage
 
+\section{MIS of Observer} \ref{mObserver} \\
+The Observer Module is an Abstract Data Type which captures information related 
+to the camera in a scene. While there's no behaviour and this type of 
+information could be represented as an Abstract Object since there's only one 
+at any time in the scene, I'm attempting to future proof the design by keeping 
+it an Abstract Data Type.
+
+\subsection{Template Module}
+Observer
+
+\subsection{Uses}
+
+\subsection{Syntax}
+\subsubsection{Exported Types}
+Observer = ?
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{3cm} p{4cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		Observer & Point3D, Vector & Observer & -- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+p : Point3D\\
+d : Vector\\
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+There is only one observer in the scene at any time. This might change in 
+future versions of this software, but as it exists we're only looking at the 
+objects from one view.
+
+\subsubsection{Access Routine Semantics}
+\noindent Observer(inP: Point3D, inD : Vector):
+\begin{itemize}
+	\item transition: p := inP \\
+	d := inD
+	\item output := self
+	\item exception: exc :=
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of NormalMap} \ref{mNormalMap} \\
+The NormalMap module is an Abstract Data Type which captures information about 
+the normal maps of an object mesh. This information is necessary for 
+calculating reflections and is easier to calculate once and store instead of 
+calculating on the fly.
+
+\subsection{Template Module}
+NormalMap
+
+\subsection{Uses}
+
+\subsection{Syntax}
+\subsubsection{Exported Types}
+NormalMap = ?
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{3cm} p{4cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		NormalMap & Set of (Point3D, Vector) & NormalMap & -- \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+NormalMap = Set of (Point3D, Vector)
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+
+\subsubsection{Access Routine Semantics}
+\noindent NormalMap(ns : (Point3D,Vector)):
+\begin{itemize}
+	\item transition: p := inP \\
+	d := inD
+	\item output := self
+	\item exception: exc :=
+\end{itemize}
+
+\noindent getNormal(p:Point3D):
+\begin{itemize}
+	\item output := 
+	\item exception: exc :=
+\end{itemize}
+
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Object} \ref{mObjects} \\
+The Object module is an abstract data type that captures the structure of 
+objects in the scenes defined by this program.
+
+\subsection{Template Module}
+Object
+
+\subsection{Uses}
+
+\subsection{Syntax}
+\subsubsection{Exported Types}
+Object = ?
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		
+		\multirow{10}{*}{Object} & Mesh, & Object & \\
+		& Point3D, & & \\
+		& $\mathbb{R}$, & & \\  
+		& Colour, & & \\
+		& Colour, & & \\
+		& $\mathbb{Z},$ & & \\
+		& $\mathbb{Z},$ & & \\
+		& $\mathbb{Z},$ & & \\
+		& $\mathbb{N},$ & & \\
+		& \{FLAT, GOURAUD, PHONG\} & & \\		
+		%%Getters
+		.Mesh & - & Mesh & - \\
+		.Position & - & Point3D & - \\
+		.Size &- & $\mathbb{Z}$ & \\
+		.BaseColour &- & Colour & \\
+		.SpecColour &- & Colour & \\
+		.kd &- & $\mathbb{R}$ & \\
+		.ka &- & $\mathbb{R}$& \\
+		.ks &- & $\mathbb{R}$ & \\
+		.alpha &- & $\mathbb{N}$ & \\
+		.nmap &- & NormalMap& \\ 
+		%%Setters
+		SetObj\_Position & Point3D & - & \\
+		SetObj\_Size & $\mathbb{R}$ & - & \\
+		SetObj\_BaseColour & Colour &- & \\
+		SetObj\_SpecColour & Colour &- & \\
+		SetObj\_kd & $\mathbb{R}$ &- & IV\_OUT\_OF\_BOUNDS\\
+		SetObj\_ka & $\mathbb{R}$&- & IV\_OUT\_OF\_BOUNDS\\
+		SetObj\_ks & $\mathbb{R}$ &- & IV\_OUT\_OF\_BOUNDS\\
+		SetObj\_alpha & $\mathbb{Z}^+$ &- & IV\_OUT\_OF\_BOUNDS\\
+		SetObj\_NormalMap & $nMap$ &- &- \\
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+baseColour : Colour \\
+specColour : Colour \\
+centrePoint : Point3D \\
+mesh : Mesh \\
+ka : $\mathbb{R}$ \\
+ks : $\mathbb{R}$ \\
+kd : $\mathbb{R}$ \\
+alpha : $\mathbb{Z}^+$ \\
+nMap : NormalMap \\
+size : $\mathbb{R}$\\
+shade : \{FLAT, GOURAUD, PHONG\}
+
+\subsubsection{Environment Variables}
+N/A
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent Object(inM: Mesh, inP : Point3D, inSize : 
+$\mathbb{R}$,  inBase : Colour, inSpec : Colour, inD : $\mathbb{Z}$, inA : 
+$\mathbb{R}$, inS : $\mathbb{R}$, inAlpha : $\mathbb{N}$, inShade : \{FLAT, 
+GOURAUD, PHONG\}):
+\begin{itemize}
+	\item transition: mesh, baseColour, specColour, centrePoint, ka, kd, ks, 
+	alpha, size := inM, inBase, inSpec, inP, inA, inD, inS, inAlpha, inSize\\
+	nMap := Shader.findNormals(shade, self)
+	\item exception: N/A
+\end{itemize}
+
+\noindent .Mesh():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.m
+	\item exception: N/A
+\end{itemize}
+
+\noindent .Position():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.centrePoint
+	\item exception: N/A
+\end{itemize}
+
+\noindent .Size():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.size
+	\item exception: N/A
+\end{itemize}
+
+\noindent .BaseColour():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.baseColour
+	\item exception: N/A
+\end{itemize}
+
+\noindent .SpecColour():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.specColour
+	\item exception: N/A
+\end{itemize}
+
+\noindent .kd():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.kd
+	\item exception: N/A
+\end{itemize}
+
+\noindent .ka():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.ka
+	\item exception: N/A
+\end{itemize}
+
+\noindent .ks():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.ks
+	\item exception: N/A
+\end{itemize}
+
+\noindent .alpha():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output: self.alpha
+	\item exception: N/A
+\end{itemize}
+
+\noindent .NormalMap():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output:= self.nMap
+	\item exception: N/A
+\end{itemize}
+%%Setters
+\noindent SetObj\_Position(p: Point3D):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: centrePoint := p
+	\item exception: N/A
+\end{itemize}
+
+\noindent SetObj\_Size(s : $\mathbb{R}$):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: size := s
+	\item exception: N/A
+\end{itemize}
+
+\noindent SetObj\_BaseColour(c : Colour):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: baseColour := c
+	\item exception: exc := {\\
+					c.r > 255 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					$|$ \\
+					c.g > 255 $\implies$ IV\_OUT\_OF\_BOUNDS \\
+					$|$ \\
+					c.b > 255 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					$|$ \\
+					c.r < 1 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					$|$ \\
+					c.g < 1 $\implies$ IV\_OUT\_OF\_BOUNDS \\
+					$|$ \\
+					c.b < 1 $\implies$ IV\_OUT\_OF\_BOUNDS}	\\	
+\end{itemize}
+
+\noindent SetObj\_SpecColour(c : Colour):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: specColour := c
+	\item exception: exc := {\\
+					c.r > 255 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					$|$ \\
+					c.g > 255 $\implies$ IV\_OUT\_OF\_BOUNDS \\
+					$|$ \\
+					c.b > 255 $\implies$ IV\_OUT\_OF\_BOUNDS	\\
+					$|$ \\
+					c.r < 1 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					$|$ \\
+					c.g < 1 $\implies$ IV\_OUT\_OF\_BOUNDS \\
+					$|$ \\
+					c.b < 1 $\implies$ IV\_OUT\_OF\_BOUNDS}	\\	 
+\end{itemize}
+
+\noindent SetObj\_kd(d: $\mathbb{R}$):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: kd := d
+	\item exception: exc := {\\
+		d > 1 $\implies$ COEFFICIENT\_TOO\_HIGH\\
+		d < 0.5 $\implies$ COEFFICIENT\_TOO\_LOW\\}
+\end{itemize}
+
+\noindent SetObj\_ka(a: $\mathbb{R}$):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: ka := a
+	\item exception: exc := {\\
+		a > 1 $\implies$ COEFFICIENT\_TOO\_HIGH\\
+		a < 0 $\implies$ COEFFICIENT\_TOO\_LOW\\}
+\end{itemize}
+
+\noindent SetObj\_ks(s: $\mathbb{R}$):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: ks := s
+	\item exception: exc := {\\
+		s > 1 $\implies$ COEFFICIENT\_TOO\_HIGH\\
+		s < 0 $\implies$ COEFFICIENT\_TOO\_LOW\\}
+\end{itemize}
+
+\noindent SetObj\_alpha(al: $\mathbb{N}$):
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item transition: alpha := al
+	\item exception: exc := {\\
+		a < 0 $\implies$ COEFFICIENT\_TOO\_LOW\\}
+\end{itemize}
+
+\noindent SetObj\_NormalMap():
+\begin{itemize}
+	%\item transition: \wss{if appropriate} 
+	\item output: A normal map of the object. This is a list of normals based 
+	on shader calculations, and a string literal that describes the type of 
+	normals (vertex, surface, pixel).
+	\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
+
+\section{MIS of Scene Module} \ref{mScene} \\
+The Scene Module is an abstract object module that contains the structure for 
+the overall scene. It maintains information about the entities in the scene 
+(object, light source, observer) regarding their distances between each other. 
+It constrains the positions, sizes, and directions of entities based on the 
+specified size of the scene.
+%\wss{Use labels for
+%  cross-referencing}
+%
+%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
+%
+%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+Scene
+
+\subsection{Uses}
+Input, Output
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+SCENE\_MAX\_H : $\mathbb{R}^+$\\
+SCENE\_MIN\_H : $\mathbb{R}^+$\\
+SCENE\_MAX\_W : $\mathbb{R}^+$\\
+SCENE\_MIN\_W : $\mathbb{R}^+$\\
+SCENE\_MAX\_D : $\mathbb{R}^+$\\
+SCENE\_MIN\_D : $\mathbb{R}^+$\\
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		\multirow{7}{4cm}{initScene} & $\mathbb{R}^+$ & Scene & 
+		HEIGHT\_TOO\_SMALL, 
+		HEIGHT\_TOO\_LARGE\\
+		& $\mathbb{R}^+$ & & WIDTH\_TOO\_SMALL, 
+		WIDTH\_TOO\_LARGE\\		
+		& $\mathbb{R}^+$ & & DEPTH\_TOO\_SMALL, 
+		DEPTH\_TOO\_LARGE\\				 
+		& Object & & INVALID\_OBJECT\_POSITION\\				 
+		& LightSource & & INVALID\_LIGHT\_POSITION\\
+		& Observer & & INVALID\_OBSV\_POSITION\\
+		& \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\} & & \\
+		
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+height : $\mathbb{R}$\\
+width : $\mathbb{R}$\\
+depth : $\mathbb{R}$\\
+obs : Observer \\
+ls : LightSource \\
+os : Object\\
+lightModel : \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\}
+
+\subsubsection{Environment Variables}
+N/A
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Routine Semantics}
+\noindent initScene($h: \mathbb{R}, w: \mathbb{R}, d: \mathbb{R}$, o: Object, 
+l: LightSource, ob: Observer, lm: \{DIFFUSE, HALF-LAMBERT, PHONG, 
+BLINN-PHONG\}):
+\begin{itemize}
+	\item transition: height, width, depth, obs, ls, os, lightModel := h, w, d, 
+	ob, l, o, lm
+	\item output := self
+	\item exception: exc := \{(h $\le$ SCENE\_MIN\_H $\implies$ 
+	HEIGHT\_TOO\_SMALL) \\
+	$|$ (h $\ge$ SCENE\_MAX\_H $\implies$ HEIGHT\_TOO\_LARGE) \\
+	$|$ (w $\le$ SCENE\_MIN\_W $\implies$ WIDTH\_TOO\_SMALL) \\
+	$|$ (w $\ge$ SCENE\_MAX\_W $\implies$ WIDTH\_TOO\_LARGE) \\
+	$|$ (d $\le$ SCENE\_MIN\_D $\implies$ DEPTH\_TOO\_SMALL) \\
+	$|$ (d $\ge$ SCENE\_MAX\_D $\implies$ DEPTH\_TOO\_LARGE) \\
+	$|$ ($\not$ (objectInScene(o)) $\implies$	INVALID\_OBJECT\_POSITION \\
+	$|$ ($\not$ (lightInScene(l)) $\implies$	INVALID\_LIGHT\_POSITION \\	
+	$|$ ($\not$ (obsvInScene(obs)) $\implies$	INVALID\_OBSV\_POSITION \\		
+	\}
+\end{itemize}
+
+\subsubsection{Local Functions}
+objectInScene(o : Object) $\equiv$ (SCENE\_MIN\_H < o.position.y < 
+SCENE\_MAX\_H) 
+$\land$ (SCENE\_MIN\_W < o.position.x < SCENE\_MAX\_W) $\land$ 
+(SCENE\_MIN\_D < o.position.z < SCENE\_MAX\_D) \\
+~\newline
+lightInScene(l : LightSource) $\equiv$ (SCENE\_MIN\_H < l.position.y < 
+SCENE\_MAX\_H) 
+$\land$ (SCENE\_MIN\_W < l.position.x < SCENE\_MAX\_W) $\land$ 
+(SCENE\_MIN\_D < l.position.z < SCENE\_MAX\_D)\\
+~\newline
+obsvInScene(o : Observer) $\equiv$ (SCENE\_MIN\_H < o.position.y < 
+SCENE\_MAX\_H) 
+$\land$ (SCENE\_MIN\_W < o.position.x < SCENE\_MAX\_W) $\land$ 
+(SCENE\_MIN\_D < o.position.z < SCENE\_MAX\_D) \\
+
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
 
 %%---------------------------------Libraries------------------------------------
 \section{MIS of VecMath} \ref{mVecMath} \\
@@ -960,22 +1468,21 @@ value.
 VecMath
 
 \subsection{Uses}
-Vector \ref{mVector}\\
 
 \subsection{Syntax}
 \subsubsection{Exported Constants}
 N/A
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{3cm} p{4cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		add & Vector $\times$ Vector & Vector & -- \\
-		sclMult & Vector $\times \mathbb{R}$ & Vector & -- \\ 
-		dot & Vector $\times$ Vector & $\mathbb{R}$ & -- \\
-		cross & Vector $\times$ Vector & Vector & -- \\
-		angleBetween & Vector $\times$ Vector & rad & -- \\
+		add & Vector, Vector & Vector & -- \\
+		sclMult & Vector, $\mathbb{R}$ & Vector & -- \\ 
+		dot & Vector, Vector & $\mathbb{R}$ & -- \\
+		cross & Vector, Vector & Vector & -- \\
+		angleBetween & Vector, Vector & rad & -- \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -1043,44 +1550,25 @@ N/A
 
 \newpage
 
-\section{MIS of Scene Module} \ref{mScene} \\
-The Scene Module is an abstract object module that contains the structure for 
-the overall scene. It maintains information about the entities in the scene 
-(object, light source, observer) regarding their distances between each other. 
-It constrains the positions, sizes, and directions of entities based on the 
-specified size of the scene.
-%\wss{Use labels for
-%  cross-referencing}
-%
-%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-%
-%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Shader} \ref{mShader} \\
 
 \subsection{Module}
-Scene
+Shader
 
 \subsection{Uses}
-Input,  
 
 \subsection{Syntax}
 \subsubsection{Exported Constants}
-$SCENE\_MAX\_X : \mathbb{R}$\\
-$SCENE\_MIN\_X : \mathbb{R}$\\
-$SCENE\_MAX\_Y : \mathbb{R}$\\
-$SCENE\_MIN\_Y : \mathbb{R}$\\
-$SCENE\_MAX\_Z : \mathbb{R}$\\
-$SCENE\_MIN\_Z : \mathbb{R}$\\
+N/A
 \subsubsection{Exported Access Programs}
 \begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{3cm} p{4cm} p{2cm} p{4cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		initScene & $max\_X : \mathbb{R}$ & & \\
-		 & $max\_Y : \mathbb{R}$ & & \\		
-		 & $max\_Z : \mathbb{R}$ & & \\				 
-		 & $o : Object$ & & \\				 
-		%%
+		interpolate & (Point3D, Vector), (Point3D, Vector), Point3D & Vector & 
+		-- \\
+		findNormals & ShadingModel, Object & NormalMap & -- \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -1088,29 +1576,75 @@ $SCENE\_MIN\_Z : \mathbb{R}$\\
 \subsection{Semantics}
 \subsubsection{State Variables}
 N/A
-%\wss{Not all modules will have state variables.  State variables give the 
-%module a memory.}
-
 \subsubsection{Environment Variables}
 N/A
-%\wss{This section is not necessary for all modules.  Its purpose is to capture
-%  when the module has external interaction with the environment, such as for a
-%  device driver, screen interface, keyboard, file, etc.}
 
 \subsubsection{Assumptions}
-N/A
-%\wss{Try to minimize assumptions and anticipate programmer errors via
-%  exceptions, but for practical purposes assumptions are sometimes 
-%appropriate.}
 
 \subsubsection{Access Routine Semantics}
+\noindent interpolate(s: (Point3D, Vector), e: (Point3D, Vector), p: Point3D):
+\begin{itemize}
+	\item output:= Linear interpolation of normal values between starting 
+	vertex (s[0]) and ending vertex (s[1]).\\
+	\item exception: \\
+\end{itemize}
 
-%\wss{A module without environment variables or state variables is unlikely to
-%  have a state transition.  In this case a state transition can only occur if
-%  the module is changing the state of another module.}
-%
-%\wss{Modules rarely have both a transition and an output.  In most cases you
-%  will have one or the other.}
+\noindent findNormals(s:ShadingModel, o:Object):
+\begin{itemize}
+	\item output: ns : NormalMap :=
+	(s == FLAT $\implies$ all points on the mesh have a normal equal to their 
+	polygon's surface normal.\\
+	\textit{$\forall$ q:Point3D, $\exists$ p:Polygon $|$ q $\in$ p.getPoints() 
+	$\land$ p $\in$ o.Mesh.Surfaces() $\to$ (q,p.s\_norm)\\} 
+	\\
+	$|$ s == GOURAUD $\implies$ all vertices on the mesh have a normal equal to 
+	the average of the surface normals of the polygons they are a part of. The 
+	normals of the points in between the vertices are not calculated.\\
+	\textit{$\forall$ v : Point3D $|$ v $\in$ o.Mesh.Vertices() $\to \forall$ p 
+	: Polygon $|$ v $\in$ p.getPoints() \\
+	\textit{begin:}
+	\begin{itemize}
+		\item[] sum:= +(p.s\_norm) --- \textit{Add the surface norms 
+			together}.
+		\item[] counter++ --- \textit{Count how many polygons are a part of 
+			this}.
+	\end{itemize}
+	\textit{end} $\to$ (v, sum/counter)}\\
+	%%Gouraud shading takes sets the normal at the vertex to be the average of 
+	%%the surface normals for all the polygons that vertex is a part of. It 
+	%%then calculates the colour at the vertices and interpolates the colours 
+	%%between vertices.
+	\\
+	$|$ s == PHONG $\implies$ all vertices on the mesh have a normal equal to 
+	the average of the surface normals of the polygons they are a part of. The 
+	normals of the points in between the vertices of a polygon are calculated 
+	by interpolating their values between the vertices.\\
+	\textit{begin:
+	\begin{enumerate}
+		\item ns := ns $\cup$ ($\forall$ v : Point3D $|$ v $\in$ 
+		o.Mesh.Vertices() 
+		$\to$ $\forall$ p : Polygon $|$ v $\in$ p.getPoints() \\
+		\textit{begin:}
+		\begin{itemize}
+			\item[] sum:= +(p.s\_norm) --- \textit{Add the surface norms 
+				together}.
+			\item[] counter++ --- \textit{Count how many polygons are a part of 
+				this}.
+		\end{itemize}
+		\textit{end} $\to$ (v, sum/counter))
+		\item ns := ns $\cup$ ($\forall$ start, end, p : Point3D $|$ start, 
+		end, p $\in$ o.Mesh.pointsOnMesh() $\land$ start, end $\in$ 
+		o.Mesh.Vertices() $\land$ p $\notin$ o.Mesh.Vertices() $\to$ (p,
+		interpolate((start,), (end, ), p)))
+	\end{enumerate}
+	end\\}
+	%%Phong shading sets the vertex normals to be the average of the surface 
+	%%normals for all the polygons that vertex is a part of.
+	)
+	
+	\item exception: exc := \\
+\end{itemize}
+
 
 \subsubsection{Local Functions}
 N/A
@@ -1122,455 +1656,13 @@ N/A
 \newpage
 
 
-\section{MIS of Objects Module} \label{mObjects} 
-The Objects Module is an abstract object module that contains the structure for 
-objects to be lit. This includes fields and methods associated with these 
-objects. This module will not be accessed by the user; it will be used 
-extensively by other modules in the system to find data about the objects in 
-the scene, and to manipulate their data.
-%\wss{Use labels for
-%  cross-referencing}
-%
-%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-%
-%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 
-\subsection{Module}
-Objects
 
-\subsection{Uses}
-Input,  
- 
-\subsection{Syntax}
-\subsubsection{Exported Constants}
-$SCENE\_MAX\_X : \mathbb{R}$\\
-$SCENE\_MIN\_X : \mathbb{R}$\\
-$SCENE\_MAX\_Y : \mathbb{R}$\\
-$SCENE\_MIN\_Y : \mathbb{R}$\\
-$SCENE\_MAX\_Z : \mathbb{R}$\\
-$SCENE\_MIN\_Z : \mathbb{R}$\\
-\subsubsection{Exported Access Programs}
-\begin{center}
-\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
 
-\multirow{11}{*}{InitObj} & $type: Shape,$ & & \\
-& $ mesh: Mesh,$ & & \\
-& $position : Point3D,$ & & \\
-& $size : \mathbb{Z},$ & & \\  
-& $base : Colour,$ & & \\
-& $spec : Colour,$ & & \\
-& $kd : \mathbb{Z},$ & & \\
-& $ka : \mathbb{Z},$ & & \\
-& $ks : \mathbb{Z},$ & & \\
-& $alpha : \mathbb{N},$ & & \\
-& $nmap : NMap $ & & \\
-%%Getters
-GetObj\_Type & - & Shape & - \\
-GetObj\_Mesh & - & Mesh & - \\
-GetObj\_Position & - & Point3D & - \\
-GetObj\_Size &- & $\mathbb{Z}$ & \\
-GetObj\_BaseColour &- & Colour & \\
-GetObj\_SpecColour &- & Colour & \\
-GetObj\_kd &- & $\mathbb{Z}$ & \\
-GetObj\_ka &- & $\mathbb{Z}$& \\
-GetObj\_ks &- & $\mathbb{Z}$ & \\
-GetObj\_alpha &- & $\mathbb{N}$ & \\
-GetObj\_NormalMap &- & $nMap$& \\ 
-%%Setters
-SetObj\_Position & Point3D & - & \\
-SetObj\_Size & $\mathbb{Z}$ & - & \\
-SetObj\_BaseColour & Colour &- & \\
-SetObj\_SpecColour & Colour &- & \\
-SetObj\_kd & $\mathbb{Z}$ &- & IV\_OUT\_OF\_BOUNDS\\
-SetObj\_ka & $\mathbb{Z}$&- & IV\_OUT\_OF\_BOUNDS\\
-SetObj\_ks & $\mathbb{Z}$ &- & IV\_OUT\_OF\_BOUNDS\\
-SetObj\_alpha & $\mathbb{Z}$ &- & IV\_OUT\_OF\_BOUNDS\\
-SetObj\_NormalMap & $nMap$ &- &- \\
-%%
-\hline
-\end{tabular}
-\end{center}
 
-\subsection{Semantics}
-\subsubsection{State Variables}
-N/A
-%\wss{Not all modules will have state variables.  State variables give the 
-%module a memory.}
 
-\subsubsection{Environment Variables}
-N/A
-%\wss{This section is not necessary for all modules.  Its purpose is to capture
-%  when the module has external interaction with the environment, such as for a
-%  device driver, screen interface, keyboard, file, etc.}
 
-\subsubsection{Assumptions}
-N/A
-%\wss{Try to minimize assumptions and anticipate programmer errors via
-%  exceptions, but for practical purposes assumptions are sometimes 
-%appropriate.}
 
-\subsubsection{Access Routine Semantics}
-\noindent InitObj($type: Shape, mesh: Mesh, position : Point3D, size : 
-\mathbb{Z},  
-base : Colour, spec : Colour, kd : \mathbb{Z}, ka : \mathbb{Z}, ks : 
-\mathbb{Z}, alpha : \mathbb{N}, nmap : NMap $):
-\begin{itemize}
-	\item transition: New object created with these properties. 
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_Type():
-\begin{itemize}
-%\item transition: \wss{if appropriate} 
-\item output: $s : Shape$. The shape of the object.
-\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_Mesh():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $m : Mesh$. The mesh of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_Position():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $centre_point : Point3D$. The centre point of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_Size():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $size : \mathbb{Z}$. The size of the object; this is the 
-	value that scales the polygon mesh up or down from the base model.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_BaseColour():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $b : Colour$. The base colour of the object. This is the 
-	colour that would come through if the object is not specular or diffuse.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_SpecColour():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $spec : Colour$. The specular colour of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_kd():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $kd : \mathbb{Z}$. The diffuse coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_ka():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $ka : \mathbb{Z}$. The ambient coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_ks():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $ks : \mathbb{Z}$. The specular coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_alpha():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $a : \mathbb{Z}$. The shininess coefficient of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_NormalMap():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: A normal map of the object. This is a list of normals based 
-	on shader calculations, and a string literal that describes the type of 
-	normals (vertex, surface, pixel).
-	\item exception: N/A
-\end{itemize}
-%%Setters
-\noindent SetObj\_Type(Colour (r,g,b)):
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: --
-	\item exception: $err := $\\
-	 $Colour.r > 255 \implies IV\_OUT\_OF\_BOUNDS$ \\
-	 | \\
-	 $Colour.g > 255 \implies IV\_OUT\_OF\_BOUNDS$ \\
-	 | \\
-	 $Colour.b > 255 \implies IV\_OUT\_OF\_BOUNDS$	\\
-	 | \\
-	 $Colour.r < 1 \implies IV\_OUT\_OF\_BOUNDS$ \\
-	 | \\
-	 $Colour.g < 1 \implies IV\_OUT\_OF\_BOUNDS$ \\
-	 | \\
-	 $Colour.b < 1 \implies IV\_OUT\_OF\_BOUNDS$	\\	 
-\end{itemize}
-
-\noindent SetObj\_Position(Point3D (x,y,z)):
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: -
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_Size():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $size : \mathbb{Z}$. The size of the object; this is the 
-	value that scales the polygon mesh up or down from the base model.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_BaseColour():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $b : Colour$. The base colour of the object. This is the 
-	colour that would come through if the object is not specular or diffuse.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_SpecColour():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $spec : Colour$. The specular colour of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_kd():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $kd : \mathbb{Z}$. The diffuse coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_ka():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $ka : \mathbb{Z}$. The ambient coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_ks():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $ks : \mathbb{Z}$. The specular coefficient.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_alpha():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: $a : \mathbb{Z}$. The shininess coefficient of the object.
-	\item exception: N/A
-\end{itemize}
-
-\noindent GetObj\_NormalMap():
-\begin{itemize}
-	%\item transition: \wss{if appropriate} 
-	\item output: A normal map of the object. This is a list of normals based 
-	on shader calculations, and a string literal that describes the type of 
-	normals (vertex, surface, pixel).
-	\item exception: N/A
-\end{itemize}
-
-%\wss{A module without environment variables or state variables is unlikely to
-%  have a state transition.  In this case a state transition can only occur if
-%  the module is changing the state of another module.}
-%
-%\wss{Modules rarely have both a transition and an output.  In most cases you
-%  will have one or the other.}
-
-\subsubsection{Local Functions}
-N/A
-%\wss{As appropriate} \wss{These functions are for the purpose of specification.
-%  They are not necessarily something that is going to be implemented
-%  explicitly.  Even if they are implemented, they are not exported; they only
-%  have local scope.}
-
-\newpage
-
-\section{MIS of Light Source Module} \label{mLights} 
-The Light Source Module is an abstract object module that contains the 
-structure for light sources in a scene. This includes fields and methods 
-associated with these light sources. This module will not be accessed by the 
-user; it will be used extensively by other modules in the system to find data 
-about the lights in the scene, and to manipulate their data.
-%\wss{Use labels for
-%  cross-referencing}
-%
-%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-%
-%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
-\subsection{Module}
-Objects
-
-\subsection{Uses}
-
-\subsection{Syntax}
-\subsubsection{Exported Constants}
-\subsubsection{Exported Access Programs}
-\begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		%%Initialize
-		InitLight & $type: Light, position : Point3D, base : Colour, intensity 
-		: \mathbb{R}$  & & \\
-		%%Getters
-		GetLight\_Type & - & Light & - \\
-		GetLight\_Position & - & Point3D & - \\
-		GetLight\_BaseColour &- & Colour & \\
-		GetLight\_BaseIntensity & - & $\mathbb{R}$& \\
-		%%Setters
-%%		SetLight\_Position & Point3D & - & \\ %%Based on assumptions from CA 
-%%%%lights can't change position when the program is running.
-		SetLight\_BaseColour & Colour &- & \\
-		SetLight\_BaseIntensity & $\mathbb{R}$ & - & \\
-		%%
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-N/A
-%\wss{Not all modules will have state variables.  State variables give the 
-%module a memory.}
-
-\subsubsection{Environment Variables}
-N/A
-%\wss{This section is not necessary for all modules.  Its purpose is to capture
-%  when the module has external interaction with the environment, such as for a
-%  device driver, screen interface, keyboard, file, etc.}
-
-\subsubsection{Assumptions}
-N/A
-%\wss{Try to minimize assumptions and anticipate programmer errors via
-%  exceptions, but for practical purposes assumptions are sometimes 
-%appropriate.}
-
-\subsubsection{Access Routine Semantics}
-
-\noindent InitLight($type: Light, position : Point3D, base : Colour, intensity 
-: \mathbb{R}$):
-\begin{itemize}
-	\item transition: Create a new light source in the scene with these 
-	properties.
-	\item exception: N/A
-\end{itemize}
-
-%\wss{A module without environment variables or state variables is unlikely to
-%  have a state transition.  In this case a state transition can only occur if
-%  the module is changing the state of another module.}
-%
-%\wss{Modules rarely have both a transition and an output.  In most cases you
-%  will have one or the other.}
-
-\subsubsection{Local Functions}
-N/A
-%\wss{As appropriate} \wss{These functions are for the purpose of specification.
-%  They are not necessarily something that is going to be implemented
-%  explicitly.  Even if they are implemented, they are not exported; they only
-%  have local scope.}
-
-\section{MIS of Observer Module} \label{mObsv} 
-The Observer Module is an abstract object module that contains the 
-structure for observers in a scene. This includes fields and methods 
-associated with these observers. This module will not be accessed by the 
-user; it will be used extensively by other modules in the system to find data 
-about the observers in the scene, and to manipulate their data.
-%\wss{Use labels for
-%  cross-referencing}
-%
-%\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-%
-%\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
-\subsection{Module}
-Objects
-
-\subsection{Uses}
-
-\subsection{Syntax}
-\subsubsection{Exported Constants}
-\subsubsection{Exported Access Programs}
-\begin{center}
-	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		%%Initialize
-		InitObsv & $position : Point3D, direction : Vec3$  & & \\
-		%%Getters
-		GetObsv\_Direction & - & Vec3 & - \\
-		GetObsv\_Position & - & Point3D & - \\
-		%%Setters
-		SetObsv\_Direction & - & Vec3 & - \\
-		SetObsv\_Position & - & Point3D & - \\
-		%%
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-\subsubsection{State Variables}
-N/A
-%\wss{Not all modules will have state variables.  State variables give the 
-%module a memory.}
-
-\subsubsection{Environment Variables}
-N/A
-%\wss{This section is not necessary for all modules.  Its purpose is to capture
-%  when the module has external interaction with the environment, such as for a
-%  device driver, screen interface, keyboard, file, etc.}
-
-\subsubsection{Assumptions}
-N/A
-%\wss{Try to minimize assumptions and anticipate programmer errors via
-%  exceptions, but for practical purposes assumptions are sometimes 
-%appropriate.}
-
-\subsubsection{Access Routine Semantics}
-
-\noindent InitObsv($position : Point3D, direction: Vec3$):
-\begin{itemize}
-	\item transition: Create a new observer in the scene with these 
-	properties.
-	\item exception: N/A
-\end{itemize}
-
-%\wss{A module without environment variables or state variables is unlikely to
-%  have a state transition.  In this case a state transition can only occur if
-%  the module is changing the state of anosther module.}
-%
-%\wss{Modules rarely have both a transition and an output.  In most cases you
-%  will have one or the other.}
-
-\subsubsection{Local Functions}
-N/A
-%\wss{As appropriate} \wss{These functions are for the purpose of specification.
-%  They are not necessarily something that is going to be implemented
-%  explicitly.  Even if they are implemented, they are not exported; they only
-%  have local scope.}
-
-\newpage
 
 
 \bibliographystyle {plainnat}
