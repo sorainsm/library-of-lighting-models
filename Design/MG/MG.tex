@@ -207,18 +207,21 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 \item [\refstepcounter{mnum} \mthemnum \label{mInputs}:] Input Parameters Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOutputs}:] Output Format Module
-\item [\refstepcounter{mnum} \mthemnum \label{mShape}:] Shape Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPolygon}:] Polygon Module
 \item [\refstepcounter{mnum} \mthemnum \label{mColour}:] Colour Module
-\item [\refstepcounter{mnum} \mthemnum \label{mPoint}:] 3D Cartesian Coordinate 
+\item [\refstepcounter{mnum} \mthemnum \label{mPoints}:] 3D Cartesian 
+Coordinate 
+Module
+\item [\refstepcounter{mnum} \mthemnum \label{mTypes}:] Light Types 
 Module
 \item [\refstepcounter{mnum} \mthemnum \label{mMesh}:] Polygon Mesh Module
 \item [\refstepcounter{mnum} \mthemnum \label{mNormals}:] Normal Map Module
 \item [\refstepcounter{mnum} \mthemnum \label{mScene}:] Scene Module
-\item [\refstepcounter{mnum} \mthemnum \label{mObject}:] Object Module
+\item [\refstepcounter{mnum} \mthemnum \label{mObjects}:] Object Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLights}:] Light Source Module
 \item [\refstepcounter{mnum} \mthemnum \label{mObsv}:] Observer Module
 \item [\refstepcounter{mnum} \mthemnum \label{mVectors}:] Vector Math Module
-\item [\refstepcounter{mnum} \mthemnum \label{mShade}:] Shader Module
+\item [\refstepcounter{mnum} \mthemnum \label{mShader}:] Shader Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLightModel}:] Lighting Model 
 Module
 \item [\refstepcounter{mnum} \mthemnum \label{mJSON}:] JSON Module
@@ -236,17 +239,18 @@ Module
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters Module\\
+\multirow{8}{0.3\textwidth}{Behaviour-Hiding Module} & Input Parameters Module\\
 %%Purpose of the input parameters module is to parse the JSON file and separate 
 %%it into usable objects
 & Output Format Module \\
 %% Purpose is to create the output of the module
-& Shape Module\\
+& Polygon Module\\
 & Colour Module\\
 & 3D Cartesian Coordinate Module\\ %%Data type for representing cartesian 
 %%coordinates; works with the vector math module to define vectors and 
 %%calculate 
 %%things
+& Light Type Module \\
 & Polygon Mesh Module\\ %I'm not reinventing the wheel with this module; people 
 %smarter than me have implemented polygon mesh libraries and data structures.
 & Normal Maps Module\\ %I'm not reinventing the wheel with this module; people 
@@ -368,10 +372,18 @@ descriptions follow the format below:
 \end{description}
 
 %%--------------Basic Types for the System --------------%%
-\subsubsection{Shape Module (\mref{mShape})}
+\subsubsection{Polygon Module (\mref{mPolygon})}
 \begin{description}
-	\item[Secrets:]The structure of a Shape.
-	\item[Services:]Constrains shapes usable in the system.
+	\item[Secrets:]The structure of a Polygon.
+	\item[Services:]Constrains polygons usable in meshes and defines their 
+	characteristics and behaviours.
+	\item[Implemented By:] [Your Program Name Here]
+\end{description}
+
+\subsubsection{Light Type Module (\mref{mTypes})}
+\begin{description}
+	\item[Secrets:]The types of lights possible in a scene.
+	\item[Services:]Defines types of light and their respective behaviours.
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
@@ -417,7 +429,7 @@ descriptions follow the format below:
 	\item[Implemented By:] [Your Program Name Here]
 \end{description}
 
-\subsubsection{Object Module (\mref{mObject})}
+\subsubsection{Object Module (\mref{mObjects})}
 \begin{description}
 	\item[Secrets:]The structure of objects.
 	\item[Services:]Converts input data into the data structure used to 
@@ -451,7 +463,7 @@ descriptions follow the format below:
 \end{description}
 
 %%--------------Lighting Specific Calculations --------------%%
-\subsubsection{Shader Module (\mref{mShade})}
+\subsubsection{Shader Module (\mref{mShader})}
 \begin{description}
 	\item[Secrets:]The algorithm to calculate object normals.
 	\item[Services:]Calculates surface normals for objects, and interpolates 

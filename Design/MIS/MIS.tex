@@ -31,17 +31,18 @@ urlcolor=cyan          % color of external links
 
 \usepackage{array}
 
-\externaldocument{../../SRS/SRS}
+\externaldocument[CA-]{../../Commonality-Analysis/CA}
+\externaldocument[MG-]{../MG/MG}
 
 \input{../../Comments}
 
-\newcommand{\progname}{Program Name}
+\newcommand{\progname}{Lighting Models}
 
 \begin{document}
 
-\title{Module Interface Specification for ...}
+\title{Module Interface Specification for Lighting Models}
 
-\author{Author Name}
+\author{Sasha Soraine}
 
 \date{\today}
 
@@ -54,8 +55,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+November 29 2019 & 1.0 & Submitted Document to GitHub after extension\\
 \bottomrule
 \end{tabularx}
 
@@ -63,9 +63,9 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at \url{../Commonality-Analysis/CA.pdf}
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
+%%\wss{Also add any additional symbols, abbreviations or acronyms}
 
 \newpage
 
@@ -78,16 +78,17 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+\progname. %\wss{Fill in your project name and description}
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/sorainsm/library-of-lighting-models}.  
+%\wss{provide the url for your repo}
 
 \section{Notation}
 
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
+%\wss{You should describe your notation.  You can use what is below as
+% a starting point.}
 
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
@@ -124,10 +125,11 @@ vectors for the measured points on the mesh. \\
 \end{center}
 
 \noindent
-The specification of \progname \ uses some derived data types: sequences, strings, and
-tuples. Sequences are lists filled with elements of the same data type. Strings
+The specification of \progname uses some derived data types: sequences, 
+strings, and tuples. Sequences are lists filled with elements of the same data 
+type. Strings
 are sequences of characters. Tuples contain a list of values, potentially of
-different types. In addition, \progname \ uses functions, which
+different types. In addition, \progname uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
 described by giving their type signature followed by their specification.
 
@@ -196,20 +198,22 @@ The following table is taken directly from the Module Guide document for this pr
 ~\newpage
 
 The following sections of this document will outline the module interface 
-specifications for the modules listed in the module hierarchy. Two modules are 
-omitted from this discussion: the hardware-hiding module, and the rendering 
-module. The hardware hiding module is provided via the syntax of the 
-programming language to interface with the computer hardware, as such I will 
-not be documenting it here. The rendering module will be handled by the Unity 
-environment, the process of documenting how it would work wouldn't be 
-appropriate for the scope of this work. Suffice it to say that the 
+specifications for the modules listed in the module hierarchy. Three modules 
+are omitted from this discussion: the hardware-hiding module, the JSON module, 
+and the rendering module. The hardware hiding module is provided via the syntax 
+of the programming language to interface with the computer hardware, as such I 
+will not be documenting it here. The JSON and rendering module will be handled 
+natively by the Unity environment, the process of documenting how it would work 
+wouldn't be appropriate for the scope of this work. Suffice it to say that the 
 documentation for the rendering module can be found in the documentation for 
 the Unity Engine.
 
 %% -------------------------File Related Modules--------------------------------
-\section{MIS of Input Parameters Module} \ref{mInputs} \\
+\section{MIS of Input Parameters Module} \ref{MG-mInputs} \\
 The Input Parameters Module converts the JSON data from the input file into the 
-objects usable by the system. During this process, the input parameters 
+objects usable by the system. During this process, the input is read as a 
+string into the system from the file and passed through the JSON module to 
+parse them.
 
 \subsection{Module}
 Input Parameters
@@ -225,9 +229,11 @@ Input Parameters
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
+		loadFile & String & - & INVALID\_FILE\_NAME, INVALID\_FILE\_TYPE, 
+		FILE\_EMPTY\\
 		\multirow{4}{*}{convertJSONtoScene} & \multirow{4}{2cm}{JSON File} & s: 
-		Scene & INPUT\_INVALID\_FILE\\
-		& & o : Object & INPUT\_FILE\_EMPTY\\
+		Scene & \\
+		& & o : Object & \\
 		& & l : LightSource & \\
 		& & v : Observer & \\
 		%%
@@ -237,9 +243,7 @@ Input Parameters
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-N/A
-%\wss{Not all modules will have state variables.  State variables give the 
-%module a memory.}
+loaded : String %%JSON contents of file read as string
 
 \subsubsection{Environment Variables}
 input: File
@@ -251,10 +255,21 @@ input: File
 N/A
 
 \subsubsection{Access Routine Semantics}
-\noindent convertJSONtoScene($in: JSON$):
+\noindent loadFile(f:String):
 \begin{itemize}
-	\item output: $s : Scene, o : Object, l : LightSource , v: Observer | 
-	s.Valid(o,l,v)$ %%The scene will check whether the positional information 
+	\item transition: loaded := ReadFile(f)
+	\item exception: exc := \{f does not exist $\implies$ INVALID\_FILE\_NAME\\
+	$|$ f $\to$ input $\land$ input is not a JSON file $\implies$ 
+	INVALID\_FILE\_TYPE\\
+	$|$ ReadFile(f) outputs an empty string $\implies$ FILE\_EMPTY
+	\}
+\end{itemize}
+
+\noindent convertJSONtoScene():
+\begin{itemize}
+	\item output:= s : initScene, o : Object, l : LightSource , v: Observer 
+	%%The 
+	%%scene will check whether the positional information 
 	%%is valid.
 	\item exception: N/A
 \end{itemize}
@@ -268,9 +283,64 @@ N/A
 
 \newpage
 
+\section{MIS of Output Parameters Module} \ref{MG-mOutputs} \\
+The Output Parameters Module converts the data from the scene into JSON 
+formatted data.
+
+\subsection{Module}
+Input Parameters
+
+\subsection{Uses}
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{2cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		convert & String & - & INVALID\_FILE\_NAME, NO\_DATA\_TO\_WRITE\\
+		%%
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+writing : (Scene, Object, LightSource, Observer)%%JSON contents of file read as 
+%%string
+
+\subsubsection{Environment Variables}
+output: File
+%\wss{This section is not necessary for all modules.  Its purpose is to capture
+%  when the module has external interaction with the environment, such as for a
+%  device driver, screen interface, keyboard, file, etc.}
+
+\subsubsection{Assumptions}
+N/A
+
+\subsubsection{Access Routine Semantics}
+\noindent convert(o: String):
+\begin{itemize}
+	\item output: output := OpenFile(o) and ToJSON(writing)
+	\item exception: exc := \{o already exists $\implies$ INVALID\_FILE\_NAME\\
+	$|$ writing is empty $\implies$ NO\_DATA\_TO\_WRITE \\
+	\}
+\end{itemize}
+
+\subsubsection{Local Functions}
+N/A
+%\wss{As appropriate} \wss{These functions are for the purpose of specification.
+%  They are not necessarily something that is going to be implemented
+%  explicitly.  Even if they are implemented, they are not exported; they only
+%  have local scope.}
+
+\newpage
 
 %% -----------------------------Basic Types---------------------------------
-\section{MIS of Point3D} \ref{mPoints} \\
+\section{MIS of Point3D} \ref{MG-mPoints} \\
 The Point3D module captures the structure of a 3D Caretsian Coordinate and 
 functions that are useful for this structure.
 
@@ -360,7 +430,7 @@ N/A
 
 \newpage
 
-\section{MIS of Colour} \ref{mColour} \\
+\section{MIS of Colour} \ref{MG-mColour} \\
 The Colour module captures the structure of colours used in this program.
 
 \subsection{Template Module}
@@ -464,7 +534,7 @@ N/A
 
 \newpage
 
-\section{MIS of Vector} \ref{mVector} \\
+\section{MIS of Vector} \ref{MG-mVectors} \\
 The Vector module captures the structure of Vector objects.
 
 \subsection{Template Module}
@@ -560,7 +630,7 @@ N/A
 
 \newpage
 
-\section{MIS of Light Type} \ref{mLightType} \\
+\section{MIS of Light Type} \ref{MG-mTypes} \\
 The Light Type module is an abstract data type which captures information 
 related to the different types of light sources.
 
@@ -639,7 +709,7 @@ N/A
 
 \newpage
 
-\section{MIS of Polygon} \ref{mPolygon} \\
+\section{MIS of Polygon} \ref{MG-mPolygon} \\
 The Polygon module is an abstract data type captures the structure of polygons 
 used in polygon meshes.
 
@@ -750,7 +820,7 @@ tuples.\\
 %%These are just the types that rely on the beasic types but are closer in 
 %%detail to the problem we're trying to describe.
 
-\section{MIS of Mesh} \ref{mMesh} \\
+\section{MIS of Mesh} \ref{MG-mMesh} \\
 The Mesh module is an abstract data type that captures the structure of polygon 
 meshes as used by this program. It also provides methods to find out basic data 
 about the polygon mesh.
@@ -874,7 +944,7 @@ N/A
 
 \newpage
 
-\section{MIS of LightSources} \ref{mLightSource} \\
+\section{MIS of LightSources} \ref{MG-mLights} \\
 The Light Source module is an Abstract Data Type that defines the structure and 
 behaviours of light sources in the scene.
 \subsection{Template Module}
@@ -961,7 +1031,7 @@ N/A
 
 \newpage
 
-\section{MIS of Observer} \ref{mObserver} \\
+\section{MIS of Observer} \ref{MG-mObsv} \\
 The Observer Module is an Abstract Data Type which captures information related 
 to the camera in a scene. While there's no behaviour and this type of 
 information could be represented as an Abstract Object since there's only one 
@@ -1021,7 +1091,7 @@ N/A
 
 \newpage
 
-\section{MIS of NormalMap} \ref{mNormalMap} \\
+\section{MIS of NormalMap} \ref{MG-mNormals} \\
 The NormalMap module is an Abstract Data Type which captures information about 
 the normal maps of an object mesh. This information is necessary for 
 calculating reflections and is easier to calculate once and store instead of 
@@ -1392,7 +1462,6 @@ SCENE\_MIN\_D : $\mathbb{R}^+$\\
 		& LightSource & & INVALID\_LIGHT\_POSITION\\
 		& Observer & & INVALID\_OBSV\_POSITION\\
 		& \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\} & & \\
-		
 		%%
 		\hline
 	\end{tabular}
@@ -1551,6 +1620,10 @@ N/A
 \newpage
 
 \section{MIS of Shader} \ref{mShader} \\
+The Shader module is a library that calculates the normal map of an object 
+given a shading model and said object. It handles the different types of 
+shadings that are possible and handles the interpolation of normals between 
+points.
 
 \subsection{Module}
 Shader
@@ -1642,7 +1715,57 @@ N/A
 	%%normals for all the polygons that vertex is a part of.
 	)
 	
-	\item exception: exc := \\
+	\item exception: -- \\
+\end{itemize}
+
+\section{MIS of LightingModel} \ref{mLightModel} \\
+The LightingModel module is a library that provides the intensity functions for 
+final scene colouring calculations.
+\subsection{Module}
+LightModel
+
+\subsection{Uses}
+
+\subsection{Syntax}
+\subsubsection{Exported Constants}
+models := \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\}
+\subsubsection{Exported Access Programs}
+\begin{center}
+	\begin{tabular}{p{3cm} p{4cm} p{2cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		intensity & models & LightSource, Object $\to \lambda$ I & \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{State Variables}
+N/A
+\subsubsection{Environment Variables}
+N/A
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+\noindent intensity(l: LightSource, o: Object):
+\begin{itemize}
+	\item output:= \{ model == DIFFUSE $\implies \lambda$ l, o $\to$ a function 
+	where ((l.direction() $\bullet$ 
+	o.intersects(l.direction()))$(I_{L_{i}p}$)$\cdot$(l.colour())\\
+	$|$ model == HALF-LAMBERT $\implies \lambda$ l, o $\to$ a function 
+	where  $[(obj.intersects(l.direction()) \bullet l.direction())\cdot 
+	obj.k_{d} + (1-obj.k_{d})]^2$\\
+	$|$ model == PHONG $\implies \lambda$ l, o $\to i(p,p_{0}) \cdot k_{a} + 
+	k_{d}\cdot i(p,p_{0}) \cdot 
+	\max(0,(L_{i}\bullet N)) + k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+	({L_{r}}\bullet V))^\alpha$\\
+	$|$ model == BLINN-PHONG $\implies \lambda$ l, o $\to$ a function where 
+	$i(p,p_{0}) \cdot$ o.ka + o.kd$\cdot \max(0, (N \bullet 
+	l.direction))\cdot i(p,p_{0}) +$ o.ks $\cdot \max(0, (N \bullet 
+	H))^{o.alpha} \cdot	i(p,p_{0}$
+	\}
 \end{itemize}
 
 
@@ -1655,16 +1778,6 @@ N/A
 
 \newpage
 
-
-
-
-
-
-
-
-
-
-
 \bibliographystyle {plainnat}
 \bibliography {../../../refs/References}
 
@@ -1672,6 +1785,6 @@ N/A
 
 \section{Appendix} \label{Appendix}
 
-\wss{Extra information if required}
+%\wss{Extra information if required}
 
 \end{document}
