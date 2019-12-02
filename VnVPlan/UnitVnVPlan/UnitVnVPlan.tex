@@ -12,6 +12,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{multirow}
 
 \input{../../Comments}
 \input{../../Common}
@@ -434,7 +435,7 @@ of the answer.
 	%\wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
 	%  be automatic}
 	
-	Initial State: --
+	Initial State: -- \\
 	
 	Input: 
 	\begin{tabular}{|c|p{8cm}|}
@@ -456,8 +457,8 @@ of the answer.
 		\hline
 		\textbf{Variation Name} & \textbf{Expected Output}\\
 		\hline
-		V1 == -V2 & out:= Vector(0,0,0,0)\\
-		V1 == V2 & out:= Vector(2,2,2,3.464101615137755‬)\\
+		V1 == -V2 & out:= Vector(0,0,0,m:=0)\\
+		V1 == V2 & out:= Vector(2,2,2,m:=3.464101615137755‬)\\
 		V1 $\neq$ V2 & out:= Vector(ux,uy,uz,m)\\		
 		\hline
 	\end{tabular}
@@ -472,11 +473,15 @@ of the answer.
 	
 	Type: Functional Automatic
 	
-	Initial State: --
+	Initial State: -- \\
+	
 	Input: 
 	\begin{tabular}{|c|c|}
 		\hline
 		\textbf{Variation Name} & \textbf{Passed Values}\\
+		Valid Values & V:= Vector(1,1,1,m:=1.7320508), k:=3 \\
+		Valid Values Negative & V:= Vector(1,1,1,m:=1.7320508), k:=-3 \\
+		Valid Values Zero & V:= Vector(1,1,1,m:=1.7320508), k:=0\\				
 		\hline
 		
 		\hline
@@ -487,7 +492,10 @@ of the answer.
 		\hline
 		\textbf{Variation Name} & \textbf{Expected Output}\\
 		\hline
-		
+		Valid Values & $V_{out}$:= Vector(3,3,3,m:=5.1961524)\\		
+		Valid Values Negative & $V_{out}$:= Vector(-3,-3,-3,m:=5.1961524)\\	
+		Valid Values Zero & $V_{out}$:= 
+		Vector(0,0,0,m:=0)\\						
 		\hline
 	\end{tabular}
 	
@@ -529,7 +537,13 @@ this module will not check for valid construction of other objects.
 		\hline
 		\textbf{Variation Name} & \textbf{Passed Values}\\
 		\hline
-
+		\multirow{7}{*}{Valid Values} & height:= \\
+		& width:= \\
+		& depth:= \\
+		& obs:= Observer() \\
+		& ls:= LightSource() \\
+		& os:= Object()\\
+		& lightModel:= DIFFUSE \\
 		\hline
 	\end{tabular}
 	
