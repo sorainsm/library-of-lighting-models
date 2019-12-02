@@ -40,7 +40,7 @@ urlcolor=cyan          % color of external links
 
 \begin{document}
 
-\title{Module Interface Specification for Lighting Models}
+\title{Module Interface Specification for Lighting Models}\label{mis}
 
 \author{Sasha Soraine}
 
@@ -288,12 +288,13 @@ The Output Parameters Module converts the data from the scene into JSON
 formatted data.
 
 \subsection{Module}
-Input Parameters
+Output Parameters
 
 \subsection{Uses}
 
 \subsection{Syntax}
-\subsubsection{Exported Constants}
+\subsubsection{Exported Types}
+OutputObject = ?
 
 \subsubsection{Exported Access Programs}
 \begin{center}
@@ -301,7 +302,7 @@ Input Parameters
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		convert & String & - & INVALID\_FILE\_NAME, NO\_DATA\_TO\_WRITE\\
+		convert & Scene, String & - & INVALID\_FILE\_NAME, NO\_DATA\_TO\_WRITE\\
 		%%
 		\hline
 	\end{tabular}
@@ -322,8 +323,9 @@ output: File
 N/A
 
 \subsubsection{Access Routine Semantics}
-\noindent convert(o: String):
+\noindent convert(s: Scene, o: String):
 \begin{itemize}
+	\item transition: writing := (s, s.os, s.ls, s.obs)
 	\item output: output := OpenFile(o) and ToJSON(writing)
 	\item exception: exc := \{o already exists $\implies$ INVALID\_FILE\_NAME\\
 	$|$ writing is empty $\implies$ NO\_DATA\_TO\_WRITE \\
@@ -389,7 +391,7 @@ We assume that all the routines can only be called after Point() has been
 called once. This means there needs to be at least one Point3D before you can 
 call other routines.
 
-\subsubsection{Access Routine Semantics}
+\subsubsection{Access Routine Semantics}\label{mPoints-programs}
 \noindent Point($Ix: \mathbb{R}, Iy: \mathbb{R}, Iz: \mathbb{R}$):
 \begin{itemize}
 	\item transition: x, y, z := Ix, Iy, Iz
@@ -1462,8 +1464,14 @@ SCENE\_MIN\_D : $\mathbb{R}^+$\\
 		& LightSource & & INVALID\_LIGHT\_POSITION\\
 		& Observer & & INVALID\_OBSV\_POSITION\\
 		& \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\} & & \\
-		%%
+		compile & -- & OutputObject & -- \\
 		\hline
+		changeObj & Object & - & \\
+		changeLightSource & LightSource & - & \\
+		changeLightModel & LightingModel & - & \\
+		changeShader & ShadingModel & - & \\
+		changeRoomSize & $\mathbb{R},\mathbb{R},\mathbb{R}$ & - & \\
+		
 	\end{tabular}
 \end{center}
 

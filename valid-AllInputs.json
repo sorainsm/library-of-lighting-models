@@ -1,0 +1,38 @@
+{
+	"Height" : 50,
+	"Width" : 50,
+	"Depth" : 50,
+
+	"Object":[
+		{
+			"type": "sphere",
+			"position": [10,0,10],
+			"size": 1,
+			"ka": 1,
+			"kd": 1,
+			"ks": 0.5,
+			"alpha": 1,
+			"base_colour": [35,74,35],
+			"spec_colour": [255,255,255],			
+		}
+	],
+
+	"LightSource": [
+		{
+			"type": "point",
+			"position": [5,10,0],
+			"light_colour": [255,255,255],
+			"intensity": [10,10,10],
+		}
+	],
+
+	"Observer" : [
+		{
+			"position" : [0,0,0],
+			"direction" : [1,0,1]
+		}
+	],
+
+	"ShadingModel" : "Gouraud",
+	"LightingModel" : "Phong"
+}
