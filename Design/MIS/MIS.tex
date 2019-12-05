@@ -124,6 +124,10 @@ vectors for the measured points on the mesh. \\
 \end{tabular} 
 \end{center}
 
+\wss{There is already an issue about this, but I'm mention again that types like
+  RGB Colour cannot really be primitive data types.  They'll need to be defined
+  in the MIS.}
+
 \noindent
 The specification of \progname uses some derived data types: sequences, 
 strings, and tuples. Sequences are lists filled with elements of the same data 
@@ -210,10 +214,13 @@ the Unity Engine.
 
 %% -------------------------File Related Modules--------------------------------
 \section{MIS of Input Parameters Module} \ref{MG-mInputs} \\
-The Input Parameters Module converts the JSON data from the input file into the 
-objects usable by the system. During this process, the input is read as a 
-string into the system from the file and passed through the JSON module to 
-parse them.
+\wss{Please add a makefile for building the documents so that the
+  cross-references between documents can be kept up to date.  The module
+  reference number without an introduction is confusing.  Even putting an M in
+  front of it would help identify it as a module.}  The Input Parameters Module
+converts the JSON data from the input file into the objects usable by the
+system. During this process, the input is read as a string into the system from
+the file and passed through the JSON module to parse them.
 
 \subsection{Module}
 Input Parameters
@@ -241,6 +248,10 @@ Input Parameters
 	\end{tabular}
 \end{center}
 
+\wss{Where are the types Object, LightSource etc. defined?  This is what the
+  Uses clause is for.  You can tell the reader where they can find the details
+  they need to understand the specification of this module.}
+
 \subsection{Semantics}
 \subsubsection{State Variables}
 loaded : String %%JSON contents of file read as string
@@ -257,7 +268,8 @@ N/A
 \subsubsection{Access Routine Semantics}
 \noindent loadFile(f:String):
 \begin{itemize}
-	\item transition: loaded := ReadFile(f)
+	\item transition: loaded := ReadFile(f) \wss{You should make the
+            connection that the filename f refers the the environment variable input.}
 	\item exception: exc := \{f does not exist $\implies$ INVALID\_FILE\_NAME\\
 	$|$ f $\to$ input $\land$ input is not a JSON file $\implies$ 
 	INVALID\_FILE\_TYPE\\
@@ -265,7 +277,12 @@ N/A
 	\}
 \end{itemize}
 
-\noindent convertJSONtoScene():
+\noindent convertJSONtoScene(): \wss{Without knowing the types, I cannot
+  understand what is happening here.  I can see why you would not want to get
+  into the details of the JSON format, but you should point to a reference
+  (probably in Unity) that tells the readers the connection between the file and
+  the outputs.}
+
 \begin{itemize}
 	\item output:= s : initScene, o : Object, l : LightSource , v: Observer 
 	%%The 
@@ -294,7 +311,10 @@ Output Parameters
 
 \subsection{Syntax}
 \subsubsection{Exported Types}
-OutputObject = ?
+OutputObject = ? \wss{You use this notation for ADTs, but I do not get the
+  impression that this is what you mean here.  For an ADT the word Template
+  should be in the heading.  Also, ADTs have constructors.  You only have one
+  access program and it a constructor.}
 
 \subsubsection{Exported Access Programs}
 \begin{center}
@@ -312,6 +332,9 @@ OutputObject = ?
 \subsubsection{State Variables}
 writing : (Scene, Object, LightSource, Observer)%%JSON contents of file read as 
 %%string
+\wss{The notation used here is not the Hoffman and Strooper notation.  Is this a
+  tuple?  What are the field variables and what are the types?  If these are
+  types, where are they defined?}
 
 \subsubsection{Environment Variables}
 output: File
@@ -419,7 +442,7 @@ call other routines.
 
 \noindent distance\_abs(p:Point3D):
 \begin{itemize}
-	\item output:= $sqrt{(p.x-self.x)^2 + (p.y-self.y)^2 + (p.z-self.z)^2}$
+	\item output:= $\sqrt{(p.x-self.x)^2 + (p.y-self.y)^2 + (p.z-self.z)^2}$
 	\item exception: N/A
 \end{itemize} 
 
@@ -430,10 +453,13 @@ N/A
 %  explicitly.  Even if they are implemented, they are not exported; they only
 %  have local scope.}
 
+\wss{The Point3D ADT looks good.}
+
 \newpage
 
 \section{MIS of Colour} \ref{MG-mColour} \\
 The Colour module captures the structure of colours used in this program.
+\wss{This module looks fine.}
 
 \subsection{Template Module}
 Colour
@@ -563,6 +589,8 @@ Vector = ?
 	\end{tabular}
 \end{center}
 
+\wss{You might think about direction outputting a vector.}
+
 \subsection{Semantics}
 \subsubsection{State Variables}
 start := Point3D \\
@@ -594,6 +622,9 @@ N/A
 	\item exception: exc:= \{ p == q $\implies$ SAME\_POINTS\}
 \end{itemize}
 
+\wss{You haven't actually defined what it means for two vectors to be equal.
+  You might want to add an access program for this.}
+
 \noindent Vector($Ix: \mathbb{Z}, Iy: \mathbb{Z}, Iz: \mathbb{Z}, Im: 
 \mathbb{R} 
 $):
@@ -601,7 +632,11 @@ $):
 	\item transition: ux, uy, uz, m := Ix, Iy, Iz, Im
 	\item exception: exc := $(ux < -1 || ux > 1) \implies $INVALID\_UX \\
 	$ | (ux < -1 || ux > 1) \implies$  INVALID\_UY \\ $| $(ux $< -1 ||$ ux $> 
-	1$) $\implies $ INVALID\_UZ \\ $| (m < 0) \implies$ INVALID\_M
+	1$) $\implies $ INVALID\_UZ \\ $| (m < 0) \implies$ INVALID\_M \wss{The
+          vector 0.9, 0.9, 0.9 satisfies your rules, but the magnitude is
+          greater than 1.  You could just look at the distance from the origin
+          to the end of the proposed unit vector.  If it is close enough to 1
+          you could say that the unit vector is valid.}
 \end{itemize}
 
 \noindent .m():
@@ -653,11 +688,14 @@ LightType = ?
 		\hline
 		LightType & \{ambient,point,spotlight,directional\} & LightType & -- \\
 		.name & & LightType & -- \\
-		.i & LightType & $\mathbb{R},\mathbb{R} \to 
+		.i & LightType & $\mathbb{R} \times \mathbb{R} \to 
 		\mathbb{R}$ & -- \\
 		\hline
 	\end{tabular}
 \end{center}
+
+\wss{I suggest that somewhere you export the type
+  \{ambient,point,spotlight,directional\}  and give it a convenient name.}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
@@ -685,6 +723,8 @@ N/A
 					  $|$ name == point $\implies \lambda d, i_{0} \to 
 					  i_{0}$\\
 					  $|$ name == spotlight $\implies$)
+                                          \wss{H\&S do not use $==$ for
+                                            equality; they use $=$}
 	\item output: self
 	\item exception: exc:= \{inName $\notin$ {ambient, spotlight, point, 
 	directional} $\implies$ INVALID\_LIGHT\_TYPE \}
@@ -729,7 +769,8 @@ Polygon = ?
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		Polygon & \{triangle, quad\}, (Point3D, Vector)$^n$ & -- & -- \\
+		Polygon & \{triangle, quad\}, (Point3D, Vector)$^n$ \wss{What
+                          does $n$ mean here?} & -- & -- \\
 		.shape & -- & \{triangle, quad\} & -- \\
 		.bounds & -- & Set of (Point3D, Vector) & -- \\
 		.s\_norm & -- & Vector & -- \\
@@ -741,9 +782,19 @@ Polygon = ?
 
 \subsection{Semantics}
 \subsubsection{State Variables}
-shape := \{triangle, quad\}\\
-bounds := Set of (Point3D, Vector) tuples\\
-s\_norm := Vector\\
+shape := \{triangle, quad\} \wss{As mentioned elsewhere, giving sets like this a
+  name will make your document easier to read and write.}\\
+bounds := Set of (Point3D, Vector) tuples \wss{Please use the H\&S notation.}\\
+s\_norm := Vector \wss{You could calculate this as needed, rather than have it
+  as a state variable.}\\
+
+\wss{A polygon can be represented by a sequence of points.  I'm not sure why you need
+  vectors in the state variables.  You could calculate a vector between two
+  points if you need it, but it seems redundant to keep state information on
+  both.  It is an extra headache to make sure that your points and vectors are
+  consistent.  Alternatively, you could store a set of vectors.  The way you
+  have defined vectors to contain a starting point, the vectors alone contain
+  all of the information you need.}
 
 \subsubsection{Environment Variables}
 N/A
@@ -757,8 +808,11 @@ N/A
 \noindent Polygon($t:\{triangle, quad\}, (p:Point3D, v:Vector)^n$):
 \begin{itemize}
 	\item transition:= $shape := t;$ \\
-	$bounds := \cup (p,v)$ \\
-	s\_norm := Calculate norm as cross-product of two vectors from 1 vertex.
+	$bounds := \cup (p,v)$ \wss{what sets is this a union of?  You cannot
+          have a union of sets of different types.  I think you might need a
+          different notation for what you are trying to do?}\\
+	s\_norm := Calculate norm as cross-product of two vectors from 1
+        vertex.  \wss{Your vector ADT does not have cross product}
 	\item exception: exc := \{(t $\notin$ \{triangle, quad\} $\implies$ 
 	INVALID\_SHAPE) \\ $|$ (t:\{triangle, quad\},b: Set of (Point3D, Vector)$|$ 
 	t == triangle, sizeOfBounds $<$ 6 $\implies$ TOO\_FEW\_POINTS) \\ $|$ 
@@ -861,7 +915,8 @@ Mesh = ?
 \subsubsection{State Variables}
 Vertices : Set of Point3D\\
 Edges : Set of Vectors\\
-Surfaces : Set of Polygons\\
+Surfaces : Set of Polygons \wss{Why can't your mesh just be a set of polygons?
+  The polygons already contain points and vectors.}\\
 
 \subsubsection{Environment Variables}
 N/A
@@ -953,7 +1008,8 @@ behaviours of light sources in the scene.
 LightSource
 
 \subsection{Uses}
-
+\wss{You want to put the modules here that define the types you will be using,
+  like Point3D, Colour, etc.}
 \subsection{Syntax}
 \subsubsection{Exported Types}
 LightSource = ?
@@ -974,6 +1030,11 @@ LightSource = ?
 		\hline
 	\end{tabular}
 \end{center}
+
+\wss{The Set of Vectors type in the interface may give you headaches.
+  Internally using sets is fine, but when it is exposed at the interface, you
+  will have to still find a set type for the implementation.  A sequence of
+  vectors might be easier.}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
@@ -1059,6 +1120,10 @@ Observer = ?
 	\end{tabular}
 \end{center}
 
+\wss{If you only have a constructor, how do any other modules use the state
+  information?  If this module really is just data, you might save yourself some
+  work by defining it as an exported type.}
+
 \subsection{Semantics}
 \subsubsection{State Variables}
 p : Point3D\\
@@ -1081,7 +1146,8 @@ objects from one view.
 	\item transition: p := inP \\
 	d := inD
 	\item output := self
-	\item exception: exc :=
+	\item exception: exc := \wss{If there are no exceptions, you should say
+            ``none'' explicitly.}
 \end{itemize}
 
 \subsubsection{Local Functions}
@@ -1118,6 +1184,11 @@ NormalMap = ?
 		\hline
 	\end{tabular}
 \end{center}
+
+\wss{Again, you only have a constructor in the interface.  You likely want some
+  getters at least.  Having Set as the type in your interface may cause you some
+headaches.  If you really want Set, you should probably define an Generic ADT
+for Set.}
 
 \subsection{Semantics}
 \subsubsection{State Variables}
@@ -1218,7 +1289,7 @@ Object = ?
 baseColour : Colour \\
 specColour : Colour \\
 centrePoint : Point3D \\
-mesh : Mesh \\
+mesh : Mesh \\ 
 ka : $\mathbb{R}$ \\
 ks : $\mathbb{R}$ \\
 kd : $\mathbb{R}$ \\
@@ -1336,7 +1407,7 @@ GOURAUD, PHONG\}):
 	%\item transition: \wss{if appropriate} 
 	\item transition: baseColour := c
 	\item exception: exc := {\\
-					c.r > 255 $\implies$ IV\_OUT\_OF\_BOUNDS\\
+					c.r $>$ 255 $\implies$ IV\_OUT\_OF\_BOUNDS\\
 					$|$ \\
 					c.g > 255 $\implies$ IV\_OUT\_OF\_BOUNDS \\
 					$|$ \\
@@ -1347,7 +1418,8 @@ GOURAUD, PHONG\}):
 					c.g < 1 $\implies$ IV\_OUT\_OF\_BOUNDS \\
 					$|$ \\
 					c.b < 1 $\implies$ IV\_OUT\_OF\_BOUNDS}	\\	
-\end{itemize}
+\end{itemize} \wss{I fixed one of your > to be $>$, you will have to fix the
+  other ones too.}
 
 \noindent SetObj\_SpecColour(c : Colour):
 \begin{itemize}
@@ -1482,7 +1554,8 @@ width : $\mathbb{R}$\\
 depth : $\mathbb{R}$\\
 obs : Observer \\
 ls : LightSource \\
-os : Object\\
+os : Object  \wss{Your scenes have just one object?  That is fine, but I want to
+make sure that is your intention.}\\ 
 lightModel : \{DIFFUSE, HALF-LAMBERT, PHONG, BLINN-PHONG\}
 
 \subsubsection{Environment Variables}
@@ -1539,7 +1612,11 @@ $\land$ (SCENE\_MIN\_W < o.position.x < SCENE\_MAX\_W) $\land$
 \section{MIS of VecMath} \ref{MG-mVecMath} \\
 The Vector Math module is a library of services that can be used with Vectors. 
 All functions here take in 2 Vectors and output either a Vector or a scalar 
-value.
+value. \wss{This is fine.  Earlier I pointed out that your Vector ADT did not
+  have a cross product.  I see now that you have a library for these
+  calculations.  You should use the Uses clause as it was intended so that the
+  reader can find the required information for one module by reading that
+  module's spec, and the spec for the Uses modules.}
 
 \subsection{Module}
 VecMath
@@ -1582,7 +1659,8 @@ N/A
 	Vector((v1.x+v2.x),(v1.y+v2.y),(v1.z,v2.z), \\
 	$\sqrt{(v1.x+v2.x)^2+(v1.y+v2.y)^2+(v1.z,v2.z)^2}$)
 	\item exception: exc := \\
-\end{itemize}
+\end{itemize} \wss{Your add will have a problem because the three components are
+  unlikely to form a unit vector.}
 
 \noindent sclMult($v1:Vector, r:\mathbb{R}$):
 \begin{itemize}
@@ -1591,7 +1669,10 @@ N/A
 	uy := $r \times v1.y$ \\
 	uz := $r \times v1.z$ \\	
 	\item exception: \\
-\end{itemize}
+\end{itemize} \wss{You do not have access to the state variables here.  Also,
+  these will not be unit vectors, except in very rare cases.  Your output should
+call the Vector constructor with the right parameters.  You are also missing the
+start point, which is something you made part of the Vector type.}
 
 
 \noindent dot($v1:Vector, v2:Vector$):
@@ -1601,7 +1682,8 @@ N/A
 	uy := $v1.y \times v2.y$ \\
 	uz := $v1.z \times v2.z$ \\
 	\item exception: \\
-\end{itemize}
+\end{itemize} \wss{This isn't the definition of dot product.  Dot product is a
+  scalar (real) value.}
 
 \noindent cross($v1:Vector, v2:Vector$):
 \begin{itemize}
@@ -1610,7 +1692,7 @@ N/A
 	uy := $(v1.z \times v2.x) - (v1.x \times v2.z)$  \\
 	uz := $(v1.x \times v2.y) - (v1.y \times v2.x)$  \\
 	\item exception: \\
-\end{itemize}
+\end{itemize} \wss{You need to call your Vector constructor with the appropriate arguments.}
 
 \noindent angleBetween($v1:Vector, v2:Vector$):
 \begin{itemize}
@@ -1668,7 +1750,11 @@ N/A
 	\item output:= Linear interpolation of normal values between starting 
 	vertex (s[0]) and ending vertex (s[1]).\\
 	\item exception: \\
-\end{itemize}
+\end{itemize} \wss{It would be nice to see the formula for the interpolation.
+  It is a simple formula, but I have no idea how it relates to the arguments
+  that are provided.  More information is needed to make it clear.  What is
+  being interpolated?  Is it the vector at the two points?  Is the interpolation
+  component wise?}
 
 \noindent findNormals(s:ShadingModel, o:Object):
 \begin{itemize}
@@ -1689,8 +1775,12 @@ N/A
 			together}.
 		\item[] counter++ --- \textit{Count how many polygons are a part of 
 			this}.
-	\end{itemize}
-	\textit{end} $\to$ (v, sum/counter)}\\
+	\end{itemize} 
+	\textit{end} $ to$ (v, sum/counter)}\\ \wss{Since you are not using the
+          notation we used in class, I do not know how to read this.  Does the
+          arrow mean implication?  Is this a boolean expression?  It is great
+        that you are working on the math, but this might be a case where a
+        pseudo code algorithm is more practical.}
 	%%Gouraud shading takes sets the normal at the vertex to be the average of 
 	%%the surface normals for all the polygons that vertex is a part of. It 
 	%%then calculates the colour at the vertices and interpolates the colours 
@@ -1774,8 +1864,10 @@ N/A
 	l.direction))\cdot i(p,p_{0}) +$ o.ks $\cdot \max(0, (N \bullet 
 	H))^{o.alpha} \cdot	i(p,p_{0}$
 	\}
-\end{itemize}
-
+\end{itemize} \wss{I think I can see what you are getting at, but the math
+  notation needs some work.  In particular, I don't know what the big dots
+  mean.  Is this multiplication?  Is it a dot product?  Do the types all make
+  sense for whatever operation the big dot implies?}
 
 \subsubsection{Local Functions}
 N/A
@@ -1787,7 +1879,7 @@ N/A
 \newpage
 
 \bibliographystyle {plainnat}
-\bibliography {../../../refs/References}
+\bibliography {../../refs/References}
 
 \newpage
 
