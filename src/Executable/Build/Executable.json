@@ -1,0 +1,16 @@
+{
+"companyName": "DefaultCompany",
+"productName": "ShaderTutorials",
+"productVersion": "0.1",
+"dataUrl": "Executable.data.unityweb",
+"wasmCodeUrl": "Executable.wasm.code.unityweb",
+"wasmFrameworkUrl": "Executable.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.2.16f1"
+}

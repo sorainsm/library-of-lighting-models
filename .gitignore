@@ -23,3 +23,5 @@ latex
 
 # Temporary Excel files
 ~$*  
+/src/shaderTesting/ShaderTutorials/Logs
+/src/shaderTesting/ShaderTutorials/Library
