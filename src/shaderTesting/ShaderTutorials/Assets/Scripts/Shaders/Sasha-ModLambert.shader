@@ -7,9 +7,12 @@
 
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _Color("Object Colour", Color) = (1,1,1,1)  //Object base color - defaults to white if nothing else selected.
         _DiffuseCoefficient ("k-diffuse", Float) = 1 //Diffuse coefficient can only be between 0.5 and 1 as per Commonality Analysis
+        _Color("Diffuse Color", Color) = (1,1,1,1)
+        _SpecColor("Specular Colour", Color) = (1,1,1,1)
+        _SpecularCoefficient("k-specular", Float) = 0
+        _Shininess("alpha-Shininess", Float) = 10
+
     }
         SubShader
     {
@@ -28,6 +31,9 @@
             uniform float4 _LightColor0;    //Colour of light source - taken from Lighting.cginc
             uniform float4 _Color;          //Colour of material from shader inspector
             uniform float _DiffuseCoefficient; //Diffuse coefficient from shader inspector
+            uniform float4 _SpecColor;   
+            uniform float _SpecularCoefficient;
+            uniform float _Shininess;
 
             struct vertexInput
             {
@@ -86,9 +92,12 @@
 
                 #include "UnityCG.cginc"
 
-                uniform float4 _LightColor0;    //Colour of light source
+                uniform float4 _LightColor0;    //Colour of light source - taken from Lighting.cginc
                 uniform float4 _Color;          //Colour of material from shader inspector
-                uniform float _DiffuseCoefficient;
+                uniform float _DiffuseCoefficient; //Diffuse coefficient from shader inspector
+                uniform float4 _SpecColor;
+                uniform float _SpecularCoefficient;
+                uniform float _Shininess;
 
                 struct vertexInput
                 {

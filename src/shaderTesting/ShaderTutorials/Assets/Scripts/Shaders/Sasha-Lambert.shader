@@ -3,7 +3,6 @@
     /* This script covers the shader and lighting model for a Lambert/Diffuse shader/lighting.
     *  This was constructed using the following tutorials:
     *  1. https://en.wikibooks.org/wiki/Cg_Programming/Unity/Diffuse_Reflection
-    *  2. https://tutorialedge.net/gamedev/unity/custom-diffuse-lighting-model-unity-tutorial/
     *  The purpose of constructing the Diffuse model from these tutorials is to understand how to code
     *  lighting models in the CG language (HLSL/GLSL). Other lighting models will be coded from scratch
     *  by me, as per the requirements of the course.
@@ -20,25 +19,33 @@
 
     Properties
     {
-        _Color("Diffuse Material Color", Color) = (1,1,1,1)    //Base Material Colour
-    }
+        _Color("Diffuse Color", Color) = (1,1,1,1)          //Colours are RGBA values; the nature of the Colour constructor ensures that the Color values are correct (in-bounds)
+        _SpecColor("Specular Colour", Color) = (1,1,1,1)
+        _DiffuseCoefficient("k-diffuse", Float) = 0         //Diffuse coefficient (kd) is bound [0.5, 1] 
+        _SpecularCoefficient("k-specular", Float) = 0       //Specular coefficient (ks) is bound [0, 1]
+        _Shininess("alpha-Shininess", Float) = 10 }         //Shininess coefficient (alpha) is bound as a positive integer
 
     SubShader
     {
         Pass
         {
-
-            Tags { "LightMode" = "ForwardBase" }  //This makes sure all uniforms are correctly set
+            //First pass for directional and ambient lights.
+            Tags { "LightMode" = "ForwardBase" } 
             
             CGPROGRAM
 
-            #pragma vertex VertexFunc       //Vertex function for per-vertex shading
-            #pragma fragment FragmentFunc   //Fragment function for fragment colour calculation
+            #pragma vertex VertexFunc                       //Vertex function for per-vertex shading
+            #pragma fragment FragmentFunc                   //Fragment function for fragment colour calculation
 
             #include "UnityCG.cginc"
 
-            uniform float4 _LightColor0;    //Colour of light source
-            uniform float4 _Color;          //Colour of material from shader inspector
+            //This section connects the Unity Editor inspector values to the HLSL/GLSL code
+            uniform float4 _LightColor0;                    //Colour of light source
+            uniform float4 _Color;                          //Colour of material from shader inspector
+            uniform float4 _SpecColor;                      //Colour of specular highlight for material
+            uniform float _DiffuseCoefficient;              //kd for material
+            uniform float _SpecularCoefficient;             //ks for material
+            uniform float _Shininess;                       //alpha for material
 
             struct vertexInput
             {
@@ -58,8 +65,8 @@
 
                 float4x4 modelMatrix = unity_ObjectToWorld;
                 float4x4 modelMatrixInverse = unity_WorldToObject;
-                float3 normalDirection = UnityObjectToWorldNormal(IN.normal);   //Takes the normal at the vertex and converts it from local coordinates to global coordinates
-                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);    //finds the incident ray between the light position and the vertex when light source is directional
+                float3 normalDirection = UnityObjectToWorldNormal(IN.normal);         //Takes the normal at the vertex and converts it from local coordinates to global coordinates
+                float3 lightDirection = normalize(_WorldSpaceLightPos0.xyz);          //finds the incident ray between the light position and the vertex when light source is directional
                 float attentuation = 1.0;                                             //How the intensity of the light decays with distance                              
 
                 float angleOfReflection = max(0.0, dot(normalDirection, lightDirection)); //Finds the angle of reflection between the incident ray and the normal; I added this by separating out steps from the diffuse equation.
@@ -82,8 +89,8 @@
 
          Pass
         {
-            //Pass for additional light sources
-            Tags { "LightMode" = "ForwardAdd" }  //This makes sure all uniforms are correctly set
+            //Pass for additional light sources (spot lights, and point lights)
+            Tags { "LightMode" = "ForwardAdd" }  //ForwardAdd means we're looking at Additive lights (e.g. all lights beyond the main light)
             Blend One One //Additive Blending
 
             CGPROGRAM
@@ -93,8 +100,13 @@
 
             #include "UnityCG.cginc"
 
-            uniform float4 _LightColor0;    //Colour of light source
-            uniform float4 _Color;          //Colour of material from shader inspector
+            //This section connects the Unity Editor inspector values to the HLSL/GLSL code
+            uniform float4 _LightColor0;                    //Colour of light source
+            uniform float4 _Color;                          //Colour of material from shader inspector
+            uniform float4 _SpecColor;                      //Colour of specular highlight for material
+            uniform float _DiffuseCoefficient;              //kd for material
+            uniform float _SpecularCoefficient;             //ks for material
+            uniform float _Shininess;                       //alpha for material
 
             struct vertexInput
             {
@@ -130,9 +142,7 @@
                     attentuation = 1.0 / distance;
                     lightDirection = normalize(vertexToLight);
                 }
-
-
-
+                
                 float angleOfReflection = max(0.0, dot(normalDirection, lightDirection)); //Finds the angle of reflection between the incident ray and the normal; I added this by separating out steps from the diffuse equation.
 
                 float3 diffuseReflection = attentuation * _LightColor0.rgb * _Color.rgb * angleOfReflection; //Finds intensity of reflected ray (and therefore the colour of the vertex)

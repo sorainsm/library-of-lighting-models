@@ -96,8 +96,9 @@
     <Compile Include="Assets\Materials and Textures\From Asset Store\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Materials and Textures\From Asset Store\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Materials and Textures\From Asset Store\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
-    <Compile Include="Assets\Scripts\UI Behaviour\lightChange.cs" />
-    <Compile Include="Assets\Scripts\UI Behaviour\MaterialMenu.cs" />
+    <Compile Include="Assets\Scripts\Interfaces\IUnityService.cs" />
+    <Compile Include="Assets\Scripts\UI Behaviour\LightBehaviour.cs" />
+    <Compile Include="Assets\Scripts\UI Behaviour\MaterialBehaviour.cs" />
     <None Include="Assets\Scripts\Shaders\ShaderTest.shader" />
     <None Include="Assets\Materials and Textures\From Asset Store\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Materials and Textures\From Asset Store\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
@@ -324,6 +325,9 @@
     </Reference>
     <Reference Include="UnityEngine.XRModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Assets/Plugins/NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.16f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
