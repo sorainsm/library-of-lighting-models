@@ -200,22 +200,29 @@ through the open-source lighting and shader code. For the purposes of  this
 course we focus on creating the learning software, as it will use the open 
 source code that fits the graphics creation context.
 
-The \progname 
-
-This software aims to take in user specifications about the graphical scene 
-(lights, objects, shading model, lighting model, and an observer) and render a 
-fully lit and shaded scene. To do this, it runs calculations using basic optics 
-principles to approximate light behaviour in 3D computer graphics.
+The \famname application will present the user with a simple scene of a sphere 
+in a room with a spot light. The user can modify the material properties of the 
+sphere, and the position and type of the light source. \famname will re-render 
+the scene in real time to account for these modifications. The calculations 
+used to find how to render this are explained in the CA. 
 
 \subsection{Objectives}
 The goal of this testing is to:
 
 \begin{itemize}
 	\item Demonstrate adequate usability of the system,
-	\item Demonstrate learnability of the system, and
-	\item Evaluate the productivity of the system.
+	\item Evaluate the productivity of the open source library system.
 \end{itemize}
-%
+
+Demonstrating usability of the system means that we look to see how ``easy'' 
+the learning context is to use. This involves evaluating the graphical user 
+interface that mediates the changes to the scene.
+
+Evaluating productivity of the open source library system means examining how 
+quickly we can build a scene using the lighting model library. This testing, 
+while aimed as a system level test, will be conducted after the completion of 
+this course.
+
 %\wss{State what is intended to be accomplished.  The objective will be around
 %  the qualities that are most important for your project.  You might have
 %  something like: ``build confidence in the software correctness,''
@@ -292,11 +299,12 @@ following ways:
 \begin{itemize}
 	\item Have expert level users (familiar with graphics programming) do a 
 	close read of the commonality analysis to compare it against existing 
-	software tools for functionality. \wss{What existing tools are you
+	the built-in Unity Lighting and Shaders, and OpenGL. \wss{What existing 
+	tools are you
           comparing to?  This would be very helpful information.}
 	\item Review and revise requirements based on feedback from Domain Expert 
 	and Secondary Reviewer of CA.
-      \item Ask Dr.\ Smith \wss{Dr. Smith includes two spaces after the period.
+      \item Ask Dr.~Smith \wss{Dr. Smith includes two spaces after the period.
           Use Dr.\ Smith, or Dr.~Smith} to review the scope to consider whether
         the implementation scoping and thus listed requirements is
         inappropriate.
@@ -391,7 +399,18 @@ evaluating the design of the system structure as the sum of its parts.
   after the course is over.}
 
 \subsection{Software Validation Plan}
-There are currently no plans to validate the software.  \wss{Why not?  I think
+There are currently no plans to validate the software. \famname is not creating 
+a photorealistic model of lighting, rather its using approximated models to try 
+and approximate lighting for the purpose of education and ease of graphic 
+creation.
+
+As we focus on creating software to address the education aspect, validation 
+would entail gathering information from stakeholders in beginner graphics 
+classes (students and professors) to see whether such a tool is beneficial, and 
+if it meets their needs. As we do not have access at this time to a sufficient 
+pool of stakeholders, we hold off on validation for the moment.
+
+\wss{Why not?  I think
   you should explain that validation is not suitable for your software.  You are
   not comparing the output to reality; you are comparing your results to
   mathematical models.}
@@ -405,7 +424,7 @@ The following section outlines the test cases to be used for testing the
 functional and non-functional requirements at a system level.
 
 These test cases are divided between the functional and non-functional 
-requirements. The functional requirement test cases handle black-box behvaiour
+requirements. The functional requirement test cases handle black-box behaviour
 \wss{spell check}
 of the system as it is fed different inputs. The non-functional requirement 
 test cases focus on testing the usability of the system as an end-user. 
@@ -439,146 +458,154 @@ the basic output testing is handled alongside the ``Load a Scene'' tasks.
 %\wss{Include a blurb here to explain why the subsections below
 %  cover the requirements.  References to the SRS would be good.}
 
-\subsubsection{Input Testing}
-The following section explicitly covers R1, R2, R3, R4, R5, and R6 \wss{The
-  original blank project template is set up to allow external cross-references
-  between documents.  Hard-coding these numbers will be a maintenance
-  challenge.} from the CA 
-\ref{}. \wss{It is a good idea to reference the CA, but the reference is
-  missing.}  These requirements pertain to input handling; how the system should 
-behave when various types of input are given to it. Implicitly these test R7, 
-R8, R9, and R11 which are the underlying calculations that transform the input 
-into the output scene.
-
-%\wss{It would be nice to have a blurb here to explain why the subsections below
-%  cover the requirements.  References to the SRS would be good.  If a section
-%  covers tests for input constraints, you should reference the data constraints
-%  table in the SRS.}
-		
-\paragraph{Load a Scene}
-~\newline
-The following test cases all share the same properties:
-
-\begin{itemize}
-	\item[] Initial State: No scene loaded.
-\end{itemize}
-
-\begin{enumerate}
-
-\item{loadScene-allValid\\}
-
-Control: Automatic
-								
-Input: \textit{SCENE\_DIR/valid-AllInputs.JSON} (See \ref{in:valid-All})
-					
-Output: \textit{RENDERS\_DIR/render-valid-AllInputs} \wss{You should explain
-  somewhere the SCENE\_DIR and the RENDERS\_DIR folders.  Are these actual
-  names, or are they placeholders that the tester will fill in with their
-  specific folders?  I prefer the second option, since it is more general.}
-
-Test Case Derivation: Having received a properly formatted and structured JSON 
-file containing all inputs for the scene, the system will output a fully 
-rendered and lit scene.
-					
-How test will be performed: System will try to load created test file from 
-scene directory. \wss{How do you automatically assess success on this test?  Do
-  you simply look for the presence of a file in the expected location?  A
-  similar question applies for your other input tests.}
-					
-\item{loadScene-validMissingSome\\}
-
-Control: Automatic
-
-Input: \textit{SCENE\_DIR/valid-MissingData.JSON}(See \ref{in:valid-Miss})
-
-Output: Prompt Message: ``File exists, but is missing data. Would you like to 
-load the default settings for missing data?'', Log message ``Error: File exists 
-but is missing data.''
-
-Test Case Derivation: 
-
-How test will be performed: System will try to load created test file from 
-scene directory.
-
-\item{loadScene-fileExistNoData\\}
-
-Control: Automatic
-									
-Input: \textit{SCENE\_DIR/valid-NoData.JSON}(See \ref{in:valid-No})
-
-Output: Prompt Message ``File exists, but is empty. Would you like to load the 
-default scene?", Log message "Error: File exists but is empty."
-
-Test Case Derivation: In receiving an empty file, the system should be robust 
-enough to acknowledge the specific error and offer to substitute with the 
-default scene.
-
-How test will be performed: System will try to load created test file from 
-scene directory.
-
-\item{loadScene-invalidInput\\}
-
-Control: Automatic
-
-Input: \textit{SCENE\_DIR/invalid.JSON}(See \ref{in:invalid})
-
-Output: Error Message ``File does not contain valid scene data.'', Log message 
-"Error: Invalid scene data in file: \textit{SCENE\_DIR/invalid.JSON}."
-
-Test Case Derivation: In receiving invalid data, the system should be robust 
-enough to acknowledge the specific error and log it in the log file.
-
-How test will be performed: System will try to load created test file from 
-scene directory. \wss{For the tests where an exception is expected, you can
-  automate this in your unit testing by having the test case assertion be that
-  the correct exception is raised.}
-
-\end{enumerate}
-
-\paragraph{Create Default Scene}
-~\newline
-\begin{enumerate}
-	
-	\item{createDefault-validMissingData\\}
-	
-	Control: Automatic
-
-	Initial State: No scene loaded.	System tried to load 
-	\textit{SCENE\_DIR/valid-MissingData.JSON} (See \ref{in:valid-Miss}) and 
-	displayed Prompt Message.
-
-	Input: YES selected at Prompt Message
-	
-	Output: \textit{RENDERS\_DIR/render-valid-MissingData-defaultsub}
-	
-	Test Case Derivation: System corrects partially invalid input by 
-	substituting missing information with predetermined default values.
-	
-	How test will be performed: System will fill in empty input with default 
-	values.
-	
-	\item{createDefault-fileExistsNoData\\}
-	
-	Control: Automatic
-	
-	Initial State: No scene loaded.	System tried to load 
-	\textit{SCENE\_DIR/valid-NoData.JSON} (See \ref{in:valid-No}) and displayed 
-	associated Prompt 
-	Message.
-	
-	Input: YES selected at Prompt Message
-	
-	Output: \textit{RENDERS\_DIR/render-valid-NoData-defaultsub}
-	
-	Test Case Derivation: System corrects partially invalid input by 
-	substituting missing information with predetermined default values.
-	
-	How test will be performed: System will fill in empty input with default 
-	values.	
-	
-\end{enumerate}
-
-\wss{I like how you have specific tests cases.  Great!}
+\sms{Due to logistical changes in the scoping of the project, I have removed 
+the ability to load files into the program. As such the input testing cases are 
+no longer applicable. I have commented them out so as to reintroduce them at a 
+later time when I can add the JSON file save and load system to this project.}
+%\subsubsection{Input Testing}
+%The following section explicitly covers R1, R2, R3, R4, R5, and R6 \wss{The
+%  original blank project template is set up to allow external cross-references
+%  between documents.  Hard-coding these numbers will be a maintenance
+%  challenge.} from the CA 
+%\ref{}. \wss{It is a good idea to reference the CA, but the reference is
+%  missing.}  These requirements pertain to input handling; how the system 
+%should 
+%behave when various types of input are given to it. Implicitly these test R7, 
+%R8, R9, and R11 which are the underlying calculations that transform the input 
+%into the output scene.
+%
+%%\wss{It would be nice to have a blurb here to explain why the subsections 
+%%below
+%%  cover the requirements.  References to the SRS would be good.  If a section
+%%  covers tests for input constraints, you should reference the data 
+%%constraints
+%%  table in the SRS.}
+%		
+%\paragraph{Load a Scene}
+%~\newline
+%The following test cases all share the same properties:
+%
+%\begin{itemize}
+%	\item[] Initial State: No scene loaded.
+%\end{itemize}
+%
+%\begin{enumerate}
+%
+%\item{loadScene-allValid\\}
+%
+%Control: Automatic
+%								
+%Input: \textit{SCENE\_DIR/valid-AllInputs.JSON} (See \ref{in:valid-All})
+%					
+%Output: \textit{RENDERS\_DIR/render-valid-AllInputs} \wss{You should explain
+%  somewhere the SCENE\_DIR and the RENDERS\_DIR folders.  Are these actual
+%  names, or are they placeholders that the tester will fill in with their
+%  specific folders?  I prefer the second option, since it is more general.}
+%
+%Test Case Derivation: Having received a properly formatted and structured JSON 
+%file containing all inputs for the scene, the system will output a fully 
+%rendered and lit scene.
+%					
+%How test will be performed: System will try to load created test file from 
+%scene directory. \wss{How do you automatically assess success on this test?  Do
+%  you simply look for the presence of a file in the expected location?  A
+%  similar question applies for your other input tests.}
+%					
+%\item{loadScene-validMissingSome\\}
+%
+%Control: Automatic
+%
+%Input: \textit{SCENE\_DIR/valid-MissingData.JSON}(See \ref{in:valid-Miss})
+%
+%Output: Prompt Message: ``File exists, but is missing data. Would you like to 
+%load the default settings for missing data?'', Log message ``Error: File 
+%exists 
+%but is missing data.''
+%
+%Test Case Derivation: 
+%
+%How test will be performed: System will try to load created test file from 
+%scene directory.
+%
+%\item{loadScene-fileExistNoData\\}
+%
+%Control: Automatic
+%									
+%Input: \textit{SCENE\_DIR/valid-NoData.JSON}(See \ref{in:valid-No})
+%
+%Output: Prompt Message ``File exists, but is empty. Would you like to load the 
+%default scene?", Log message "Error: File exists but is empty."
+%
+%Test Case Derivation: In receiving an empty file, the system should be robust 
+%enough to acknowledge the specific error and offer to substitute with the 
+%default scene.
+%
+%How test will be performed: System will try to load created test file from 
+%scene directory.
+%
+%\item{loadScene-invalidInput\\}
+%
+%Control: Automatic
+%
+%Input: \textit{SCENE\_DIR/invalid.JSON}(See \ref{in:invalid})
+%
+%Output: Error Message ``File does not contain valid scene data.'', Log message 
+%"Error: Invalid scene data in file: \textit{SCENE\_DIR/invalid.JSON}."
+%
+%Test Case Derivation: In receiving invalid data, the system should be robust 
+%enough to acknowledge the specific error and log it in the log file.
+%
+%How test will be performed: System will try to load created test file from 
+%scene directory. \wss{For the tests where an exception is expected, you can
+%  automate this in your unit testing by having the test case assertion be that
+%  the correct exception is raised.}
+%
+%\end{enumerate}
+%
+%\paragraph{Create Default Scene}
+%~\newline
+%\begin{enumerate}
+%	
+%	\item{createDefault-validMissingData\\}
+%	
+%	Control: Automatic
+%
+%	Initial State: No scene loaded.	System tried to load 
+%	\textit{SCENE\_DIR/valid-MissingData.JSON} (See \ref{in:valid-Miss}) and 
+%	displayed Prompt Message.
+%
+%	Input: YES selected at Prompt Message
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-MissingData-defaultsub}
+%	
+%	Test Case Derivation: System corrects partially invalid input by 
+%	substituting missing information with predetermined default values.
+%	
+%	How test will be performed: System will fill in empty input with default 
+%	values.
+%	
+%	\item{createDefault-fileExistsNoData\\}
+%	
+%	Control: Automatic
+%	
+%	Initial State: No scene loaded.	System tried to load 
+%	\textit{SCENE\_DIR/valid-NoData.JSON} (See \ref{in:valid-No}) and displayed 
+%	associated Prompt 
+%	Message.
+%	
+%	Input: YES selected at Prompt Message
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-NoData-defaultsub}
+%	
+%	Test Case Derivation: System corrects partially invalid input by 
+%	substituting missing information with predetermined default values.
+%	
+%	How test will be performed: System will fill in empty input with default 
+%	values.	
+%	
+%\end{enumerate}
+%
+%\wss{I like how you have specific tests cases.  Great!}
 
 \subsubsection{Run-Time Tests}
 This subset of tests outline scenarios that may happen during the run-time of 
@@ -588,61 +615,135 @@ the CA.
 
 All of these test cases share the following properties:
 \begin{itemize}
-	\item[] Initial State: A valid scene 
-	(\textit{SCENE\_DIR/valid-AllInputs.JSON})(See \ref{in:valid-All}) is 
-	loaded to the system.
+	\item[] Initial State: Lighting Model = Lambert\\
+	ks = 0.5 \\ kd = 1 \\ $\alpha$ = 1 \\ Colour = () \\ Specular Colour = 
+	White \\ Light Type = Spotlight \\ Light Colour = White \\ 
 \end{itemize}
+
+This means the default scene should look like this:
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{./images/sphere-lit-lambert}
+	\caption{Default Scene for \famname}
+\end{figure}
+
 
 \paragraph{Lighting Model Changes}
 
 \begin{enumerate}
+
+	\item{lightModel-ModLambert\\}
+
+	Control: Manual
 	
-	\item{lightModel-valid\\}
+	Input: Select Mod-Lambert lighting model from dropdown list.
 	
-	Control: Automatic
+	Output: Scene render with Mod-Lambert lit sphere.
 	
-	Input: Select different lighting model from dropdown list. \wss{There
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-modlambert}
+		\caption{Default Scene with Lighting Model changed to Mod-Lambert}
+		\label{fig:modLambert}
+	\end{figure}
+	
+	Test Case Derivation: After a scene is loaded, the user can only interact 
+	with the system through its GUI. Lighting model changes are determined by 
+	dropdown list selection. The scene default is to have a sphere lit with the 
+	Lambert (Diffuse) lighting model; changing to the Mod-Lambert will make a 
+	significant difference and should be easily noticeable as most of the 
+	shadows disappear.
+	
+	How test will be performed: System will recalculate luminous intensity of 
+	points on objects in the scene using the new model. New luminous intensity 
+	information will be sent through the rendering pipeline to output        
+	visuals. Tester will visually compare whether output matches the image 
+	provided here.
+	
+	\item{lightModel-Phong\\}
+	
+	Control: Manual
+	
+	Input: Select Phong lighting model from dropdown list. 
+	
+	Output: Scene render with Phong lit sphere.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-phong}
+		\caption{Default Scene with Lighting Model changed to Phong}
+		\label{fig:Phong}
+	\end{figure}
+	
+	Test Case Derivation: After a scene is loaded, the user can only interact 
+	with the system through its GUI. Lighting model changes are determined by 
+	dropdown list selection. The scene default is to have a sphere lit with the 
+	Lambert (Diffuse) lighting model; changing to the Phong will make a 
+	significant difference and should be easily noticeable.
+	
+	How test will be performed: System will recalculate luminous intensity of 
+	points on objects in the scene using the new model. New luminous intensity 
+	information will be sent through the rendering pipeline to output        
+	visuals. Tester will visually compare whether output matches the image 
+	provided here.
+	
+	\item{lightModel-BlinnPhong\\}
+	
+	Control: Manual
+	
+	Input: Select Blinn-Phong lighting model from dropdown list. \wss{There
           isn't enough information here for someone else to do this test.  The
           input is ambiguous.  The same comment applies for other tests in this
           section.}
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
-	new lighting models.
+	Output: Scene render with Blinn-Phong lit sphere.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong}
+		\caption{Default Scene with Lighting Model changed to Blinn-Phong}
+		\label{fig:blinnPhong}
+	\end{figure}
 	
 	Test Case Derivation: After a scene is loaded, the user can only interact 
 	with the system through its GUI. Lighting model changes are determined by 
-	dropdown list selection.
+	dropdown list selection. The scene default is to have a sphere lit with the 
+	Lambert (Diffuse) lighting model; changing to the Blinn-Phong will make a 
+	significant difference and should be easily noticeable.
 	
 	How test will be performed: System will recalculate luminous intensity of 
 	points on objects in the scene using the new model. New luminous intensity 
-	information will be sent through the rendering pipeline to output
-        visuals. \wss{How do you tell if this test has passed?  How do you tell
+	information will be sent through the rendering pipeline to output        
+	visuals. Tester will visually compare whether output matches the image 
+	provided here. \wss{How do you tell if this test has passed?  How do you 
+	tell
           this automatically?}
 	
 \end{enumerate}
 
-\paragraph{Shading Model Changes}
-
-\begin{enumerate}
-	
-	\item{shadingModel-valid\\}
-	
-	Control: Automatic
-	
-	Input: Select different shading model from dropdown list.
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
-	new shading models.
-	
-	Test Case Derivation: After a scene is loaded, the user can only interact 
-	with the system through its GUI. Shading model changes are determined by 
-	dropdown list selection.
-	
-	How test will be performed: System will recalculate surface normals of 
-	points on objects in the scene using the new model. New surface normal
-	information will be sent through the rendering pipeline to output visuals.
-	
-\end{enumerate}
+%\paragraph{Shading Model Changes}
+%
+%\begin{enumerate}
+%	
+%	\item{shadingModel-valid\\}
+%	
+%	Control: Automatic
+%	
+%	Input: Select different shading model from dropdown list.
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals based on 
+%	new shading models.
+%	
+%	Test Case Derivation: After a scene is loaded, the user can only interact 
+%	with the system through its GUI. Shading model changes are determined by 
+%	dropdown list selection.
+%	
+%	How test will be performed: System will recalculate surface normals of 
+%	points on objects in the scene using the new model. New surface normal
+%	information will be sent through the rendering pipeline to output visuals.
+%	
+%\end{enumerate}
 
 \paragraph{Object Changes}
 
@@ -651,32 +752,51 @@ All of these test cases share the following properties:
 %Valid changes	
 	\item{objMaterialPropChange-valid-ks\\}
 	
-	Control: Automatic
+	Control: Manual
 	
-	Input: $k_{s} = 0.5$
+	Initial State: Default Scene with lighting model set to Blinn-Phong (see 
+	\ref{fig:blinnPhong})
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
+	Input: $k_{s} = 1$
+	
+	Output: Scene render with Blinn-Phong lit and brighter and larger specular 
+	reflection.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong-ks1}
+		\caption{Default Scene with Lighting Model changed to Blinn-Phong and 
+		$k_{s}$ set to 1}
+		\label{fig:blinnPhong-ks1}
+	\end{figure}
 	
 	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
 	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
 	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{s}$ 
 	impact the specular component of the final scene.
 	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{s}$ the new value. \wss{How do you
+	How test will be performed: Default scene is loaded. Testing framework 
+	automatically assigns $k_{s}$ the new value. Tester manually checks the 
+	output images to compare the change in specular reflection. \wss{How do you
           automatically tell that this test case passes?  Are you just checking
           a single value, or how the value is used in the scene?  A similar
           comment applies to other test cases in this section.}
 	
 	\item{objMaterialPropChange-valid-kd\\}
 	
-	Control: Automatic
+	Control: Manual
 	
 	Input: $k_{d} = 0.5$
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
+	Output: Scene render with Blinn-Phong lit, with colour of sphere being dull.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong-ks1}
+		\caption{Default Scene with Lighting Model changed to Blinn-Phong and 
+			$k_{s}$ set to 1}
+		\label{fig:blinnPhong-kd0.5}
+	\end{figure}	
+	
 	
 	Test Case Derivation: $I_{d} = k_{d}\cdot i(p,p_{0}) \cdot 
 	\max(0,(L_{i}\bullet N))$. Final colouring of any point in a scene is 
@@ -686,313 +806,346 @@ All of these test cases share the following properties:
 	How test will be performed: Valid scene is loaded. Testing framework 
 	automatically assigns $k_{d}$ the new value. 	
 
-	\item{objMaterialPropChange-valid-ka\\}
-	
-	Control: Automatic
-	
-	Input: $k_{a} = 0.5$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
-	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
-	changes to the $k_{a}$ impact the ambient component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{a}$ the new value. 
+\sms{Tests for changing $k_{a}$ have been removed as this coefficient does not 
+affect the calculations for the models chosen and so has not been implemented.}
+%	\item{objMaterialPropChange-valid-ka\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{a} = 0.5$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
+%	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
+%	changes to the $k_{a}$ impact the ambient component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $k_{a}$ the new value. 
+%
+%	\item{objMaterialPropChange-valid-$\alpha$\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $\alpha = 2$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+%	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+%	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
+%	impact the specular component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $\alpha$ the new value. 
 
 	\item{objMaterialPropChange-valid-$\alpha$\\}
-	
-	Control: Automatic
-	
-	Input: $\alpha = 2$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
-	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
-	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
-	impact the specular component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $\alpha$ the new value. 
 
-%Invalid
-	\item{objMaterialPropChange-invalid-ks\\}
+	Control: Manual
 	
-	Control: Automatic
+	Input: $\alpha = 100$
 	
-	Input: $k_{s} = 2$
+	Output: Scene render of Blinn-Phong lit sphere and smaller sharper specular 
+	reflection.
+	\begin{figure}[h]
+	\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong-a100}
+		\caption{Default Scene with Lighting Model changed to Blinn-Phong and 
+			$\alpha$ set to 100}
+		\label{fig:blinnPhong-a100}
+	\end{figure}		
 	
-	Output: Error Message ``New value of $k_{s}$ is outside of bounds. Please 
-	enter a different value.''. Log message ``Error: tried to assign $k_{s} = 
-	2$''. 
 	
-	Test Case Derivation: $0 \le k_{s} \le 1$; therefore the new assignment is 
-	invalid by the constraints.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	attempts to assign $k_{s}$ the new value. Error message is loaded instead. 
-	Error is written to log file.
-	
-	\item{objMaterialPropChange-invalid-kd\\}
-	
-	Control: Automatic
-	
-	Input: $k_{d} = 2$
-	
-	Output: Error Message ``New value of $k_{d}$ is outside of bounds. Please 
-	enter a different value.''. Log message ``Error: tried to assign $k_{d} = 
-	2$''. 
-	
-	Test Case Derivation: $0 \le k_{d} \le 1$; therefore the new assignment is 
-	invalid by the constraints.
+	Test Case Derivation: 
 	
 	How test will be performed: Valid scene is loaded. Testing framework 
-	attempts to assign $k_{d}$ the new value. Error message is loaded instead. 
-	Error is written to log file.
-	
-	\item{objMaterialPropChange-invalid-ka\\}
-	
-	Control: Automatic
-	
-	Input: $k_{a} = 2$
-	
-	Output: Error Message ``New value of $k_{a}$ is outside of bounds. Please 
-	enter a different value.''. Log message ``Error: tried to assign $k_{a} = 
-	2$''. 
-	
-	Test Case Derivation: $0 \le k_{a} \le 1$; therefore the new assignment is 
-	invalid by the constraints.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	attempts to assign $k_{a}$ the new value. Error message is loaded instead. 
-	Error is written to log file.
+	attempts to assign $\alpha$ the new value. 
 
-	\item{objMaterialPropChange-invalid-$\alpha$\\}
-	
-	Control: Automatic
-	
-	Input: $\alpha = -2$
-	
-	Output: Error Message ``New value of $\alpha$ is outside of bounds. Please 
-	enter a different value.''. Log message ``Error: tried to assign $\alpha = 
-	-2$''. 
-	
-	Test Case Derivation: $\alpha : \mathbb{Z_{+}}$; therefore the new 
-	assignment 
-	is invalid by the constraints.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	attempts to assign $\alpha$ the new value. Error message is loaded instead. 
-	Error is written to log file.
+As the changes to the material property values are determined by sliders, it is 
+impossible for a user to input an invalid value for these properties. As such 
+there are no ``invalid input'' tests.
+%%Invalid
+%	\item{objMaterialPropChange-invalid-ks\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{s} = 2$
+%	
+%	Output: Error Message ``New value of $k_{s}$ is outside of bounds. Please 
+%	enter a different value.''. Log message ``Error: tried to assign $k_{s} = 
+%	2$''. 
+%	
+%	Test Case Derivation: $0 \le k_{s} \le 1$; therefore the new assignment is 
+%	invalid by the constraints.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	attempts to assign $k_{s}$ the new value. Error message is loaded instead. 
+%	Error is written to log file.
+%	
+%	\item{objMaterialPropChange-invalid-kd\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{d} = 2$
+%	
+%	Output: Error Message ``New value of $k_{d}$ is outside of bounds. Please 
+%	enter a different value.''. Log message ``Error: tried to assign $k_{d} = 
+%	2$''. 
+%	
+%	Test Case Derivation: $0 \le k_{d} \le 1$; therefore the new assignment is 
+%	invalid by the constraints.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	attempts to assign $k_{d}$ the new value. Error message is loaded instead. 
+%	Error is written to log file.
+%	
+%	\item{objMaterialPropChange-invalid-ka\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{a} = 2$
+%	
+%	Output: Error Message ``New value of $k_{a}$ is outside of bounds. Please 
+%	enter a different value.''. Log message ``Error: tried to assign $k_{a} = 
+%	2$''. 
+%	
+%	Test Case Derivation: $0 \le k_{a} \le 1$; therefore the new assignment is 
+%	invalid by the constraints.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	attempts to assign $k_{a}$ the new value. Error message is loaded instead. 
+%	Error is written to log file.
+%
+%	\item{objMaterialPropChange-invalid-$\alpha$\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $\alpha = -2$
+%	
+%	Output: Error Message ``New value of $\alpha$ is outside of bounds. Please 
+%	enter a different value.''. Log message ``Error: tried to assign $\alpha = 
+%	-2$''. 
+%	
+%	Test Case Derivation: $\alpha : \mathbb{Z_{+}}$; therefore the new 
+%	assignment 
+%	is invalid by the constraints.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	attempts to assign $\alpha$ the new value. Error message is loaded instead. 
+%	Error is written to log file.
 
+\sms{Boundary condition test cases have been removed as they are used in the 
+valid input test cases. As such the valid input test cases both function to 
+check the correctness of the final render, but also how the system reacts to 
+the boundary values of its parameters.}
 %Boundary	
-	\item{objMaterialPropChange-bound-ks\\}
-	
-	Control: Automatic
-	
-	Input: $k_{s} = 1$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
-	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
-	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{s}$ 
-	impact the specular component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{s}$ the new value. 
-	
-	\item{objMaterialPropChange-bound-kd\\}
-	
-	Control: Automatic
-	
-	Input: $k_{d} = 1$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{d} = k_{d}\cdot i(p,p_{0}) \cdot 
-	\max(0,(L_{i}\bullet N))$. Final colouring of any point in a scene is 
-	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{d}$ 
-	impact the diffuse component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{d}$ the new value. 	
-	
-	\item{objMaterialPropChange-bound-ka\\}
-	
-	Control: Automatic
-	
-	Input: $k_{a} = 1$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
-	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
-	changes to the $k_{a}$ impact the ambient component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $k_{a}$ the new value. 
-	
-	\item{objMaterialPropChange-bound-$\alpha$\\}
-	
-	Control: Automatic
-	
-	Input: $\alpha = 0$
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	so that specular reflection uses new value.
-	
-	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
-	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
-	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
-	impact the specular component of the final scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns $\alpha$ the new value.
+%	\item{objMaterialPropChange-bound-ks\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{s} = 1$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+%	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+%	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{s}$ 
+%	impact the specular component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $k_{s}$ the new value. 
+%	
+%	\item{objMaterialPropChange-bound-kd\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{d} = 1$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{d} = k_{d}\cdot i(p,p_{0}) \cdot 
+%	\max(0,(L_{i}\bullet N))$. Final colouring of any point in a scene is 
+%	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $k_{d}$ 
+%	impact the diffuse component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $k_{d}$ the new value. 	
+%	
+%	\item{objMaterialPropChange-bound-ka\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $k_{a} = 1$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{a} = k_{a}\cdot i(p,p_{0})$. Final colouring of 
+%	any point in a scene is $(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore 
+%	changes to the $k_{a}$ impact the ambient component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $k_{a}$ the new value. 
+%	
+%	\item{objMaterialPropChange-bound-$\alpha$\\}
+%	
+%	Control: Automatic
+%	
+%	Input: $\alpha = 0$
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	so that specular reflection uses new value.
+%	
+%	Test Case Derivation: $I_{s} = k_{s}\cdot i(p,p_{0}) \cdot \max(0, 
+%	({L_{r}}\bullet V))^\alpha$. Final colouring of any point in a scene is 
+%	$(I_{a}+I_{d}+I_{s})\cdot LIGHT\_COLOUR$, therefore changes to the $\alpha$ 
+%	impact the specular component of the final scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns $\alpha$ the new value.
 
-%%Object Position	
-%Valid
-	\item{objPosition-valid\\}
-	
-	Control: Automatic
-	
-	Input: New Point (2,0,0) for centre of object
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect object movement to coordinate (2,0,0) (including update of 
-	lighting as distance from light source is changed).
-	
-	Test Case Derivation: Lighting is dependent of position of object relative 
-	to the light source; therefore movement in position changes the lighting of 
-	an object causing all the intensities to be recalculated and the object to 
-	be recoloured.
-
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (2,0,0). System recalculates 
-	intensities and recolours moved object.
-	
-%Invalid	
-	\item{objPosition-invalid-outBounds\\}
-	
-	Control: Automatic
-	
-	Input: New Point (11,0,0) for centre of object
-	
-	Output: Error Message ``The centre of this object is outside of the room. 
-	It cannot be rendered. Please enter a different location for this 
-	object.''. Log message ``Error: Tried to move centre of object to (11,0,0).
-	
-	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
-	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the object's position is 
-	greater than any component of the scene size then the object is out of 
-	bounds. Out of bounds objects cannot be lit or rendered.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (11,0,0). System throws an error.
-	
-	\item{objPosition-invalid-onLight\\}
-	
-	Control: Automatic
-	
-	Input: New Point (5,5,5) for centre of object
-	
-	Output: Error Message ``The centre of this object intersects the light 
-	source.	It cannot be rendered. Please enter a different location for this 
-	object.''. Log message ``Error: Tried to move centre of object to light 
-	source position, (5,5,5)''.
-	
-	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
-	top of the light source. This would create a design issue of whether the 
-	opaque object would be blocking the light. To circumvent this, we impose 
-	that they cannot have their centres at the same position.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (5,5,5). System throws an error.
-
-	\item{objPosition-invalid-onObserver\\}
-	
-	Control: Automatic
-	
-	Input: New Point (0,0,0) for centre of object
-	
-	Output: Error Message ``The centre of this object intersects the observer.	
-	It cannot be rendered. Please enter a different location for this 
-	object.''. Log message ``Error: Tried to move centre of object to observer 
-	position, (0,0,0)''.
-	
-	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
-	top of the observer. This would create a design issue of whether the 
-	opaque object would be blocking the view, and how it would be lit. To 
-	circumvent this, we impose that they cannot have their centres at the same 
-	position.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (0,0,0). System throws an error.
-	
-%Boundary		
-	\item{objPosition-valid-edgeOfRoom\\}
-	
-	Control: Automatic
-	
-	Input: New Point (0,10,0) for centre of object
-	
-	Output: Error Message ``Parts of this object are outside of the scene size. 
-	Please move this object and re-render the scene.''. Log Message ``Error: 
-	Object partially outside of room.''
-	
-	Test Case Derivation: Constraints on object position said $0 \ll 
-	x \le SIZE\_HEIGHT$, which means that the centre is on the wall of the 
-	scene. This means part of the object would be rendered outside the scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (0,10,0). System throws an error.
-
-	\item{objPosition-valid-betweenLightAndViewer\\}
-	
-	Control: Automatic
-	
-	Input: New Point (2,2,2) for centre of object
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect object movement to coordinate (2,2,2) (including update of 
-	lighting as distance from light source is changed).
-	
-	Test Case Derivation: Lighting is dependent of position of object relative 
-	to the light source; therefore movement in position changes the lighting of 
-	an object causing all the intensities to be recalculated and the object to 
-	be recoloured. When an object is between the light and the viewer its faces 
-	should be dark as they're not being lit.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (2,2,2). System recalculates 
-	intensities and recolours moved object.	
-	
-	\item{objPosition-valid-besideLight\\}
-	
-	Control: Automatic
-	
-	Input: New Point (5,3,0) for centre of object
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect object movement to coordinate (5,3,0) (including update of 
-	lighting as distance from light source is changed).
-	
-	Test Case Derivation: Lighting is dependent of position of object relative 
-	to the light source; therefore movement in position changes the lighting of 
-	an object causing all the intensities to be recalculated and the object to 
-	be recoloured. When an object is beside a light source it is highly 
-	illuminated making it very bright.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (5,3,0). System recalculates 
-	intensities and recolours moved object.			
+\sms{Tests relating to object size and position have been removed as the 
+functionality to change these properties of the object no longer exist.}
+%%%Object Position	
+%%Valid
+%	\item{objPosition-valid\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (2,0,0) for centre of object
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to reflect object movement to coordinate (2,0,0) (including update of 
+%	lighting as distance from light source is changed).
+%	
+%	Test Case Derivation: Lighting is dependent of position of object relative 
+%	to the light source; therefore movement in position changes the lighting of 
+%	an object causing all the intensities to be recalculated and the object to 
+%	be recoloured.
+%
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (2,0,0). System recalculates 
+%	intensities and recolours moved object.
+%	
+%%Invalid	
+%	\item{objPosition-invalid-outBounds\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (11,0,0) for centre of object
+%	
+%	Output: Error Message ``The centre of this object is outside of the room. 
+%	It cannot be rendered. Please enter a different location for this 
+%	object.''. Log message ``Error: Tried to move centre of object to (11,0,0).
+%	
+%	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
+%	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the object's position is 
+%	greater than any component of the scene size then the object is out of 
+%	bounds. Out of bounds objects cannot be lit or rendered.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (11,0,0). System throws an error.
+%	
+%	\item{objPosition-invalid-onLight\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (5,5,5) for centre of object
+%	
+%	Output: Error Message ``The centre of this object intersects the light 
+%	source.	It cannot be rendered. Please enter a different location for this 
+%	object.''. Log message ``Error: Tried to move centre of object to light 
+%	source position, (5,5,5)''.
+%	
+%	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
+%	top of the light source. This would create a design issue of whether the 
+%	opaque object would be blocking the light. To circumvent this, we impose 
+%	that they cannot have their centres at the same position.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (5,5,5). System throws an error.
+%
+%	\item{objPosition-invalid-onObserver\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (0,0,0) for centre of object
+%	
+%	Output: Error Message ``The centre of this object intersects the observer.	
+%	It cannot be rendered. Please enter a different location for this 
+%	object.''. Log message ``Error: Tried to move centre of object to observer 
+%	position, (0,0,0)''.
+%	
+%	Test Case Derivation: As per the requirement (\ref) objects cannot be on 
+%	top of the observer. This would create a design issue of whether the 
+%	opaque object would be blocking the view, and how it would be lit. To 
+%	circumvent this, we impose that they cannot have their centres at the same 
+%	position.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (0,0,0). System throws an error.
+%	
+%%Boundary		
+%	\item{objPosition-valid-edgeOfRoom\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (0,10,0) for centre of object
+%	
+%	Output: Error Message ``Parts of this object are outside of the scene size. 
+%	Please move this object and re-render the scene.''. Log Message ``Error: 
+%	Object partially outside of room.''
+%	
+%	Test Case Derivation: Constraints on object position said $0 \ll 
+%	x \le SIZE\_HEIGHT$, which means that the centre is on the wall of the 
+%	scene. This means part of the object would be rendered outside the scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (0,10,0). System throws an error.
+%
+%	\item{objPosition-valid-betweenLightAndViewer\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (2,2,2) for centre of object
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to reflect object movement to coordinate (2,2,2) (including update of 
+%	lighting as distance from light source is changed).
+%	
+%	Test Case Derivation: Lighting is dependent of position of object relative 
+%	to the light source; therefore movement in position changes the lighting of 
+%	an object causing all the intensities to be recalculated and the object to 
+%	be recoloured. When an object is between the light and the viewer its faces 
+%	should be dark as they're not being lit.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (2,2,2). System recalculates 
+%	intensities and recolours moved object.	
+%	
+%	\item{objPosition-valid-besideLight\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (5,3,0) for centre of object
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to reflect object movement to coordinate (5,3,0) (including update of 
+%	lighting as distance from light source is changed).
+%	
+%	Test Case Derivation: Lighting is dependent of position of object relative 
+%	to the light source; therefore movement in position changes the lighting of 
+%	an object causing all the intensities to be recalculated and the object to 
+%	be recoloured. When an object is beside a light source it is highly 
+%	illuminated making it very bright.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (5,3,0). System recalculates 
+%	intensities and recolours moved object.			
 
 %%Object Colour
 	\item{objColour-valid-base\\}
@@ -1000,57 +1153,70 @@ All of these test cases share the following properties:
 	Control: Automatic
 	
 	Input: New (r,g,b) value for BASE\_COLOUR picked from GUI picker = 
-	(10,255,50).
+	(0,0,0).
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect the new base colour for the object. All diffuse terms need to be 
-	recalculated.
+	Output: Scene render of Blinn-Phong with a black object material. All 
+	diffuse terms need to be recalculated.
 	
-	Test Case Derivation: The intensity of the BASE\_COLOUR at a point is part 
-	of the diffuse model calculation. Change the BASE\_COLOUR requires 
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong-colour}
+		\caption{Default Scene with Lighting Model changed to Blinn-Phong and 
+			BASE\_COLOUR set to (0,0,0)}
+		\label{fig:blinnPhong-black}
+	\end{figure}	
+	
+	Test Case Derivation: The BASE\_COLOUR at a point is part 
+	of the all lighting model calculations. Change the BASE\_COLOUR requires 
 	recalculating all of the intensity values with this new (r,g,b) information.
 	
 	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new r,g,b to (10,255,50). System recalculates 
+	automatically assigns new r,g,b to (0,0,0). System recalculates 
 	intensities and recolours object.			
 
-	\item{objColour-valid-specular\\}
-	
-	Control: Automatic
-	
-	Input: New (r,g,b) value for SPECULAR\_COLOUR picked from GUI picker = 
-	(10,255,50).
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect the new base colour for the object. All diffuse terms need to be 
-	recalculated.
-	
-	Test Case Derivation: The intensity of the SPECULAR\_COLOUR at a point is 
-	part of the specular component calculation. Change the SPECULAR\_COLOUR 
-	requires recalculating all of the intensity values with this new (r,g,b) 
-	information.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new r,g,b to (10,255,50). System recalculates 
-	intensities and recolours object.	
-	
-	\item{objShape-valid\\}
-	
-	Control: Automatic
-	
-	Input: New shape selection from dropdown list: torus.
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to replace the sphere with a torus. All normals have changed, so all 
-	intensities need to be recalculated.
-	
-	Test Case Derivation: Different shapes have different normals, and so 
-	different ways of reflecting. The models need  to be sure to work with not 
-	just a sphere, but other objects as well.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new object shape. System recalculates 
-	intensities and recolours new object.
+\sms{Removed test for specular colour change because we have it set to 
+exclusively be white.}
+%	\item{objColour-valid-specular\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New (r,g,b) value for SPECULAR\_COLOUR picked from GUI picker = 
+%	(10,255,50).
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to reflect the new base colour for the object. All diffuse terms need to be 
+%	recalculated.
+%	
+%	Test Case Derivation: The intensity of the SPECULAR\_COLOUR at a point is 
+%	part of the specular component calculation. Change the SPECULAR\_COLOUR 
+%	requires recalculating all of the intensity values with this new (r,g,b) 
+%	information.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new r,g,b to (10,255,50). System recalculates 
+%	intensities and recolours object.	
+%	
+
+\sms{Shape changing feature has been removed from current implementation. This 
+test case has been commented out as this feature is top priority to return 
+after the course is complete.}
+%	\item{objShape-valid\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New shape selection from dropdown list: torus.
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to replace the sphere with a torus. All normals have changed, so all 
+%	intensities need to be recalculated.
+%	
+%	Test Case Derivation: Different shapes have different normals, and so 
+%	different ways of reflecting. The models need  to be sure to work with not 
+%	just a sphere, but other objects as well.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new object shape. System recalculates 
+%	intensities and recolours new object.
 			
 \end{enumerate}
 
@@ -1061,13 +1227,56 @@ All of these test cases share the following properties:
 %Valid
 	\item{lightPos-valid\\}
 	
-	Control: Automatic
+	Control: Manual
 	
-	Input: New Point (2,0,0) for centre of light source
+	Input: \\
+	\textit{Variation 1}: Light Type = Spotlight, Press left arrow 5 times\\
+	\textit{Variation 2}: Light Type = Point Light, Press left arrow key 5 
+	times\\
+	\textit{Variation 3}: Light Type = Directional, Press right arrow key 5 
+	times\\
+	\textit{Variation 4}: Light Type = Spotlight, Press right arrow key 10
+	times\\
+	\textit{Variation 5}: Light Type = Point Light, Press right arrow key 10
+	times\\
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect light source movement to coordinate (2,0,0) (including update of 
-	lighting as distance from light source is changed).
+	Output: Scene render based on new position of light source.
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{./images/sphere-lit-spotlight-moveValid}
+	\caption{Output Variation 1}
+	\label{fig:spotlight-move}
+	\end{figure}	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-point-moveValid}
+		\caption{Output Variation 2}
+		\label{fig:point-move}
+	\end{figure}	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-direction}
+		\caption{Output Variation 3}
+		\label{fig:directional-move}
+	\end{figure}
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{./images/sphere-lit-spotlight-moveValidR}
+	\caption{Output Variation 4}
+	\label{fig:spotlight-move-right}
+	\end{figure}	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-point-moveValidR}
+		\caption{Output Variation 5}
+		\label{fig:point-move-right}
+	\end{figure}	
+
 	
 	Test Case Derivation: Lighting is dependent of position of object relative 
 	to the light source; therefore movement in light source position changes 
@@ -1078,57 +1287,108 @@ All of these test cases share the following properties:
 	automatically assigns new position to (2,0,0). System recalculates 
 	intensities and recolours moved object.
 	
-%Invalid	
-	\item{lightPos-invalid-outBounds\\}
-	
-	Control: Automatic
-	
-	Input: New Point (11,0,0) for centre of light
-	
-	Output: Error Message ``This light source is outside of the room. It cannot 
-	be rendered. Please enter a different location for this object.''. Log 
-	message ``Error: Tried to move light source to (11,0,0).
-	
-	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
-	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the light source's 
-	position is greater than any component of the scene size then the light 
-	source is out of bounds. Out of bounds light sources cannot light the scene.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (11,0,0). System throws an error.
-	
-	\item{lightPos-invalid-onObj\\}
-	
-	Same as \textit{objPosition-invalid-onLight}.
-	
-	\item{lightPos-invalid-onObserver\\}
-	
-	Control: Automatic
-	
-	Input: New Point (0,0,0) for centre of light source.
-	
-	Output: Error Message ``The centre of this light source intersects the 
-	observer. It cannot be rendered. Please enter a different location for this 
-	object.''. Log message ``Error: Tried to move light source to observer 
-	position, (0,0,0)''.
-	
-	Test Case Derivation: As per the requirement (\ref) light sources cannot be 
-	on top of the observer. We impose that they cannot have their centres at 
-	the same position.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new position to (0,0,0). System throws an error.
+%%Invalid	
+%	\item{lightPos-invalid-outBounds\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (11,0,0) for centre of light
+%	
+%	Output: Error Message ``This light source is outside of the room. It cannot 
+%	be rendered. Please enter a different location for this object.''. Log 
+%	message ``Error: Tried to move light source to (11,0,0).
+%	
+%	Test Case Derivation: Scene size is defined to be (SCENE\_HEIGHT, 
+%	SCENE\_WIDTH, SCENE\_DEPTH); if any component of the light source's 
+%	position is greater than any component of the scene size then the light 
+%	source is out of bounds. Out of bounds light sources cannot light the scene.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (11,0,0). System throws an error.
+%	
+\sms{Object and Light are locked at different values of the z-plane, with no 
+way for the light to traverse between them. Therefore the light can never end 
+up on the object and so this test case has been omitted.}
+%	\item{lightPos-invalid-onObj\\}
+%	
+%	Same as \textit{objPosition-invalid-onLight}.
+%	
+%	\item{lightPos-invalid-onObserver\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New Point (0,0,0) for centre of light source.
+%	
+%	Output: Error Message ``The centre of this light source intersects the 
+%	observer. It cannot be rendered. Please enter a different location for this 
+%	object.''. Log message ``Error: Tried to move light source to observer 
+%	position, (0,0,0)''.
+%	
+%	Test Case Derivation: As per the requirement (\ref) light sources cannot be 
+%	on top of the observer. We impose that they cannot have their centres at 
+%	the same position.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new position to (0,0,0). System throws an error.
 
 %Boundary	
-	\item{lightPos-valid-boundary\\}
+\sms{The boundary conditions check and enforce that the light cannot move 
+outside of the scene room in the code. As such, checking the boundary cases 
+here should ensure that no invalid values are allowed.}
+	\item{lightPos-boundaries\\}
 	
-	Control: Automatic
+	Control: Manual
 	
-	Input: New Point (0,10,0) for centre of light source.
+	Input:  \\
+	\textit{Variation 1}: Light Type = Spotlight, Press right arrow key 31 
+	times\\
+	\textit{Variation 2}: Light Type = Point Light, Press right arrow key 31 
+	times\\
+	\textit{Variation 3}: Light Type = Directional, Press right arrow key 31 
+	times\\
+	\textit{Variation 4}: Light Type = Spotlight, Press left arrow key 20 
+	times\\
+	\textit{Variation 5}: Light Type = Point Light, Press left arrow key 20 
+		times\\
+		
+	Output: Scene render and lit with Blinn-Phong lighting model, and 
+	reflections changing depending on the position of the light.
 	
-	Output: Error Message ``Parts of this light source are outside of the scene 
-	size. Please move the light and re-render the scene.''. Log Message 
-	``Error: Light source partially outside of room.''
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-spotlight-moveBoundsR}
+		\caption{Output Variation 1}
+		\label{fig:spotlight-bounds-right}
+	\end{figure}	
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-point-moveBoundsR}
+		\caption{Output Variation 2}
+		\label{fig:point-bounds-right}
+	\end{figure}	
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-direction}
+		\caption{Output Variation 1}
+		\label{fig:directional-bounds-right}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-spotlight-moveBounds}
+		\caption{Output Variation 4}
+		\label{fig:spotlight-bounds-left}
+	\end{figure}	
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-point-moveBounds}
+		\caption{Output Variation 5}
+		\label{fig:point-bounds-left}
+	\end{figure}	
+
 	
 	Test Case Derivation: Constraints on light position said $0 \ll 
 	x \le SCENE\_HEIGHT$, which means that the centre is on the wall of the 
@@ -1137,47 +1397,71 @@ All of these test cases share the following properties:
 	How test will be performed: Valid scene is loaded. Testing framework 
 	automatically assigns new position to (0,10,0). System throws an error.
 	
-	\item{lightPos-valid-besideObject\\}
-	
-	Same as \textit{objPosition-valid-besideLight}. Not to be tested because it 
-	covers the same scenario.
-	
-	\item{lightPos-valid-behindObject\\}
-		
-	Same as \textit{objPosition-valid-betweenLightAndViewer}. Not to be tested 
-	because it covers the same scenario.
+%	\item{lightPos-valid-besideObject\\}
+%	
+%	Same as \textit{objPosition-valid-besideLight}. Not to be tested because it 
+%	covers the same scenario.
+%	
+%	\item{lightPos-valid-behindObject\\}
+%		
+%	Same as \textit{objPosition-valid-betweenLightAndViewer}. Not to be tested 
+%	because it covers the same scenario.
 
-%%Light Colour Change
-	\item{lightColour-valid\\}
-	
-	Control: Automatic
-	
-	Input: New (r,g,b) value for LIGHT\_COLOUR picked from GUI picker = 
-	(10,255,50).
-	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to reflect the new light colour. All intensities need to be 
-	recalculated.
-	
-	Test Case Derivation: The intensity of the LIGHT\_COLOUR at a point is part 
-	of all lighting model calculations. Changes to the LIGHT\_COLOUR requires 
-	recalculating all of the intensity values with this new (r,g,b) information.
-	
-	How test will be performed: Valid scene is loaded. Testing framework 
-	automatically assigns new r,g,b to (10,255,50). System recalculates 
-	intensities and recolours object.		
+%%%Light Colour Change
+%	\item{lightColour-valid\\}
+%	
+%	Control: Automatic
+%	
+%	Input: New (r,g,b) value for LIGHT\_COLOUR picked from GUI picker = 
+%	(10,255,50).
+%	
+%	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
+%	to reflect the new light colour. All intensities need to be 
+%	recalculated.
+%	
+%	Test Case Derivation: The intensity of the LIGHT\_COLOUR at a point is part 
+%	of all lighting model calculations. Changes to the LIGHT\_COLOUR requires 
+%	recalculating all of the intensity values with this new (r,g,b) information.
+%	
+%	How test will be performed: Valid scene is loaded. Testing framework 
+%	automatically assigns new r,g,b to (10,255,50). System recalculates 
+%	intensities and recolours object.		
 
 
 %%Light Type Change	
-	\item{lightShape-valid\\}
+	\item[\label{test:lightShape}]{lightShape-valid\\}
 	
-	Control: Automatic
+	Control: Manual
 	
-	Input: New light type selection from dropdown list: directional.
+	Input: \\
+	\textit{Variation 1}: Press s\\
+	\textit{Variation 2}: Press p\\
+	\textit{Variation 3}: Press d\\
 	
-	Output: \textit{RENDERS\_DIR/render-valid-AllInputs} with visuals changed 
-	to replace the point light with a directional light. Some incidence rays 
-	have changed, so all intensities need to be recalculated.
+	Output: Scene render Blinn-Phong lighting model. Intensities and incidence 
+	rays are recalculated depending on the type of light source.
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong}
+	\caption{Output Variation 1}
+	\label{fig:spotlight}
+	\end{figure}	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-blinnphong-point}
+		\caption{Output Variation 2}
+		\label{fig:point}
+	\end{figure}	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[scale=0.25]{./images/sphere-lit-direction}
+		\caption{Output Variation 1}
+		\label{fig:directional}
+	\end{figure}	
+	
 	
 	Test Case Derivation: Different types of light project light rays 
 	differently. As such the system needs to adapt to the changing type of 
@@ -1195,6 +1479,9 @@ All of these test cases share the following properties:
   can compare the results to?  Can you do a bitwise comparison between your
   image and the ``correct'' image?  If not, then you at least need some manual
   tests to verify that the scene renderings look correct.}
+\sms{Due to issues with creation of the project and the way Unity works to get 
+the interaction working, the majority of my tests have become System Tests that 
+rely on Manual test comparing the renders for subjective same-ness.}
 
 \subsection{Tests for Nonfunctional Requirements}
 The following section outlines the test cases for the non-functional 
@@ -1221,126 +1508,133 @@ want all of these test cases to pass. We are not concerned with cases of
 invalid input, since that would just mean not installing our software. We let 
 the Unity error handling inform the user if the installation is unsuccessful.
 
-\begin{enumerate}
+We have decided that for ease of accessibility with this software we would 
+create it as a WebGL application. As the software now runs in any browser, it 
+removes the need for installation tests. This section is being preserved to 
+acknowledge that standalone versions would need their own testing. The specific 
+installation tests have been preserved as comments.
 
-\item{install-clean-modern-win\\}
+%\begin{enumerate}
+%
+%\item{install-clean-modern-win\\}
+%
+%Type: Manual
+%					
+%Initial State: Clean installation of Unity version CURRENT\_VERSION on a 
+%Windows 10 machine.
+%					
+%Input/Condition: Install system package.
+%					
+%Output/Result: Installation of Unity version CURRENT\_VERSION on a 
+%Windows 10 machine with our system installed.
+%					
+%How test will be performed: The user will have a fresh install of Unity 
+%CURRENT\_VERSION on a virtual windows machine. They will have a copy of the 
+%system package to import into Unity. The user will then be asked to fill out 
+%the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
+%\ref{tbl:installability}).
+%
+%\item{install-clean-modern-mac\\}
+%
+%Type: Manual
+%
+%Initial State: Clean installation of Unity version CURRENT\_VERSION on a Mac 
+%OS 
+%machine.
+%
+%Input/Condition: Install system package.
+%
+%Output/Result: Installation of Unity version CURRENT\_VERSION on a 
+%MacOS machine with our system installed.
+%
+%How test will be performed: The user will have a fresh install of Unity 
+%CURRENT\_VERSION on a virtual MacOS machine. They will have a copy of the 
+%system package to import into Unity. The user will then be asked to fill out 
+%the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
+%\ref{tbl:installability}).
+%					
+%\item{install-clean-previous-windows\\}
+%
+%Type: Manual
+%
+%Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a 
+%Windows 10 machine.
+%
+%Input/Condition: Install system package.
+%
+%Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
+%Windows 10 machine with our system installed.
+%
+%How test will be performed: The user will have a fresh install of Unity 
+%PREVIOUS\_VERSION on a virtual windows machine. They will have a copy of the 
+%system package to import into Unity. The user will then be asked to fill out 
+%the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
+%\ref{tbl:installability}).
+%
+%\item{install-clean-previous-mac\\}
+%
+%Type: Manual
+%
+%Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a Mac 
+%OS machine.
+%
+%Input/Condition: Install system package.
+%
+%Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
+%MacOS machine with our system installed.
+%
+%How test will be performed: The user will have a fresh install of Unity 
+%PREVIOUS\_VERSION on a virtual MacOS machine. They will have a copy of the 
+%system package to import into Unity. The user will then be asked to fill out 
+%the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
+%\ref{tbl:installability}).
+%
+%\end{enumerate}
 
-Type: Manual
-					
-Initial State: Clean installation of Unity version CURRENT\_VERSION on a 
-Windows 10 machine.
-					
-Input/Condition: Install system package.
-					
-Output/Result: Installation of Unity version CURRENT\_VERSION on a 
-Windows 10 machine with our system installed.
-					
-How test will be performed: The user will have a fresh install of Unity 
-CURRENT\_VERSION on a virtual windows machine. They will have a copy of the 
-system package to import into Unity. The user will then be asked to fill out 
-the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
-\ref{tbl:installability}).
-
-\item{install-clean-modern-mac\\}
-
-Type: Manual
-
-Initial State: Clean installation of Unity version CURRENT\_VERSION on a Mac OS 
-machine.
-
-Input/Condition: Install system package.
-
-Output/Result: Installation of Unity version CURRENT\_VERSION on a 
-MacOS machine with our system installed.
-
-How test will be performed: The user will have a fresh install of Unity 
-CURRENT\_VERSION on a virtual MacOS machine. They will have a copy of the 
-system package to import into Unity. The user will then be asked to fill out 
-the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
-\ref{tbl:installability}).
-					
-\item{install-clean-previous-windows\\}
-
-Type: Manual
-
-Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a 
-Windows 10 machine.
-
-Input/Condition: Install system package.
-
-Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
-Windows 10 machine with our system installed.
-
-How test will be performed: The user will have a fresh install of Unity 
-PREVIOUS\_VERSION on a virtual windows machine. They will have a copy of the 
-system package to import into Unity. The user will then be asked to fill out 
-the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
-\ref{tbl:installability}).
-
-\item{install-clean-previous-mac\\}
-
-Type: Manual
-
-Initial State: Clean installation of Unity version PREVIOUS\_VERSION on a Mac 
-OS machine.
-
-Input/Condition: Install system package.
-
-Output/Result: Installation of Unity version PREVIOUS\_VERSION on a 
-MacOS machine with our system installed.
-
-How test will be performed: The user will have a fresh install of Unity 
-PREVIOUS\_VERSION on a virtual MacOS machine. They will have a copy of the 
-system package to import into Unity. The user will then be asked to fill out 
-the Installability Evaluation borrowed from \cite{SmithEtAl2018} (See 
-\ref{tbl:installability}).
-
-\end{enumerate}
-
-\subsubsection{Reliability}
-The following test cases focus on assessing the reliability of the system to 
-repeatedly perform routine tasks. The purpose of these tests is to determine 
-the load the system, and ensure that the output is reliable. These tests run 
-the system through the functional test cases multiple times in succession.
-
-\begin{enumerate}
-	
-	\item{reliable-loading\\}
-	
-	Type: Automatic \wss{How is this automated?  Do you have a unit testing
-          framework that can do this?}
-	
-	Initial State: No scene loaded.
-	
-	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}(See 
-	\ref{in:valid-All})
-	
-	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
-	
-	How test will be performed: The system shall perform test 
-	\textit{loadScene-allValid} RELIABILITY\_THRESHOLD times in succession. The 
-	output should be the same as doing it once.
-
-\wss{Interesting test case.  It does sometimes confuse systems to do something
-  like this twice.  Good idea.}
-
-	\item{reliable-taskSwitch\\}
-	
-	Type: Automatic
-	
-	Initial State: No scene loaded.
-	
-	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}(See 
-	\ref{in:valid-All}), $k_{a} = 0.5$, 
-	$k_{d} = 0.5$, $k_{s} = 0.8$, $\alpha = 10$
-	
-	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
-	
-	How test will be performed: The system shall perform test 
-	\textit{loadScene-allValid} and then in sequence make changes to the object 
-	properties. The output file should have the following values:
-
-\end{enumerate}
+%\subsubsection{Reliability}
+%The following test cases focus on assessing the reliability of the system to 
+%repeatedly perform routine tasks. The purpose of these tests is to determine 
+%the load the system, and ensure that the output is reliable. These tests run 
+%the system through the functional test cases multiple times in succession.
+%
+%\begin{enumerate}
+%	
+%	\item{reliable-loading\\}
+%	
+%	Type: Automatic \wss{How is this automated?  Do you have a unit testing
+%          framework that can do this?}
+%	
+%	Initial State: No scene loaded.
+%	
+%	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}(See 
+%	\ref{in:valid-All})
+%	
+%	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
+%	
+%	How test will be performed: The system shall perform test 
+%	\textit{loadScene-allValid} RELIABILITY\_THRESHOLD times in succession. The 
+%	output should be the same as doing it once.
+%
+%\wss{Interesting test case.  It does sometimes confuse systems to do something
+%  like this twice.  Good idea.}
+%
+%	\item{reliable-taskSwitch\\}
+%	
+%	Type: Automatic
+%	
+%	Initial State: No scene loaded.
+%	
+%	Input/Condition: \textit{SCENE\_DIR/valid-AllInputs.JSON}(See 
+%	\ref{in:valid-All}), $k_{a} = 0.5$, 
+%	$k_{d} = 0.5$, $k_{s} = 0.8$, $\alpha = 10$
+%	
+%	Output/Result: \textit{SCENE\_DIR/valid-AllInputs.JSON}
+%	
+%	How test will be performed: The system shall perform test 
+%	\textit{loadScene-allValid} and then in sequence make changes to the object 
+%	properties. The output file should have the following values:
+%
+%\end{enumerate}
 
 \subsubsection{Learnability}
 The following test cases focus on understanding how easy the system is to learn 
@@ -1642,172 +1936,172 @@ this test plan.
 
 \newpage
 
-\section{Appendix}
-\subsection{Input Files}
-This section contains the contents of the input files used for the test cases.
-
-\paragraph{valid-AllInputs.json}\label{in:valid-All}
-~\newline
-\begin{lstlisting}
-{
-	"Height" : 50,
-	"Width" : 50,
-	"Depth" : 50,
-
-	"Object":[
-		{
-			"type": "sphere",
-			"position": [10,0,10],
-			"size": 1,
-			"ka": 1,
-			"kd": 1,
-			"ks": 0.5,
-			"alpha": 1,
-			"base_colour": [35,74,35],
-			"spec_colour": [255,255,255],			
-		}
-	],
-	
-	"LightSource": [
-		{
-			"type": "point",
-			"position": [5,10,0],
-			"light_colour": [255,255,255],
-			"intensity": [10,10,10],
-		}
-	],
-	
-	"Observer" : [
-		{
-			"position" : [0,0,0],
-			"direction" : [1,0,1]
-		}
-	],
-	
-	"ShadingModel" : "Gouraud",
-	"LightingModel" : "Phong"
-}
-\end{lstlisting}
-
-\paragraph{valid-MissingData.json}\label{in:valid-Miss}
-~\newline
-\begin{lstlisting}
-{
-	"Height" : 50,
-	"Width" : 50,
-	"Depth" : 50,
-	
-	"Object":[
-		{
-			"type": "sphere",
-			"position": [10,0,10],
-			"size": 1,
-			"ka": 1,
-			"kd": 1,
-			"ks": 0.5,
-			"alpha": 1,
-			"base_colour": [35,74,35],
-			"spec_colour": [255,255,255],			
-		}
-	],
-	
-	"LightSource": [
-		{
-			"type": "point",
-			"position": [5,10,0],
-			"light_colour": [255,255,255],
-			"intensity": [10,10,10],
-		}
-	],
-	
-	"Observer" : [
-		{
-			"position" : [0,0,0],
-			"direction" : [1,0,1]
-		}
-	],
-	
-	"ShadingModel" : ,
-	"LightingModel" : 
-}
-\end{lstlisting}
-
-\paragraph{valid-NoData.json}\label{in:valid-No}
-~\newline
-\begin{lstlisting}
-{
-
-}
-\end{lstlisting}
-
-\paragraph{valid-invalid.json}\label{in:invalid}
-~\newline
-\begin{lstlisting}
-{
-	"Height" : 50,
-	"Width" : 50,
-	"Depth" : 50,
-	
-	"Object":[
-		{
-			"type": "sphere",
-			"position": [10,0,10],
-			"size": 1,
-			"ka": 2,
-			"kd": 1,
-			"ks": 0.5,
-			"alpha": 1,
-			"base_colour": [35,74,35],
-			"spec_colour": [255,255,255],			
-		}
-	],
-	
-	"LightSource": [
-		{
-			"type": "point",
-			"position": [5,10,0],
-			"light_colour": [255,255,255],
-			"intensity": [10,10,10],
-		}
-	],
-	
-	"Observer" : [
-		{
-			"position" : [0,0,0],
-			"direction" : [1,0,1]
-		}
-	],
-	
-	"ShadingModel" : "Flat",
-	"LightingModel" : "Lambertian" 
-}
-\end{lstlisting}
-
-\subsection{Installability Evaluation \protect
-	\cite{SmithEtAl2018}}
-\begin{table}[h]
-	\begin{tabular}{p{10cm}p{5cm}}
-		\hline
-		\multicolumn{2}{l}{\textbf{Installability}(Measured via installation on 
-		a virtual machine.)} \\
-		\hline
-		Are there installation instructions? & ({yes, no}) \\
-		Are the installation instructions linear? & ({yes, no, n/a}) \\
-		Is there something in place to automate the installation? & ({yes, no}) 
-		\\		
-		Is there a specified way to validate the installation, such as a test 
-		suite? & ({yes, no}) \\
-		How many steps were involved in the installation? & (number) \\
-		How many software packages need to be installed before or during 
-		installation? & (number) \\
-		(I) Run uninstall, if available. Were any obvious problems caused? & 
-		({unavail, yes, no}) \\
-		Overall impression? & ({1...10}) \\
-		\hline
-	\end{tabular}
-	\caption{Installability Evaluation from \protect\cite{SmithEtAl2018}}
-	\label{tbl:installability}
-\end{table}
+%\section{Appendix}
+%\subsection{Input Files}
+%This section contains the contents of the input files used for the test cases.
+%
+%\paragraph{valid-AllInputs.json}\label{in:valid-All}
+%~\newline
+%\begin{lstlisting}
+%{
+%	"Height" : 50,
+%	"Width" : 50,
+%	"Depth" : 50,
+%
+%	"Object":[
+%		{
+%			"type": "sphere",
+%			"position": [10,0,10],
+%			"size": 1,
+%			"ka": 1,
+%			"kd": 1,
+%			"ks": 0.5,
+%			"alpha": 1,
+%			"base_colour": [35,74,35],
+%			"spec_colour": [255,255,255],			
+%		}
+%	],
+%	
+%	"LightSource": [
+%		{
+%			"type": "point",
+%			"position": [5,10,0],
+%			"light_colour": [255,255,255],
+%			"intensity": [10,10,10],
+%		}
+%	],
+%	
+%	"Observer" : [
+%		{
+%			"position" : [0,0,0],
+%			"direction" : [1,0,1]
+%		}
+%	],
+%	
+%	"ShadingModel" : "Gouraud",
+%	"LightingModel" : "Phong"
+%}
+%\end{lstlisting}
+%
+%\paragraph{valid-MissingData.json}\label{in:valid-Miss}
+%~\newline
+%\begin{lstlisting}
+%{
+%	"Height" : 50,
+%	"Width" : 50,
+%	"Depth" : 50,
+%	
+%	"Object":[
+%		{
+%			"type": "sphere",
+%			"position": [10,0,10],
+%			"size": 1,
+%			"ka": 1,
+%			"kd": 1,
+%			"ks": 0.5,
+%			"alpha": 1,
+%			"base_colour": [35,74,35],
+%			"spec_colour": [255,255,255],			
+%		}
+%	],
+%	
+%	"LightSource": [
+%		{
+%			"type": "point",
+%			"position": [5,10,0],
+%			"light_colour": [255,255,255],
+%			"intensity": [10,10,10],
+%		}
+%	],
+%	
+%	"Observer" : [
+%		{
+%			"position" : [0,0,0],
+%			"direction" : [1,0,1]
+%		}
+%	],
+%	
+%	"ShadingModel" : ,
+%	"LightingModel" : 
+%}
+%\end{lstlisting}
+%
+%\paragraph{valid-NoData.json}\label{in:valid-No}
+%~\newline
+%\begin{lstlisting}
+%{
+%
+%}
+%\end{lstlisting}
+%
+%\paragraph{valid-invalid.json}\label{in:invalid}
+%~\newline
+%\begin{lstlisting}
+%{
+%	"Height" : 50,
+%	"Width" : 50,
+%	"Depth" : 50,
+%	
+%	"Object":[
+%		{
+%			"type": "sphere",
+%			"position": [10,0,10],
+%			"size": 1,
+%			"ka": 2,
+%			"kd": 1,
+%			"ks": 0.5,
+%			"alpha": 1,
+%			"base_colour": [35,74,35],
+%			"spec_colour": [255,255,255],			
+%		}
+%	],
+%	
+%	"LightSource": [
+%		{
+%			"type": "point",
+%			"position": [5,10,0],
+%			"light_colour": [255,255,255],
+%			"intensity": [10,10,10],
+%		}
+%	],
+%	
+%	"Observer" : [
+%		{
+%			"position" : [0,0,0],
+%			"direction" : [1,0,1]
+%		}
+%	],
+%	
+%	"ShadingModel" : "Flat",
+%	"LightingModel" : "Lambertian" 
+%}
+%\end{lstlisting}
+%
+%\subsection{Installability Evaluation \protect
+%	\cite{SmithEtAl2018}}
+%\begin{table}[h]
+%	\begin{tabular}{p{10cm}p{5cm}}
+%		\hline
+%		\multicolumn{2}{l}{\textbf{Installability}(Measured via installation on 
+%		a virtual machine.)} \\
+%		\hline
+%		Are there installation instructions? & ({yes, no}) \\
+%		Are the installation instructions linear? & ({yes, no, n/a}) \\
+%		Is there something in place to automate the installation? & ({yes, no}) 
+%		\\		
+%		Is there a specified way to validate the installation, such as a test 
+%		suite? & ({yes, no}) \\
+%		How many steps were involved in the installation? & (number) \\
+%		How many software packages need to be installed before or during 
+%		installation? & (number) \\
+%		(I) Run uninstall, if available. Were any obvious problems caused? & 
+%		({unavail, yes, no}) \\
+%		Overall impression? & ({1...10}) \\
+%		\hline
+%	\end{tabular}
+%	\caption{Installability Evaluation from \protect\cite{SmithEtAl2018}}
+%	\label{tbl:installability}
+%\end{table}
 
 \subsection{Symbolic Parameters}
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.

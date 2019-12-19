@@ -110,7 +110,15 @@ project:
 	\item Vector module \ref{MG-mVectors}
 	\item Vector Math module \ref{MG-mVecMath}	
 	\item Colour module
-	
+	\item Mesh module
+	\item Polygon module
+	\item NormalMap module
+	\item LightType module
+	\item LightSource module
+	\item Object module
+	\item Observer module
+	\item Renderer module
+	\item Output module
 \end{itemize}
 
 These modules are not going to be implemented by me for this work as they exist 
@@ -122,16 +130,15 @@ services exist as part of the Unity development environment I will not be
 testing their functioning. I assume that their behaviour is correct as shipped 
 with Unity.
 
-As I am implementing all of the other modules they will need to be tested. I 
-have prioritized their testing in the following order:
+I am implementing the following modules:
 
 \begin{enumerate}
-
-	\item 
+	\item InputParameters module
+	\item Scene Module
 \end{enumerate}
 
-Several of the modules that I am choosing to implement also exist natively in 
-the Unity environment. The reasoning for choosing to implement them instead of 
+The InputParameters module that I am choosing to implement also exist natively 
+in the Unity environment. The reasoning for choosing to implement it instead of 
 using the built-in modules are to two-fold; firstly, I do this to improve the 
 information hiding element of the system design. By putting personal wrappers 
 around the built-in functionality it future proofs the system against changes 
@@ -141,6 +148,24 @@ between the designed documents and the actual implemented system. This way
 designers reading the documentation can easily see where specific functionality 
 is coming from and track the design decisions made in these documents all the 
 way to the code.
+
+I prioritize the testing of these modules in the following way:
+\begin{enumerate}
+	\item InputParameters module
+	\item Scene Module
+\end{enumerate}
+
+The verification of the Scene module is lower priority than the InputParameters 
+module as its functionality is more easily tested at a System level. The 
+functions of the scene module are behaviour dependent in Unity, and so testing 
+them as system tests makes more sense since we can control the user input and 
+output to the system. Therefore testing that module will be outside the scope 
+of this document.
+
+The InputParameters module is the highest priority unit testing as it wraps the 
+behaviour of the built in Unity Input handling module. As such, it's proper 
+functioning is necessary to ensure that we receive the correct input from the 
+user to be used in the scene module.
 %\wss{What modules are outside of the scope.  If there are modules that are
 %  developed by someone else, then you would say here if you aren't planning on
 %  verifying them.  There may also be modules that are part of your software, 
@@ -238,9 +263,9 @@ form.
 %  appropriate specific modules can be verified by a non-testing based
 %  technique.  That can also be documented in this section.}
 
-\subsubsection{Scene Module}
-The following section outlines tests for the Scene module. This module looks to 
-test loading the scene appropriately.
+\subsubsection{InputParameters Module}
+The following section outlines tests for the InputParameters module. This 
+module acts as a wrapper around the built-in Unity Input services.
 %\wss{Include a blurb here to explain why the subsections below cover the 
 %module.
 %  References to the MIS would be good.  You will want tests from a black box
@@ -249,7 +274,7 @@ test loading the scene appropriately.
 
 \begin{enumerate}
 
-\item{CreatePoint\\}
+\item{isKeyDown\\}
 
 Type: Functional Automatic
 %\wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
@@ -262,9 +287,14 @@ Input:
 	\hline
 	\textbf{Variation Name} & \textbf{Passed Values}\\
 	\hline
-	Valid Values & x:= 10, y:= 10, z:= 10 \\
-	Invalid Values & x:= A, y:= B, z:= C \\
-	Empty Values & x:= null, y:= null, z:= null\\ 
+	\multirow{7}{*}{Valid Values} & d \\
+	 & s\\
+	 & p\\ 
+	 & up \\
+	 & left \\
+	 & right \\
+	 & down \\
+	 Invalid Values & other \\
 	\hline
 \end{tabular}
 					
@@ -274,381 +304,79 @@ Output:
 	\hline
 	\textbf{Variation Name} & \textbf{Expected Output}\\
 	\hline
-	Valid Values & -- \\
-	Invalid Values & Exception:= INVALID\_POINT\\
-	Empty Values & Exception:= INVALID\_EMPTY\_POINT\\
+	\multirow{7}{*}{Valid Values} & True \\
+	& True \\
+	& True\\ 
+	& True \\
+	& True \\
+	& True \\
+	& True \\
+	Invalid Values & False \\
 	\hline
 \end{tabular}
 
-Test Case Derivation: The purpose of this function is to create a 3D cartesian 
-point in line with the Point() access program. At this point there is no error 
-checking in the system for the placement of the point relative to anything 
-else, so all exceptions and tests in its creation only check that the input 
-matches the function description. There is no test variation for duplication of 
-points as that's currently allowed in the system.
-%\wss{Justify the expected value given in the Output field}
+Test Case Derivation: The purpose of this function is to check whether the 
+passed value key is pressed on the keyboard. When a valid key is pressed 
+(passed to the function) the function returns True - otherwise it returns False.
 
-How test will be performed: The test will be handled automatically by test 
-script through the Unity Testing Framework. The tests will be coded as a C\# 
-file that will be read by the TestRunner API.
-					
-\item{FindDistance\\}
-
-Type: Functional Automatic
-					
-Initial State: Point3D has been successfully created with the following 
-position P = Point(1,1,1).
-					
-Input: 
-\begin{tabular}{|c|c|}
-	\hline
-	\textbf{Variation Name} & \textbf{Passed Values}\\
-	\hline
-	P == Q & Q := new Point(x:= 1, y:= 1, z:= 1) \\
-	P is far from Q & Q := new Point(x:= 100, y:= 100, z:= 100) \\
-	P is close to Q & Q := new Point(x:= -0.1, y:= 0.1, z:= -0.1) \\	
-	\hline
-\end{tabular}
-					
-Output:
-\begin{tabular}{|c|c|}
-	\hline
-	\textbf{Variation Name} & \textbf{Expected Output}\\
-	\hline
-	P == Q & out:= 0 \\
-	P is far from Q & out:= 171.4730299493189 \\
-	P is close to Q & out:= 1.905255888325765 \\		
-	\hline
-\end{tabular}
-
-Test Case Derivation: The purpose of this test case is to test the accuracy of 
-this calculation. The variations in the context of two points in space can be 
-categorized as either they are the same point (same position), they are close 
-to each other, and they are far away from each other. For the last two 
-variations (close and far) boundary test cases would be the particular integer 
-or floating point bounds to test for underflow and overflow.
-
-We don't consider the test case that a bad point Q is 
-passed to this function because the bad value cases will be caught in the 
-constructor tests.
-
-How test will be performed: The test will be handled automatically by test 
-script through the Unity Testing Framework. The tests will be coded as a C$\#$
-file that will be read by the TestRunner API.  
-\end{enumerate}
-
-\subsubsection{Vector Module}
-The following section outlines tests for the Vector module. As this module is 
-an abstract data type with very basic functionality the tests for this section 
-will be simple. Getter function tests will not be documented here as they will 
-be assumed correct in their functionality.
-%\wss{Include a blurb here to explain why the subsections below cover the 
-%module.
-%  References to the MIS would be good.  You will want tests from a black box
-%  perspective and from a white box perspective.  Explain to the reader how the
-%  tests were selected.}
-
-\begin{enumerate}
-	
-	\item{CreateVector-Points\\}
-	The following test case outlines the creation of a vector from two points, 
-	P and Q, which represent the start and end of that vector.
-	
-	Type: Functional Automatic
-	%\wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-	%  be automatic}
-	
-	Initial State: --
-	
-	Input: 
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		\hline
-		P == Q & P:= Point(1,1,1), Q:= Point(1,1,1)\\
-		Valid Values & P:= Point(1,1,1), Q:= (0,1,-1)\\
-		\hline
-	\end{tabular}
-	
-	Output: 
-	%\wss{The expected result for the given inputs}
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C\# file that will be read by the TestRunner API.
-	
-	\item{CreateVector-DM\\}
-	
-	Type: Functional Automatic
-	
-	Initial State: 
-	Input: 
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		\hline
-
-		\hline
-	\end{tabular}
-	
-	Output:
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-	
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C$\#$ file that will be read by the TestRunner API.  
-	
-\end{enumerate}
-
-\subsubsection{Vector Math Module}
-The following section outlines tests for the Vector Math module. As this module 
-is an library of calculations, the functionality is very explicitly defined. 
-For these test cases the results are checked against the mathematical results 
-of the answer.
-%\wss{Include a blurb here to explain why the subsections below cover the 
-%module.
-%  References to the MIS would be good.  You will want tests from a black box
-%  perspective and from a white box perspective.  Explain to the reader how the
-%  tests were selected.}
-
-\begin{enumerate}
-	
-	\item{Addition\\}
-	The following test case outlines the addition of two Vectors. The output of 
-	all of these variations will be a new Vector that represents the addition 
-	of the two input Vectors. For these cases the creation of the new Vector is 
-	not checked as it is assumed to be covered by the testing of the Vector 
-	module.
-	
-	Type: Functional Automatic
-	%\wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-	%  be automatic}
-	
-	Initial State: -- \\
-	
-	Input: 
-	\begin{tabular}{|c|p{8cm}|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		\hline
-		V1 == -V2 & V1:= Vector(Point(0,0,0),Point(1,1,1)), V2:= 
-		Vector(Point(1,1,1),Point(0,0,0))\\
-		V1 == V2 & V1:= Vector(Point(0,0,0),Point(1,1,1)), V2:= 
-		Vector(Point(0,0,0),Point(1,1,1))\\
-		V1 $\neq$ V2 & V1:= Vector(Point(1,2,4),Point(1,1,1)), V2:= 
-		Vector(Point(10,5,0),Point(1,3,2))\\
-		\hline
-	\end{tabular}
-	
-	Output: 
-	%\wss{The expected result for the given inputs}
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-		V1 == -V2 & out:= Vector(0,0,0,m:=0)\\
-		V1 == V2 & out:= Vector(2,2,2,m:=3.464101615137755‬)\\
-		V1 $\neq$ V2 & out:= Vector(ux,uy,uz,m)\\		
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C\# file that will be read by the TestRunner API.
-	
-	\item{ScalarMultiply\\}
-	
-	Type: Functional Automatic
-	
-	Initial State: -- \\
-	
-	Input: 
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		Valid Values & V:= Vector(1,1,1,m:=1.7320508), k:=3 \\
-		Valid Values Negative & V:= Vector(1,1,1,m:=1.7320508), k:=-3 \\
-		Valid Values Zero & V:= Vector(1,1,1,m:=1.7320508), k:=0\\				
-		\hline
-		
-		\hline
-	\end{tabular}
-	
-	Output:
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-		Valid Values & $V_{out}$:= Vector(3,3,3,m:=5.1961524)\\		
-		Valid Values Negative & $V_{out}$:= Vector(-3,-3,-3,m:=5.1961524)\\	
-		Valid Values Zero & $V_{out}$:= 
-		Vector(0,0,0,m:=0)\\						
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C$\#$ file that will be read by the TestRunner API.  
-	
-\end{enumerate}
-
-\subsubsection{Scene Module}
-The following section outlines tests for the Scene module. This module is an 
-abstract data type that acts as a control module for the rest of the system. 
-Getters for this module are not tested/documented here. The following test 
-cases rely on other modules having been tested and working correctly; as such 
-this module will not check for valid construction of other objects.
-%\wss{Include a blurb here to explain why the subsections below cover the 
-%module.
-%  References to the MIS would be good.  You will want tests from a black box
-%  perspective and from a white box perspective.  Explain to the reader how the
-%  tests were selected.}
-
-\begin{enumerate}
-	
-	\item{CreateScene\\}
-	The following test case outlines the creation of a Scene. In the system the 
-	initScene program is populated with information from the InputParameters 
-	module.
-	
-	Type: Functional Automatic
-	%\wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-	%  be automatic}
-	
-	Initial State: --
-	
-	Input: 
-	\begin{tabular}{|c|p{8cm}|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		\hline
-		\multirow{7}{*}{Valid Values} & height:= \\
-		& width:= \\
-		& depth:= \\
-		& obs:= Observer() \\
-		& ls:= LightSource() \\
-		& os:= Object()\\
-		& lightModel:= DIFFUSE \\
-		\hline
-	\end{tabular}
-	
-	Output: 
-	%\wss{The expected result for the given inputs}
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-		
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C\# file that will be read by the TestRunner API.
-	
-	\item{ChangeScene\\}
-	The following test cases outline changes made to the Scene. This captures 
-	the functionality of several access programs but they all result in Scene 
-	transitions.
-	Type: Functional Automatic
-	
-	Initial State: --
-	Input: 
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Passed Values}\\
-		\hline
-		
-		\hline
-	\end{tabular}
-	
-	Output:
-	\begin{tabular}{|c|c|}
-		\hline
-		\textbf{Variation Name} & \textbf{Expected Output}\\
-		\hline
-		
-		\hline
-	\end{tabular}
-	
-	Test Case Derivation: 
-	
-	How test will be performed: The test will be handled automatically by test 
-	script through the Unity Testing Framework. The tests will be coded as a 
-	C$\#$ file that will be read by the TestRunner API.  
-	
+How test will be performed: Theoretically the test will be handled 
+automatically by test script through the Unity Testing Framework. The tests 
+will be coded as a C\# file that will be read by the TestRunner API. 
+Realistically the test will be confirmed as working based on the results of the 
+System test cases.
+				
 \end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
-		
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Module ?}
-
-...
+For the scope of this work, we will not be testing for non-functional 
+requirements at the unit level.
+%\wss{If there is a module that needs to be independently assessed for
+%  performance, those test cases can go here.  In some projects, planning for
+%  nonfunctional tests of units will not be that relevant.}
+%
+%\wss{These tests may involve collecting performance data from previously
+%  mentioned functional tests.}
+%
+%\subsubsection{Module ?}
+%		
+%\begin{enumerate}
+%
+%\item{test-id1\\}
+%
+%Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+%  be automatic}
+%					
+%Initial State: 
+%					
+%Input/Condition: 
+%					
+%Output/Result: 
+%					
+%How test will be performed: 
+%					
+%\item{test-id2\\}
+%
+%Type: Functional, Dynamic, Manual, Static etc.
+%					
+%Initial State: 
+%					
+%Input: 
+%					
+%Output: 
+%					
+%How test will be performed: 
+%
+%\end{enumerate}
+%
+%\subsubsection{Module ?}
+%
+%...
 
 \subsection{Traceability Between Test Cases and Modules}
 
 \wss{Provide evidence that all of the modules have been considered.}
+\sms{I'm not sure what to put here as most modules are built-in to Unity and so 
+are not being considered here.}
 
 \bibliographystyle{plainnat}
 
@@ -656,13 +384,13 @@ How test will be performed:
 
 \newpage
 
-\section{Appendix}
-
-\wss{This is where you can place additional information, as appropriate}
-
-\subsection{Symbolic Parameters}
-
-\wss{The definition of the test cases may call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.}
+%\section{Appendix}
+%
+%\wss{This is where you can place additional information, as appropriate}
+%
+%\subsection{Symbolic Parameters}
+%
+%\wss{The definition of the test cases may call for SYMBOLIC\_CONSTANTS.
+%Their values are defined in this section for easy maintenance.}
 
 \end{document}

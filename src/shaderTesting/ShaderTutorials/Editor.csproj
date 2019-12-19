@@ -66,16 +66,16 @@
     <Compile Include="Assets\Tests\Editor\LightTests.cs" />
     <None Include="Assets\Tests\Editor\Editor.asmdef" />
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -252,10 +252,10 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.16f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
-      <HintPath>D:/My Documents/School/Graduate/Courses/TestProjects/shaderTesting/ShaderTutorials/Assets/Plugins/NSubstitute.dll</HintPath>
+      <HintPath>D:/My Documents/School/Graduate/Courses/CAS 741/Project/src/shaderTesting/ShaderTutorials/Assets/Plugins/NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.16f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
